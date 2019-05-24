@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +14,16 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route')
+const Route = use('Route');
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
+Route.group(() => {
+  Route.post('login', 'AuthController.login').validator('Login');
+  Route.post('register', 'AuthController.register').validator('Register');
+}).prefix('api');
+
+Route.group(() => {
+  Route.post('token/refresh', 'AuthController.refreshToken').validator('RequestToken');
+  Route.post('logout', 'AuthController.signout').validator('RequestToken');
 })
+  .prefix('api')
+  .middleware('auth');
