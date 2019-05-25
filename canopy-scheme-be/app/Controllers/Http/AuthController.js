@@ -3,7 +3,6 @@
 const Encryption = use('Encryption');
 const User = use('App/Models/User');
 const Token = use('App/Models/Token');
-const { validateAll } = use('Validator');
 const Unauthorized = use('App/Exceptions/UnauthorizedException');
 const InternalServerError = use('App/Exceptions/InternalServerError');
 
