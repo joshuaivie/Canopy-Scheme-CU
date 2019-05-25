@@ -7,9 +7,9 @@ class TransactionSchema extends Schema {
   up() {
     this.create('transactions', table => {
       table.increments();
-      table.integer('user_id').unsigned().references('id').inTable('users');
-      table.string('paystacke_ref', 200).notNullable();
-      table.decimal('amount', 9, 4).notNullable();
+      table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
+      table.string('paystack_ref', 200).notNullable().unique();
+      table.decimal('amount', 15, 4).notNullable();
       table.integer('total_table').notNullable();
       table.timestamps();
     });

@@ -7,10 +7,9 @@ class ReservationSchema extends Schema {
   up() {
     this.create('reservations', table => {
       table.increments();
-      table.string('tent_name', 200).notNullable();
-      table.integer('user_id').unsigned().references('id').inTable('users');
-      table.string('table_no', 200).notNullable();
-      table.string('name', 200).notNullable();
+      table.string('tent_name', 5).notNullable();
+      table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
+      table.string('table_no', 10).notNullable();
       table.timestamps();
     });
   }
