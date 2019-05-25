@@ -1,9 +1,10 @@
 import React from "react";
+import Sidebar from '../components/DashboardComponents/sidebar'
 
 export default () => {
 	return (
-		<React.Fragment>
-			<h1>Bunch of dashboard components and a sidebar</h1>
-		</React.Fragment>
+		<section className="main-container">
+			<Sidebar />...
+		</section>
 	);
 };

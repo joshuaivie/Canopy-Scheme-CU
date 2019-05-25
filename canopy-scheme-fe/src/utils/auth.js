@@ -1,3 +1,3 @@
 export const isLoggedIn = () => {
-	return false;
+	return true;
 };

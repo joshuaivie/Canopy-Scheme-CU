@@ -1,1 +1,3 @@
-export const LINKS = [{ label: "Get Started", to: "/auth" }];
+export const AUTH = '/auth';
+export const APP = '/app';
+export const HOME = '/'

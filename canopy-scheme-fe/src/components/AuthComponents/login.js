@@ -1,6 +1,6 @@
 import React from "react";
-import { Form, Button, Spinner } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn } from 'mdbreact';
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Login extends React.Component {
 	constructor(props) {
@@ -27,12 +27,8 @@ class Login extends React.Component {
 	};
 
 	handleSubmit = event => {
-		const form = event.currentTarget;
-		if (form.checkValidity() === false) {
-			event.preventDefault();
-			event.stopPropagation();
-			this.setState({ isLoading: true });
-		}
+		event.preventDefault();
+		event.target.className += " was-validated";
 		this.setState({ isValidated: true });
 		this.login();
 	};
@@ -50,61 +46,57 @@ class Login extends React.Component {
 	render() {
 		const { emailAddress, password, isLoading } = this.state;
 		if (isLoading) {
-			return <Spinner animation="border" variant="primary" />;
+			return 
 		}
-		return (
-			<React.Fragment>
-				<section className="auth-container">
-					<h3>Login</h3>
-					<Form
-						noValidate
-						validated={this.state.isValidated}
-						onSubmit={this.handleChange}
-					>
-						<Form.Group>
-							<Form.Control
-								autoFocus
-								size="md"
-								type="email"
-								placeholder="Email Address*"
-								name="emailAddress"
-								value={emailAddress}
-								onChange={this.handleChange}
-								required
-							/>
-							<Form.Control.Feedback type="invalid">
-								Please provide a valid email address
-							</Form.Control.Feedback>
-						</Form.Group>
+		return(
+			<MDBContainer>
+				<form className="needs-validation" onSubmit={this.handleSubmit}
+					noValidate>
 
-						{/* Password */}
-						<Form.Group>
-							<Form.Control
-								size="md"
-								id="password"
-								type="password"
-								placeholder="Password*"
-								name="password"
-								value={password}
-								onChange={this.handleChange}
-								required
-							/>
-							<FontAwesomeIcon
-								id="eyeIcon"
-								icon="eye"
-								className="password-toggle-icon"
-								onClick={this.handlePasswordToggle}
-							/>
-							<Form.Control.Feedback type="invalid">
-								Please provide a valid password
-							</Form.Control.Feedback>
-						</Form.Group>
-					</Form>
-					<Button type="submit" onClick={this.handleSubmit}>
-						Login
-					</Button>
-				</section>
-			</React.Fragment>
+				<MDBRow>
+					<MDBCol md="6">
+						<MDBCard>
+							<MDBCardBody className="mx-4">
+								<div className="text-center">
+									<h3 className="dark-grey-text mb-5">
+										<strong>Sign in</strong>
+									</h3>
+								</div>
+								<MDBInput
+									label="Email Address"
+									type="email"
+									name="emailAddress"
+									onChange={this.handleChange}
+									value={emailAddress}
+									required
+								/>
+								<MDBInput
+									label="Password"
+									type="password"
+									name="password"
+									value={password}
+									onChange={this.handleChange}
+									required
+								/>
+								
+								<div className="text-center mb-3">
+									<MDBBtn
+										type="submit"
+										gradient="blue"
+										rounded
+										className="btn-block z-depth-1a"
+									>
+										Sign in
+                </MDBBtn>
+								</div>
+								
+								
+							</MDBCardBody>
+						</MDBCard>
+					</MDBCol>
+				</MDBRow>
+				</form>
+			</MDBContainer>
 		);
 	}
 }

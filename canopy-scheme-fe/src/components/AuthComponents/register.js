@@ -1,8 +1,10 @@
 import React from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn } from 'mdbreact';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 class Register extends React.Component {
 	state = {
+		firstName: '',lastName: '',
 		emailAddress: "",
 		password: "",
 		matriculationNumber: "",
@@ -16,13 +18,9 @@ class Register extends React.Component {
 	};
 
 	handleSubmit = event => {
-		const form = event.currentTarget;
-		if (form.checkValidity() === false) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-
-		this.setState({ isValidated: true });
+		event.preventDefault();
+		event.target.className += " was-validated";
+		this.setState({ isLoading: true });
 		this.register();
 	};
 
@@ -42,9 +40,9 @@ class Register extends React.Component {
 
 	async register() {
 		try {
-			const { emailAddress, password, matriculationNumber } = this.state;
+			const { emailAddress, password, matriculationNumber, firstName, lastName } = this.state;
 			console.log(
-				`This is ${emailAddress}, ${password}, ${matriculationNumber}`
+				`This is ${emailAddress}, ${password}, ${matriculationNumber}, ${firstName}, ${lastName}`
 			);
 		} catch (err) {
 			console.error(err);
@@ -57,73 +55,94 @@ class Register extends React.Component {
 		const {
 			emailAddress,
 			matriculationNumber,
-			password,
+			password, firstName, lastName,
 			isLoading,
-			isValidated
 		} = this.state;
 		if (isLoading) {
-			return <Spinner animation="border" variant="primary" />;
+			return <div>Loading...</div>;
 		}
 		return (
-			<React.Fragment>
-				<h3>Create Account</h3>
-				<Form noValidate validated={isValidated} onSubmit={this.handleSubmit}>
-					<p>Tell us a bit about yourself, We just need the basics.</p>
-					<p className="next-action-text" style={{ display: "none" }}>
-						Have an account already? <Link to="/login">Login</Link>
-					</p>
-					<Form.Group>
-						<Form.Control
-							size="md"
-							type="email"
-							placeholder="Email Address*"
-							name="emailAddress"
-							value={emailAddress}
-							onChange={this.handleChange}
-							required
-						/>
-						<Form.Control.Feedback type="invalid">
-							Please provide a valid email address
-						</Form.Control.Feedback>
-					</Form.Group>
-					<Form.Group>
-						<Form.Control
-							size="md"
-							type="text"
-							placeholder="Matricualtion Number*"
-							name="matriculationNumber"
-							value={matriculationNumber}
-							onChange={this.handleChange}
-							required
-						/>
-						<Form.Control.Feedback type="invalid">
-							Please enter your matriculation number
-						</Form.Control.Feedback>
-					</Form.Group>
-					<Form.Group>
-						<Form.Control
-							size="md"
-							id="password"
-							type="password"
-							placeholder="Password*"
-							name="password"
-							value={password}
-							onChange={this.handleChange}
-							required
-						/>
+				<MDBContainer>
+					<form className="needs-validation" onSubmit={this.handleSubmit}
+						noValidate>
 
-						<FontAwesomeIcon
-							id="eyeIcon"
-							icon="eye"
-							className="password-toggle-icon"
-							onClick={this.handlePasswordToggle}
-						/>
-					</Form.Group>
-					<Button type="submit" size="md" onClick={this.handleSubmit} block>
-						Create Account
-					</Button>
-				</Form>
-			</React.Fragment>
+						<MDBRow>
+							<MDBCol md="6">
+								<MDBCard>
+									<MDBCardBody className="mx-4">
+										<div className="text-center">
+											<h3 className="dark-grey-text mb-5">
+												<strong>Register</strong>
+											</h3>
+										</div>
+										<MDBInput
+											label="First Name"
+											type="text"
+											name="firstName"
+											onChange={this.handleChange}
+											value={firstName}
+											required
+										/><MDBInput
+											label="Last Name"
+											type="text"
+											name="lastName"
+											onChange={this.handleChange}
+											value={lastName}
+											required
+										/><MDBInput
+											label="Matriculation Number"
+											type="text"
+											name="matriculationNumber"
+											onChange={this.handleChange}
+											value={matriculationNumber}
+											required
+										/>
+										<MDBInput
+											label="Email Address"
+											type="email"
+											name="emailAddress"
+											onChange={this.handleChange}
+											value={emailAddress}
+											required
+										/>
+										<MDBInput
+										id="password"
+											label="Password"
+											type="password"
+											name="password"
+											value={password}
+											onChange={this.handleChange}
+											required
+											
+										/>
+										<FontAwesomeIcon
+											id="eyeIcon"
+											icon="eye"
+											className="password-toggle-icon"
+											onClick={this.handlePasswordToggle}
+										/>
+
+										<div className="text-center mb-3">
+											<MDBBtn
+												type="submit"
+												gradient="blue"
+												rounded
+												className="btn-block z-depth-1a"
+											>
+												Register
+                </MDBBtn>
+										</div>
+
+
+									</MDBCardBody>
+								</MDBCard>
+							</MDBCol>
+						</MDBRow>
+					</form>
+				</MDBContainer>
+			
 		);
 	}
 }
+
+export default Register;
