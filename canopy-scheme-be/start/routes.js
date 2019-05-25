@@ -24,6 +24,8 @@ Route.group(() => {
 Route.group(() => {
   Route.post('token/refresh', 'AuthController.refreshToken').validator('RequestToken');
   Route.post('logout', 'AuthController.signout').validator('RequestToken');
+
+  Route.post('table/pay', 'PaymentController.purchaseTable').validator('PayForTable');
 })
   .prefix('api')
   .middleware('auth');
