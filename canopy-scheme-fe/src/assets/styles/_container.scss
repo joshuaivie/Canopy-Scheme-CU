@@ -15,3 +15,36 @@
     width: 100%;
     text-align: center;
 }
+
+.dashboard-container {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: $sidebar-width auto;
+    grid-template-areas: "nav app";
+
+    .side-nav-container {
+    grid-area: nav;
+    background-color: #394263;
+    padding: 15px !important;
+    }
+
+    .app-container {
+        grid-area: app;
+    background-color: #8fd4d9;
+        padding: 15px !important;
+
+    }
+
+    @media (max-width: $screen-md-min){
+        // grid-template-columns: auto;
+        grid-template-rows: auto $header-height;
+        grid-template-columns: auto;
+        grid-template-areas: 
+            "app" 
+            "nav"
+        ;
+         
+    }
+}

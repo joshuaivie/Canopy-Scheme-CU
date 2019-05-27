@@ -8,9 +8,8 @@ import Register from "../components/AuthComponents/register";
 export default () => (
 	<Layout>
 		<MDBContainer>
-					<Login />
+			<Login />
 			<Register />
-
 		</MDBContainer>
 	</Layout>
 );
