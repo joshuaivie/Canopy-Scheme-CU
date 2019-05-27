@@ -14,17 +14,17 @@ class PaymentController {
       const totalTable = Math.floor(transaction.amount / nairaToKobo(await EventInfo.unitPrice()));
 
       if (totalTable < 1) {
-        const reason = 'Amount paid is less than price of 1 table unit.';
+        const reason = 'Amount paid is less than price of 1 table unit';
         await PaystackService.refundPayment({ reference: paystack_ref, amount: transaction.amount, reason });
-        return response.status(200).json({ message: reason });
+        return response.status(200).json({ msg: reason });
       }
 
       await Transaction.create({ user_id: auth.user.id, paystack_ref, amount: koboToNaira(transaction.amount), total_table: totalTable });
-      return response.status(200).json({ message: 'Transaction successfull.' });
+      return response.status(200).json({ msg: 'Transaction successfull' });
     } catch (err) {
-      if (err.code === 'ER_DUP_ENTRY') return response.status(200).json({ message: 'Invalid Payment.' });
+      if (err.code === 'ER_DUP_ENTRY') return response.status(200).json({ msg: 'Invalid Payment' });
       if (err.name === 'InternalServerError') throw err;
-      return response.status(200).json({ message: err.message });
+      return response.status(200).json({ msg: err.message });
     }
   }
 }
