@@ -12,13 +12,14 @@ const path = require('path');
 |
 */
 const providers = [
-  '@adonisjs/framework/providers/AppProvider',
-  '@adonisjs/auth/providers/AuthProvider',
-  '@adonisjs/bodyparser/providers/BodyParserProvider',
-  '@adonisjs/cors/providers/CorsProvider',
-  '@adonisjs/lucid/providers/LucidProvider',
-  '@adonisjs/validator/providers/ValidatorProvider',
-  path.join(__dirname, '..', 'providers', 'PaystackProvider')
+  "@adonisjs/framework/providers/AppProvider",
+  "@adonisjs/auth/providers/AuthProvider",
+  "@adonisjs/bodyparser/providers/BodyParserProvider",
+  "@adonisjs/cors/providers/CorsProvider",
+  "@adonisjs/lucid/providers/LucidProvider",
+  "@adonisjs/validator/providers/ValidatorProvider",
+  "adonis-sentry/providers/Sentry",
+  path.join(__dirname, "..", "providers", "PaystackProvider")
 ];
 
 /*
