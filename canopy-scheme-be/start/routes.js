@@ -26,6 +26,10 @@ Route.group(() => {
   Route.post('logout', 'AuthController.signout').validator('RequestToken');
 
   Route.post('table/pay', 'PaymentController.purchaseTable').validator('PayForTable');
+
+  Route.get('me', 'UserController.profile');
+  Route.get('me/transactions', 'UserController.transactions');
+  Route.get('me/reservations', 'UserController.reservations');
 })
   .prefix('api')
   .middleware('auth');
