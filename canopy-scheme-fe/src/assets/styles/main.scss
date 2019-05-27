@@ -8,3 +8,16 @@
 @import "./backgrounds";
 @import "./container";
 @import "./cards";
+
+h1, h2, h3, h4, h5, h6, p, a, span, div {
+    font-family: 'Nunito-sans', sans-serif;
+}
+
+.password-toggle-icon {
+   float: right;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
+
