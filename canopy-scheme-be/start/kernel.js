@@ -4,6 +4,7 @@
 const Server = use('Server');
 const Kue = require('kue');
 const Env = use('Env');
+const Config = use('Config');
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +61,7 @@ Server.registerGlobal(globalMiddleware)
   .use(serverMiddleware);
 
 Kue.createQueue({
-  redis: Env.get('REDIS_URL', 'redis://127.0.0.1:6379'),
+  redis: `redis://${Config.get('redis.redis.host')}:${Config.get('redis.redis.port')}`,
   prefix: Env.get('APP_NAME', 'canopy-scheme')
 });
 

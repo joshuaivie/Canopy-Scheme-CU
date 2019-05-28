@@ -32,7 +32,8 @@
     "adonis-sentry": "^1.0.4",
     "mysql": "^2.17.1",
     "path": "^0.12.7",
-    "paystack-api": "^2.0.1"
+    "paystack-api": "^2.0.1",
+    "pg": "^7.11.0"
   },
   "autoload": {
     "App": "./app"
