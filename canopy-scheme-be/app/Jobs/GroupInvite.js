@@ -14,7 +14,7 @@ class GroupInvite {
 
   // This is where the work is done.
   async handle(data) {
-    const { user, group_name, invitee } = data;
+    const { user, group:{ group_name=name }, invitee } = data;
     try {
       await Mail.send("emails.group-invite", data, message => {
         message
@@ -31,7 +31,7 @@ class GroupInvite {
       });
     } catch (error) {
       console.log(error);
-      throw error;
+      throw new Error(error.message);
     }
   }
 }

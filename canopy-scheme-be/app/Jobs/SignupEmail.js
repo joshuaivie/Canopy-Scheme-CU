@@ -25,8 +25,8 @@ class SignupEmail {
           .subject("Welcome to the Canopy Scheme");
       });
     } catch (error) {
-      console.log(error);
-      throw error
+      console.log(error.message);
+      throw new Error(error.message);
     }
   }
 }
