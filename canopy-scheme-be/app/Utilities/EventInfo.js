@@ -12,6 +12,12 @@ class EventInfo {
     if (event === null) return 15000;
     return event.table_unit_price;
   }
+
+  static async maximumGroupMembers() {
+    const event = await EventInfoModle.first();
+    if (event === null) return 4;
+    return event.maximum_group_members;
+  }
 }
 
 module.exports = EventInfo;

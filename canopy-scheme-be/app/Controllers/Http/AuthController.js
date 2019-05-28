@@ -5,8 +5,8 @@ const User = use('App/Models/User');
 const Token = use('App/Models/Token');
 const Unauthorized = use('App/Exceptions/UnauthorizedException');
 const InternalServerError = use('App/Exceptions/InternalServerError');
-const kue = use("Kue");
-const Job = use("App/Jobs/SignupEmail");
+const kue = use('Kue');
+const Job = use('App/Jobs/SignupEmail');
 
 class UserController {
   /**
@@ -17,11 +17,11 @@ class UserController {
 
     try {
       const user = await User.create({ ...details });
-      kue.dispatch(Job.key, {user}, { priority:'normal', attempts: 3, remove: true, jobFn: () => {} })
+      kue.dispatch(Job.key, { user }, { priority: 'normal', attempts: 3, remove: true, jobFn: () => {} });
 
       return response.send({ msg: 'Registration successfull' });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       // throw new InternalServerError();
     }
   }
@@ -50,7 +50,7 @@ class UserController {
       const refreshToken = await Token.findBy('token', decrypted);
       if (!refreshToken) return response.status(401).send({ msg: 'Sorry, you are not currently logged in' });
 
-      refreshToken.delete();
+      await refreshToken.delete();
       return response.status(200).send({ msg: 'Logout successful' });
     } catch (err) {
       console.log(err);
