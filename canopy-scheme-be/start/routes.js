@@ -25,11 +25,27 @@ Route.group(() => {
   Route.post('token/refresh', 'AuthController.refreshToken').validator('RequestToken');
   Route.post('logout', 'AuthController.signout').validator('RequestToken');
 
+  // Payment
   Route.post('table/pay', 'PaymentController.purchaseTable').validator('PayForTable');
 
+  // User
   Route.get('me', 'UserController.profile');
   Route.get('me/transactions', 'UserController.transactions');
   Route.get('me/reservations', 'UserController.reservations');
+
+  // Group
+  Route.get('group', 'GroupController.get').middleware('inUserGroup');
+  Route.delete('group', 'GroupController.delete').middleware('isUserGroupOwner');
+  Route.post('group', 'GroupController.create')
+    .validator('CreateGroup')
+    .middleware('notInUserGroup');
 })
   .prefix('api')
   .middleware('auth');
+
+Route.group(() => {
+  Route.get('group/join/:group_id/:token', 'GroupController.join')
+    .middleware('notInUserGroup')
+    .middleware('isValidGroupInviteLink')
+    .as('group.join');
+}).middleware('auth');
