@@ -1,28 +1,28 @@
 @font-face {
-  font-family: 'Nexa Bold';
-  src: url('../fonts/Nexa Bold.otf');
+	font-family: "Nexa Bold";
+	src: url("../fonts/Nexa Bold.otf");
 }
 
 @font-face {
-  font-family: 'Nexa Light';
-  src: url('../fonts/Nexa Light.otf');
+	font-family: "Nexa Light";
+	src: url("../fonts/Nexa Light.otf");
 }
 
-@import './imports';
-@import './variables';
-@import './typography';
-@import './forms';
-@import './nav';
-@import './button';
-@import './images';
-@import './backgrounds';
-@import './container';
-@import './cards';
-@import './modals';
+@import "./imports";
+@import "./variables";
+@import "./typography";
+@import "./forms";
+@import "./nav";
+@import "./button";
+@import "./images";
+@import "./backgrounds";
+@import "./container";
+@import "./cards";
+@import "./modals";
 
 body {
-  font-family: 'Nexa Light', sans-serif !important;
-  font-weight: 900;
+	font-family: "Nexa Light", sans-serif !important;
+	font-weight: 900;
 }
 
 h1,
@@ -31,40 +31,44 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Nexa Bold', sans-serif;
-  color: $purple;
+	font-family: "Nexa Bold", sans-serif;
+	color: $purple;
 }
 
 .password-toggle-icon {
-  float: right;
-  margin-left: -25px;
-  margin-top: -25px;
-  position: relative;
-  z-index: 2;
+	float: right;
+	margin-left: -25px;
+	margin-top: -25px;
+	position: relative;
+	z-index: 2;
 }
 
 #fullpage {
-  .section {
-    display: flex;
-    flex-direction: column;
-    padding: auto;
-    vertical-align: middle;
-    margin: auto;
-    padding: 150px;
-    .left {
-      text-align: left;
-    }
-    .right {
-      text-align: center;
-      img {
-        animation: float 3s ease-out infinite;
-      }
-    }
-  }
+	.section {
+		width: 90vw;
+		margin: auto;
+		.box-test {
+			height: 300px;
+			width: 300px;
+			background: red;
+		}
+
+		.left {
+			text-align: left;
+			padding-top: 50px;
+			line-height: 2rem;
+		}
+		.right {
+			text-align: center;
+			img {
+				animation: float 3s ease-out infinite;
+			}
+		}
+	}
 }
 
 @keyframes float {
-  50% {
-    transform: translate(0, 20px);
-  }
+	50% {
+		transform: translate(0, 20px);
+	}
 }
