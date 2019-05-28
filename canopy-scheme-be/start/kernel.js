@@ -1,9 +1,10 @@
-'use strict';
+"use strict";
 
 /** @type {import('@adonisjs/framework/src/Server')} */
-const Server = use('Server');
-const Kue = require('kue');
-const Env = use('Env');
+const Server = use("Server");
+const Kue = require("kue");
+const Env = use("Env");
+const Config = use("Config");
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,10 @@ const Env = use('Env');
 | match.
 |
 */
-const globalMiddleware = ['Adonis/Middleware/BodyParser', 'App/Middleware/ConvertEmptyStringsToNull'];
+const globalMiddleware = [
+    "Adonis/Middleware/BodyParser",
+    "App/Middleware/ConvertEmptyStringsToNull"
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -24,20 +28,14 @@ const globalMiddleware = ['Adonis/Middleware/BodyParser', 'App/Middleware/Conver
 | Named middleware is key/value object to conditionally add middleware on
 | specific routes or group of routes.
 |
-| // define
-| {
-|   auth: 'Adonis/Middleware/Auth'
-| }
-|
-| // use
-| Route.get().middleware('auth')
-|
+| 
 */
 const namedMiddleware = {
-  isUserGroupOwner: 'App/Middleware/IsUserGroupOwner',
-  notInUserGroup: 'App/Middleware/NotInUserGroup',
-  inUserGroup: 'App/Middleware/InUserGroup',
-  isValidGroupInviteLink: 'App/Middleware/IsValidGroupInviteLink'
+    auth: "Adonis/Middleware/Auth",
+    isUserGroupOwner: "App/Middleware/IsUserGroupOwner",
+    notInUserGroup: "App/Middleware/NotInUserGroup",
+    inUserGroup: "App/Middleware/InUserGroup",
+    isValidGroupInviteLink: "App/Middleware/IsValidGroupInviteLink"
 };
 
 /*
@@ -50,18 +48,17 @@ const namedMiddleware = {
 | control over request lifecycle.
 |
 */
-const serverMiddleware = [
-  // 'Adonis/Middleware/Static',
-  'Adonis/Middleware/Cors'
-];
+const serverMiddleware = ["Adonis/Middleware/Static", "Adonis/Middleware/Cors"];
 
 Server.registerGlobal(globalMiddleware)
-  .registerNamed(namedMiddleware)
-  .use(serverMiddleware);
+    .registerNamed(namedMiddleware)
+    .use(serverMiddleware);
 
 Kue.createQueue({
-  redis: Env.get('REDIS_URL', 'redis://127.0.0.1:6379'),
-  prefix: Env.get('APP_NAME', 'canopy-scheme')
+    redis: `redis://${Config.get("redis.redis.host")}:${Config.get(
+        "redis.redis.port"
+    )}`,
+    prefix: Env.get("APP_NAME", "canopy-scheme")
 });
 
-Kue.app.listen(Env.get('KUE_UI_PORT', 3050));
+Kue.app.listen(Env.get("KUE_UI_PORT", 3050));
