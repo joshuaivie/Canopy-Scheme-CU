@@ -25,16 +25,10 @@ const globalMiddleware = ['Adonis/Middleware/BodyParser', 'App/Middleware/Conver
 | Named middleware is key/value object to conditionally add middleware on
 | specific routes or group of routes.
 |
-| // define
-| {
-|   auth: 'Adonis/Middleware/Auth'
-| }
-|
-| // use
-| Route.get().middleware('auth')
-|
+| 
 */
 const namedMiddleware = {
+  auth: 'Adonis/Middleware/Auth',
   isUserGroupOwner: 'App/Middleware/IsUserGroupOwner',
   notInUserGroup: 'App/Middleware/NotInUserGroup',
   inUserGroup: 'App/Middleware/InUserGroup',
@@ -52,7 +46,7 @@ const namedMiddleware = {
 |
 */
 const serverMiddleware = [
-  // 'Adonis/Middleware/Static',
+  'Adonis/Middleware/Static',
   'Adonis/Middleware/Cors'
 ];
 
