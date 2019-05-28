@@ -72,7 +72,7 @@ class GroupController {
       await auth.user.save(trx);
       trx.commit();
 
-      return response.status(200).json({ msg: 'Group successfully deleted' });
+      return response.status(200).json({ msg: 'Group successfully deleted.' });
     } catch (err) {
       throw new InternalServerError();
     }
