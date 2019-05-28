@@ -1,0 +1,27 @@
+{
+	"name": "canopy-scheme",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"npm": "^6.9.0"
+	},
+	"scripts": {
+		"start": "concurrently \"cd canopy-scheme-be && npm start\" \"cd canopy-scheme-fe && npm start\"",
+		"start-fe": "concurrently \"cd canopy-scheme-fe && npm start\"",
+		"start-be": "concurrently \"cd canopy-scheme-be && npm start\"",
+		"pretty": "prettier --write --tab-width 4 \"src/**/*.js\"",
+		"precommit": "lint-staged"
+	},
+	"lint-staged": {
+		"*.js": [
+			"npm run pretty",
+			"git add"
+		]
+	},
+	"devDependencies": {
+		"concurrently": "^4.1.0",
+		"husky": "^2.3.0",
+		"lint-staged": "^8.1.7",
+		"prettier": "^1.17.1"
+	}
+}

@@ -21,15 +21,7 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"pretty": "prettier --write --tab-width 4 \"src/**/*.js\"",
-		"precommit": "lint-staged"
-	},
-	"lint-staged": {
-		"*.js": [
-			"npm run pretty",
-			"git add"
-		]
+		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -45,11 +37,5 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	},
-	"devDependencies": {
-		"husky": "^2.3.0",
-		"jest": "^24.8.0",
-		"lint-staged": "^8.1.7",
-		"prettier": "^1.17.1"
 	}
 }
