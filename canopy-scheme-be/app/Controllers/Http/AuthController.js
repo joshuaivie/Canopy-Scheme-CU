@@ -5,7 +5,7 @@ const User = use('App/Models/User');
 const Token = use('App/Models/Token');
 const Unauthorized = use('App/Exceptions/UnauthorizedException');
 const InternalServerError = use('App/Exceptions/InternalServerError');
-const kue = use('Kue');
+const Kue = use('Kue');
 const Job = use('App/Jobs/SignupEmail');
 
 class UserController {
@@ -17,12 +17,12 @@ class UserController {
 
     try {
       const user = await User.create({ ...details });
-      kue.dispatch(Job.key, { user }, { priority: 'normal', attempts: 3, remove: true, jobFn: () => {} });
+      Kue.dispatch(Job.key, { user }, { priority: 'normal', attempts: 3, remove: true, jobFn: () => {} });
 
       return response.send({ msg: 'Registration successfull' });
     } catch (err) {
       console.log(err);
-      // throw new InternalServerError();
+      throw new InternalServerError();
     }
   }
 

@@ -8,7 +8,10 @@ const UserGroupMember = use('App/Models/UserGroupMember');
 const InternalServerError = use('App/Exceptions/InternalServerError');
 
 class GroupController {
-  async get({ response, auth }) {
+  /**
+   * Get group information about about a given user.
+   */
+  async getGroupForUser({ response, auth }) {
     try {
       if (auth.user.is_group_owner == true) {
         const group = await auth.user.group().with('members').fetch();
@@ -23,6 +26,9 @@ class GroupController {
     }
   }
 
+  /**
+   * Allow a user to join a user group via a unique URL.
+   */
   async join({ request, response, auth }) {
     const { group_id } = request.params;
 
@@ -34,6 +40,10 @@ class GroupController {
     }
   }
 
+  /**
+   * Create a user group if only the user hasn't aleady created
+   * a group or belongs to any group.
+   */
   async create({ request, response, auth }) {
     const { name } = request.only(['name']);
 
@@ -50,6 +60,9 @@ class GroupController {
     }
   }
 
+  /**
+   * Delete a user group created by an authenticated user.
+   */
   async delete({ response, auth }) {
     const trx = await Database.beginTransaction();
 

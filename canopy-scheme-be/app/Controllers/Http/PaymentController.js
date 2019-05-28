@@ -6,6 +6,13 @@ const EventInfo = use('App/Utilities/EventInfo');
 const { nairaToKobo, koboToNaira } = use('App/Helpers/Money');
 
 class PaymentController {
+  /**
+   * Pay for any amount of table in the event.
+   * Payment verification must first be performed to ensure a legit
+   * transaction was made, else make a refund for the user.
+   *
+   * Todo: Currently, a balance refund (if change remains after purchase) cannot be refundd.
+   */
   async purchaseTable({ request, response, auth }) {
     let { paystack_ref, amount } = request.only(['paystack_ref', 'amount']);
 
