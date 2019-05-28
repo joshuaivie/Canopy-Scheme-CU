@@ -45,7 +45,7 @@ class UserController {
       const refreshToken = await Token.findBy('token', decrypted);
       if (!refreshToken) return response.status(401).send({ error: 'Sorry, you are not currently logged in.' });
 
-      refreshToken.delete();
+      await refreshToken.delete();
       return response.status(200).send({ status: 'Logout successful.' });
     } catch (err) {
       console.log(err);
