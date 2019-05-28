@@ -1,0 +1,27 @@
+#on-boarding {
+  padding: 15px;
+  .skip-text {
+    float: right;
+    button {
+      color: #a9a9a9;
+    }
+  }
+  .content {
+    padding-top: 20vh;
+    width: 100%;
+    margin: auto;
+    max-width: 800px;
+    text-align: center;
+    img {
+      margin: auto;
+    }
+    .item {
+      * {
+        margin: 30px auto;
+      }
+    }
+  }
+}
+
+.slick-dots {
+}

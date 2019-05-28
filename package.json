@@ -3,7 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"npm": "^6.9.0"
+		"npm": "^6.9.0",
+		"react-addons-css-transition-group": "^15.6.2"
 	},
 	"scripts": {
 		"start": "concurrently \"cd canopy-scheme-be && npm start\" \"cd canopy-scheme-fe && npm start\"",
