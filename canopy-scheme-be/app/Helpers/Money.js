@@ -1,10 +1,10 @@
 class MoneyHelper {
-  static nairaToKobo(amount) {
-    return amount * 100;
+  static nairaToKobo(naira) {
+    return naira * 100;
   }
 
-  static koboToNaira(amount) {
-    return amount / 100;
+  static koboToNaira(kobo) {
+    return kobo / 100;
   }
 }
 

@@ -46,6 +46,13 @@ class User extends Model {
   reservations() {
     return this.hasMany('App/Models/Reservation');
   }
+
+  group() {
+    if (this.is_group_owner == true) {
+      return this.hasOne('App/Models/UserGroup');
+    }
+    return this.hasOne('App/Models/UserGroupMember');
+  }
 }
 
 module.exports = User;
