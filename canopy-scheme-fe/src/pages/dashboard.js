@@ -8,8 +8,7 @@ import Something from '../components/DashboardComponents/something';
 
 import * as ROUTES from '../routes';
 
-export default () => {
-  return (
+export default () => (
     <section className="dashboard-container">
       <Sidebar />
       <div className="app-container">
@@ -21,4 +20,4 @@ export default () => {
       </div>
     </section>
   );
-};
+
