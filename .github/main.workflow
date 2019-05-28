@@ -17,8 +17,8 @@ action "Add Remote Url" {
   args = "git remote add heroku-be ${HEROKU_BE_REMOTE_URL} && git remote add remote heroku-fe ${HEROKU_FE_REMOTE_URL}"
   needs = ["Heroku Login"]
   env = {
-    HEROKU_BE_REMOTE_URL = ""
-    HEROKU_FE_REMOTE_URL = ""
+    HEROKU_BE_REMOTE_URL = "https://git.heroku.com/canopy-be.git"
+    HEROKU_FE_REMOTE_URL = "https://git.heroku.com/canopy-fe.git"
   }
 }
 
