@@ -1,6 +1,6 @@
 import React from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn } from 'mdbreact';
-import { Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput } from 'mdbreact';
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Login extends React.Component {
@@ -46,63 +46,44 @@ class Login extends React.Component {
 
   render() {
     const { emailAddress, password, isLoading } = this.state;
-
-    const { show, toggleModal } = this.props;
     if (isLoading) {
       return;
     }
     return (
-      <Modal size="lg" show={show} onHide={toggleModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <MDBContainer>
-            <form className="needs-validation" onSubmit={this.handleSubmit} noValidate>
-              <MDBRow>
-                <MDBCol md="6">
-                  <MDBCard>
-                    <MDBCardBody className="mx-4">
-                      <div className="text-center">
-                        <h3 className="dark-grey-text mb-5">
-                          <strong>Sign in</strong>
-                        </h3>
-                      </div>
-                      <MDBInput
-                        label="Email Address"
-                        type="email"
-                        name="emailAddress"
-                        onChange={this.handleChange}
-                        value={emailAddress}
-                        required
-                      />
-                      <MDBInput
-                        label="Password"
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={this.handleChange}
-                        required
-                      />
-
-                      <div className="text-center mb-3">
-                        <MDBBtn
-                          type="submit"
-                          gradient="blue"
-                          rounded
-                          className="btn-block z-depth-1a"
-                        >
-                          Sign in
-                        </MDBBtn>
-                      </div>
-                    </MDBCardBody>
-                  </MDBCard>
-                </MDBCol>
-              </MDBRow>
-            </form>
-          </MDBContainer>
-        </Modal.Body>
-      </Modal>
+      <MDBContainer>
+        <form className="needs-validation" onSubmit={this.handleSubmit} noValidate>
+          <MDBRow>
+            <MDBCol md="8">
+              <MDBCard>
+                <MDBCardBody className="mx-4">
+                  <div className="text-center">
+                    <h3 className="dark-grey-text mb-5">
+                      <strong>Sign in</strong>
+                    </h3>
+                  </div>
+                  <MDBInput
+                    label="Email Address"
+                    type="email"
+                    name="emailAddress"
+                    onChange={this.handleChange}
+                    value={emailAddress}
+                    required
+                  />
+                  <MDBInput
+                    label="Password"
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={this.handleChange}
+                    required
+                  />
+                  <Button>Login</Button>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+        </form>
+      </MDBContainer>
     );
   }
 }

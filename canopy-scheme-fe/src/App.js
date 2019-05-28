@@ -9,9 +9,9 @@ import Home from './pages/home';
 import Auth from './pages/auth';
 import Dashboard from './pages/dashboard';
 
-import './assets/styles/main.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import './assets/styles/main.scss';
 import './fontawesome';
 
 class App extends React.Component {

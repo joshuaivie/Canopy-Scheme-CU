@@ -1,0 +1,32 @@
+.modal {
+  background: linear-gradient(to right, rgba(128, 0, 128, 0.63) 65%, rgba(255, 255, 0, 0.658) 35%);
+  .modal-content {
+    border: none;
+    .modal-header {
+      border: none;
+      .modal-title {
+        width: 100%;
+        font-size: 20px;
+        font-family: 'Nexa Bold';
+        color: $purple;
+        span {
+          color: darkgray;
+          button,
+          .btn {
+            background-color: transparent !important;
+            color: $purple;
+            svg {
+              margin: 0 10px;
+            }
+            svg:nth-child(2) {
+              color: darkgray;
+            }
+          }
+        }
+      }
+    }
+    .modal-body {
+    }
+    min-height: 90vh;
+  }
+}

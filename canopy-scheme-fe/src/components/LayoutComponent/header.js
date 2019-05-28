@@ -1,23 +1,26 @@
 import React from 'react';
 
-import LoginModal from '../AuthComponents/login';
-import RegisterModal from '../AuthComponents/register';
+import AuthModal from '../AuthComponents/authModal';
 
 import { Navbar, Nav } from 'react-bootstrap';
 
 class Header extends React.Component {
   state = {
-    showLoginModal: false,
-    showRegisterModal: false,
+    showAuthModal: false,
+    form: 'Login',
   };
 
-  toggleModal = (modal) => {
-    const { [modal]: modalVisibility } = this.state;
-    this.setState({ [modal]: !modalVisibility });
+  setForm = (form) => {
+    this.setState({ form });
+  };
+
+  toggleModal = () => {
+    const { showAuthModal } = this.state;
+    this.setState({ showAuthModal: !showAuthModal });
   };
 
   render() {
-    const { showLoginModal, showRegisterModal } = this.state;
+    const { showAuthModal, form } = this.state;
 
     return (
       <React.Fragment>
@@ -28,13 +31,25 @@ class Header extends React.Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto" />
-            {/* <Nav.Link>Pricing</Nav.Link>
-          <Nav.Link>Groups</Nav.Link> */}
-            <Nav.Link>Register</Nav.Link>
-            <Nav.Link onClick={() => this.toggleModal('showLoginModal')}>Login</Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                this.setForm('Register');
+                this.toggleModal();
+              }}
+            >
+              Register
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                this.setForm('Login');
+                this.toggleModal();
+              }}
+            >
+              Login
+            </Nav.Link>
           </Navbar.Collapse>
         </Navbar>
-        <LoginModal show={showLoginModal} toggleModal={() => this.toggleModal('showLoginModal')} />
+        <AuthModal show={showAuthModal} toggleModal={this.toggleModal} form={form} />
       </React.Fragment>
     );
   }
