@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3333/api/";
+const API_URL = process.env.REACT_APP_API_URL;
 function getAuthToken() {
     return localStorage.getItem("authToken");
 }
