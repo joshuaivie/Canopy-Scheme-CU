@@ -58,6 +58,10 @@ body {
   }
 }
 
+.float {
+  animation: float 3s ease-out infinite;
+}
+
 @keyframes float {
   50% {
     transform: translate(0, 20px);
