@@ -57,10 +57,7 @@ class Register extends React.Component {
 			});
 
 			localStorage.setItem("authToken", res.data.token);
-			let { history } = this.props;
-			window.setTimeout(function() {
-				history.push("/app");
-			}, 2000);
+			window.location.href = "/app";
 		} catch (err) {
 			console.error(err);
 		} finally {

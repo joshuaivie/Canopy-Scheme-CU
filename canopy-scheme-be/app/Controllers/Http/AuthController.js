@@ -19,7 +19,7 @@ class UserController {
       const user = await User.create({ ...details });
       Kue.dispatch(Job.key, { user }, { priority: 'normal', attempts: 3, remove: true, jobFn: () => {} });
 
-      return await auth.withRefreshToken().attempt(email, password);
+      return await auth.withRefreshToken().attempt(details.email, details.password);
     } catch (err) {
       console.log(err);
       throw new InternalServerError();

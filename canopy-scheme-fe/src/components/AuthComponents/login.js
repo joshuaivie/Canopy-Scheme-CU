@@ -25,11 +25,8 @@ class Login extends React.Component {
 		try {
 			const { email, password } = this.state;
       const res = await post("login", {email, password });
-      localStorage.setItem("authToken", res.data.token);
-      let {history} = this.props;
-      window.setTimeout(function() {
-        history.push("/app");
-      }, 2000);
+	  localStorage.setItem("authToken", res.data.token);
+	  window.location.href = "/app";
 		} catch (err) {
 			this.setState({ isLoading: false });
 		}
