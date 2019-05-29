@@ -95,41 +95,51 @@ class Groups extends React.Component {
                         <p style={{ textAlign: "center" }}>
                             Invite your friends to share your joy
                         </p>
+                        <div className="group-container-mobile">
+                            <Button
+                                variant="outline-success"
+                                onClick={this.handleOpen}
+                            >
+                                Invite new member
+                                {"  "}
+                                <FontAwesomeIcon icon="user-plus" />
+                            </Button>
+                        </div>
                         <div className="group-container">
                             <Button
                                 size="lg"
                                 className="btn-primary"
                                 onClick={this.handleOpen}
                             >
-                                +
+                                <FontAwesomeIcon icon="plus" />
                             </Button>
                             <Button
                                 size="lg"
                                 className="btn-primary"
                                 onClick={this.handleOpen}
                             >
-                                +
+                                <FontAwesomeIcon icon="plus" />
                             </Button>
                             <Button
                                 size="lg"
                                 className="btn-primary"
                                 onClick={this.handleOpen}
                             >
-                                +
+                                <FontAwesomeIcon icon="plus" />
                             </Button>
                             <Button
                                 size="lg"
                                 className="btn-primary"
                                 onClick={this.handleOpen}
                             >
-                                +
+                                <FontAwesomeIcon icon="plus" />
                             </Button>
                             <Button
                                 size="lg"
                                 className="btn-primary"
                                 onClick={this.handleOpen}
                             >
-                                +
+                                <FontAwesomeIcon icon="plus" />
                             </Button>
                         </div>
                     </Card.Body>

@@ -14,7 +14,7 @@ class EventInfo {
   }
 
   static async maximumGroupMembers() {
-    const event = await EventInfoModle.first();
+    const event = await EventInfoModel.first();
     if (event === null) return 4;
     return event.maximum_group_members;
   }

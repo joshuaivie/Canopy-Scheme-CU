@@ -4,7 +4,12 @@ const { hooks } = require('@adonisjs/ignitor');
 hooks.after.providersRegistered(() => {
   const { sanitizor } = ioc.use('Validator');
 
-  sanitizor.uri_decode_component = val => {
-    return decodeURIComponent(val);
+  sanitizor.decodeUriAndDecrypt = val => {
+    const Encryption = ioc.use('Encryption');
+    return Encryption.decrypt(decodeURIComponent(val));
+  };
+
+  sanitizor.lowercase = val => {
+    return val.toLowerCase();
   };
 });
