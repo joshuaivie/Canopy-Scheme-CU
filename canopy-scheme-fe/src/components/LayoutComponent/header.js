@@ -1,17 +1,10 @@
 import React from "react";
-
 import AuthModal from "../AuthComponents/authModal";
-
 import { Navbar, Nav } from "react-bootstrap";
 
 class Header extends React.Component {
     state = {
         showAuthModal: false,
-        form: "Login"
-    };
-
-    setForm = form => {
-        this.setState({ form });
     };
 
     toggleModal = () => {
@@ -20,7 +13,7 @@ class Header extends React.Component {
     };
 
     render() {
-        const { showAuthModal, form } = this.state;
+        const { showAuthModal } = this.state;
 
         return (
             <React.Fragment>
@@ -38,26 +31,16 @@ class Header extends React.Component {
                         <Nav className="mr-auto" />
                         <Nav.Link
                             onClick={() => {
-                                this.setForm("Register");
                                 this.toggleModal();
                             }}
                         >
-                            Register
-                        </Nav.Link>
-                        <Nav.Link
-                            onClick={() => {
-                                this.setForm("Login");
-                                this.toggleModal();
-                            }}
-                        >
-                            Login
+                            Login/Register
                         </Nav.Link>
                     </Navbar.Collapse>
                 </Navbar>
                 <AuthModal
                     show={showAuthModal}
                     toggleModal={this.toggleModal}
-                    form={form}
                 />
             </React.Fragment>
         );

@@ -2,7 +2,9 @@ import React from "react";
 import Slider from "react-slick";
 import { Button } from "react-bootstrap";
 import * as Routes from "../routes";
-import studentSvg from "../assets/svg/student.svg";
+import browserSvg from "../assets/svg/browser.svg";
+import checklistSvg from "../assets/svg/checklist.svg";
+import handGestureSvg from "../assets/svg/hand-gesture.svg";
 
 class OnBoarding extends React.Component {
     next = () => {
@@ -30,7 +32,7 @@ class OnBoarding extends React.Component {
         const settings = {
             dots: true,
             draggable: true,
-            speed: 500,
+            speed: 200,
             slidesToShow: 1,
             slidesToScroll: 1,
             beforeChange: (oldIndex, newIndex) =>
@@ -45,44 +47,47 @@ class OnBoarding extends React.Component {
                     </Button>
                 </div>
                 <div className="content">
+                    <h2 className="primary-text">Canopy Scheme 2019</h2>
                     <Slider ref={c => (this.slider = c)} {...settings}>
                         <div className="item" key={1}>
                             <img
-                                src={studentSvg}
-                                alt="onborading"
-                                width="150"
+                                src={handGestureSvg}
+                                className="float"
+                                alt="onboarding"
+                                width="250"
                             />
-                            <h3>Hello world</h3>
+                            <h3>Convenient</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.{" "}
+                                Place your convocation table reservations with
+                                your device from anywhere at anytime.{" "}
                             </p>
                         </div>
                         <div className="item" key={2}>
                             <img
-                                src={studentSvg}
-                                alt="onborading"
-                                width="150"
+                                src={browserSvg}
+                                className="float"
+                                alt="onboarding"
+                                width="250"
                             />
-                            <h3>Hello</h3>
+                            <h3>Flexible</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.{" "}
+                                The platform provides you with all your needs
+                                for making a reservation from making an order to
+                                cotacting us from support.{" "}
                             </p>
                         </div>
                         <div className="item" key={3}>
                             <img
-                                src={studentSvg}
-                                alt="onborading"
-                                width="150"
+                                src={checklistSvg}
+                                className="float"
+                                alt="onboarding"
+                                width="250"
                             />
-                            <h3>World</h3>
+                            <h3>Orderly</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.{" "}
+                                Easily find information you need and perform
+                                various actions to make your reservation
+                                seemless.{" "}
                             </p>
                         </div>
                     </Slider>

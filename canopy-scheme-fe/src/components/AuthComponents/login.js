@@ -1,91 +1,95 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput } from 'mdbreact';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import { Form, Button, Container } from "react-bootstrap";
+import { post } from "../../utils/fetch";
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      emailAddress: '',
-      password: '',
-      isLoading: false,
-      isValidated: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: "",
+            isLoading: false
+        };
+    }
+
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
     };
-  }
 
-  handlePasswordToggle = () => {
-    const input = document.querySelector('#password');
-    if (input.type === 'password') {
-      input.type = 'text';
-    } else {
-      input.type = 'password';
+    handleSubmit = event => {
+        event.preventDefault();
+        this.login();
+    };
+
+    async login() {
+        try {
+            const { email, password } = this.state;
+            const res = await post("login", { email, password });
+            localStorage.setItem("authToken", res.data.token);
+            let { history } = this.props;
+            window.setTimeout(function() {
+                history.push("/app");
+            }, 2000);
+        } catch (err) {
+            this.setState({ isLoading: false });
+        }
     }
-  };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    render() {
+        const { email, password, isLoading } = this.state;
+        const { switchForm } = this.props;
+        if (isLoading) {
+            return;
+        }
+        return (
+            <Container>
+                <Form onSubmit={this.handleSubmit}>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control
+                            type="email"
+                            placeholder="Enter your email"
+                            name="email"
+                            value={email}
+                            onChange={this.handleChange}
+                        />
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    event.target.className += ' was-validated';
-    this.setState({ isValidated: true });
-    this.login();
-  };
-
-  async login() {
-    try {
-      const { emailAddress, password } = this.state;
-      console.log(emailAddress, password);
-      //TODO: await function from endpoint
-    } catch (err) {
-      this.setState({ isLoading: false });
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            value={password}
+                            onChange={this.handleChange}
+                        />
+                    </Form.Group>
+                    <Button variant="primary" type="submit">
+                        Login
+                    </Button>
+                    <p>
+                        Don't have an account?{" "}
+                        <span
+                            onClick={() => {
+                                switchForm("register");
+                            }}
+                            style={{
+                                textDecoration: "underline",
+                                fontStyle: "italic",
+                                cursor: "grabbing"
+                            }}
+                        >
+                            Register
+                        </span>
+                    </p>
+                </Form>
+            </Container>
+        );
     }
-  }
-
-  render() {
-    const { emailAddress, password, isLoading } = this.state;
-    if (isLoading) {
-      return;
-    }
-    return (
-      <MDBContainer>
-        <form className="needs-validation" onSubmit={this.handleSubmit} noValidate>
-          <MDBRow>
-            <MDBCol md="8">
-              <MDBCard>
-                <MDBCardBody className="mx-4">
-                  <div className="text-center">
-                    <h3 className="dark-grey-text mb-5">
-                      <strong>Sign in</strong>
-                    </h3>
-                  </div>
-                  <MDBInput
-                    label="Email Address"
-                    type="email"
-                    name="emailAddress"
-                    onChange={this.handleChange}
-                    value={emailAddress}
-                    required
-                  />
-                  <MDBInput
-                    label="Password"
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={this.handleChange}
-                    required
-                  />
-                  <Button>Login</Button>
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-          </MDBRow>
-        </form>
-      </MDBContainer>
-    );
-  }
 }
 
 export default Login;

@@ -9,7 +9,7 @@ import OnBoarding from "./pages/onBoarding";
 import Home from "./pages/home";
 import Dashboard from "./pages/dashboard";
 
-import "@fortawesome/fontawesome-free/css/all.min.css";
+// import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 
 import "slick-carousel/slick/slick.css";

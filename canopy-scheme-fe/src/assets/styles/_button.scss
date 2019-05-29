@@ -1,52 +1,60 @@
 button,
 .btn {
-  font-family: 'Nexa Bold';
-  border-radius: 20px;
-  &:before {
-    content: '';
-    background-color: aliceblue;
-    border-radius: 50%;
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: scale(0.001, 0.001);
-  }
-  &:focus {
-    outline: 0;
-    color: #fff;
-    &:before {
-      // animation: click_effect 0.8s ease-out;
-    }
-  }
+	font-family: "Nexa Bold";
+	border-radius: 20px;
+	&:before {
+		content: "";
+		background-color: aliceblue;
+		border-radius: 50%;
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		transform: scale(0.001, 0.001);
+	}
+	&:focus {
+		outline: 0;
+		color: #fff;
+		&:before {
+			// animation: click_effect 0.8s ease-out;
+		}
+	}
 }
 .btn-link {
-  color: $purple;
+	color: $purple;
 }
 
 .btn-primary {
-  background-color: $purple;
-  border: 1px solid $purple;
+	background-color: $purple;
+	border: 1px solid $purple;
+	&:hover {
+		background-color: darken($purple, 10);
+		border: 1px solid darken($purple, 10);
+	}
+	&:focus {
+		background-color: #800080 !important;
+		color: white !important;
+	}
 }
 
 .btn-outline-primary {
-  color: $purple;
-  border: 1px solid $purple;
+	color: $purple;
+	border: 1px solid $purple;
 }
 
 @keyframes click_effect {
-  50% {
-    transform: scale(1.5, 1.5);
-    opacity: 0;
-  }
-  99% {
-    transform: scale(0.001, 0.001);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(0.001, 0.001);
-    opacity: 1;
-  }
+	50% {
+		transform: scale(1.5, 1.5);
+		opacity: 0;
+	}
+	99% {
+		transform: scale(0.001, 0.001);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(0.001, 0.001);
+		opacity: 1;
+	}
 }
