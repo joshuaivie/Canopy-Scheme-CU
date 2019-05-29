@@ -1,15 +1,14 @@
-'use strict'
+"use strict";
 
-const Env = use('Env')
+const Env = use("Env");
 
 module.exports = {
-
   /*
    |--------------------------------------------------------------------------
    | API key
    |--------------------------------------------------------------------------
    */
-  dsn: Env.get('SENTRY_DSN'),
+  dsn: Env.get("SENTRY_DSN"),
 
-  environment: Env.get('SENTRY_ENVIRONMENT')
-}
+  environment: Env.get("SENTRY_ENVIRONMENT")
+};

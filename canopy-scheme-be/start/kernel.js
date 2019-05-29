@@ -16,8 +16,8 @@ const Config = use("Config");
 |
 */
 const globalMiddleware = [
-    "Adonis/Middleware/BodyParser",
-    "App/Middleware/ConvertEmptyStringsToNull"
+  "Adonis/Middleware/BodyParser",
+  "App/Middleware/ConvertEmptyStringsToNull"
 ];
 
 /*
@@ -31,12 +31,12 @@ const globalMiddleware = [
 |
 */
 const namedMiddleware = {
-    auth: "Adonis/Middleware/Auth",
-    isUserGroupOwner: "App/Middleware/IsUserGroupOwner",
-    notInUserGroup: "App/Middleware/NotInUserGroup",
-    inviteeNotInUserGroup: "App/Middleware/InviteeNotInUserGroup",
-    inUserGroup: "App/Middleware/InUserGroup",
-    isValidGroupInviteLink: "App/Middleware/IsValidGroupInviteLink"
+  auth: "Adonis/Middleware/Auth",
+  isUserGroupOwner: "App/Middleware/IsUserGroupOwner",
+  notInUserGroup: "App/Middleware/NotInUserGroup",
+  inviteeNotInUserGroup: "App/Middleware/InviteeNotInUserGroup",
+  inUserGroup: "App/Middleware/InUserGroup",
+  isValidGroupInviteLink: "App/Middleware/IsValidGroupInviteLink"
 };
 
 /*
@@ -52,14 +52,14 @@ const namedMiddleware = {
 const serverMiddleware = ["Adonis/Middleware/Static", "Adonis/Middleware/Cors"];
 
 Server.registerGlobal(globalMiddleware)
-    .registerNamed(namedMiddleware)
-    .use(serverMiddleware);
+  .registerNamed(namedMiddleware)
+  .use(serverMiddleware);
 
 Kue.createQueue({
-    redis: `redis://${Config.get("redis.redis.host")}:${Config.get(
-        "redis.redis.port"
-    )}`,
-    prefix: Env.get("APP_NAME", "canopy-scheme")
+  redis: `redis://${Config.get("redis.redis.host")}:${Config.get(
+    "redis.redis.port"
+  )}`,
+  prefix: Env.get("APP_NAME", "canopy-scheme")
 });
 
 Kue.app.listen(Env.get("KUE_UI_PORT", 3050));

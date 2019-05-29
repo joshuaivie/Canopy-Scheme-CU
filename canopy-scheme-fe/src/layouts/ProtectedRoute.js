@@ -4,21 +4,21 @@ import DefaultLayout from "./DefaultLayout";
 import { isLoggedIn } from "../utils/auth";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => (
-	<Route
-		{...rest}
-		render={props =>
-			isLoggedIn() ? (
-				<DefaultLayout {...rest} component={Component} />
-			) : (
-				<Redirect
-					to={{
-						pathname: "/",
-						state: { from: props.location, isRedirect: true }
-					}}
-				/>
-			)
-		}
-	/>
+  <Route
+    {...rest}
+    render={props =>
+      isLoggedIn() ? (
+        <DefaultLayout {...rest} component={Component} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: props.location, isRedirect: true }
+          }}
+        />
+      )
+    }
+  />
 );
 
 export default ProtectedRoute;

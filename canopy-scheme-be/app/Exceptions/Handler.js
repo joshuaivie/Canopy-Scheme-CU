@@ -1,7 +1,7 @@
-'use strict'
+"use strict";
 
-const BaseExceptionHandler = use('BaseExceptionHandler')
-const sentry = use("Sentry")
+const BaseExceptionHandler = use("BaseExceptionHandler");
+const sentry = use("Sentry");
 
 /**
  * This class handles all exceptions thrown during
@@ -21,8 +21,8 @@ class ExceptionHandler extends BaseExceptionHandler {
    *
    * @return {void}
    */
-  async handle (error, { request, response }) {
-    response.status(error.status).send(error.message)
+  async handle(error, { request, response }) {
+    response.status(error.status).send(error.message);
   }
 
   /**
@@ -35,9 +35,9 @@ class ExceptionHandler extends BaseExceptionHandler {
    *
    * @return {void}
    */
-  async report (error, { request }) {
-      sentry.captureException(error);
+  async report(error, { request }) {
+    sentry.captureException(error);
   }
 }
 
-module.exports = ExceptionHandler
+module.exports = ExceptionHandler;

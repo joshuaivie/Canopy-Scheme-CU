@@ -1,4 +1,4 @@
-const { capitalizeFirstLetter } = use('App/Helpers/Stringify');
+const { capitalizeFirstLetter } = use("App/Helpers/Stringify");
 
 class Sanitize {
   static reduceError(errorMessages) {

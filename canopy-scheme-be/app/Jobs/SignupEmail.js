@@ -14,20 +14,16 @@ class SignupEmail {
 
   async handle(data) {
     const { user } = data;
-    try {
-      await Mail.send("emails.signup", user, message => {
-        message
-          .to(user.email, `${user.firstname} ${user.lastname}`)
-          .from(
-            "no-reply@the14thset.covenantuniversity.edu.ng",
-            "The14thset Canopy Scheme Team"
-          )
-          .subject("Welcome to the Canopy Scheme");
-      });
-    } catch (error) {
-      console.log(error.message);
-      throw new Error(error.message);
-    }
+
+    await Mail.send("emails.signup", user, message => {
+      message
+        .to(user.email, `${user.firstname} ${user.lastname}`)
+        .from(
+          "no-reply@the14thset.covenantuniversity.edu.ng",
+          "The14thset Canopy Scheme Team"
+        )
+        .subject("Welcome to the Canopy Scheme");
+    });
   }
 }
 

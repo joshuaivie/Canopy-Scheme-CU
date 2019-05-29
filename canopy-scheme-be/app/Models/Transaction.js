@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Model = use('Model');
+const Model = use("Model");
 
 class Transaction extends Model {
   static get hidden() {
-    return ['id', 'user_id'];
+    return ["id", "user_id"];
   }
 
   user() {
-    return this.belongsTo('App/Model/User');
+    return this.belongsTo("App/Model/User");
   }
 }
 
