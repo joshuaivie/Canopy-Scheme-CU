@@ -3,7 +3,26 @@ import {
     faEye,
     faChevronLeft,
     faChevronRight,
-    faCircle
+    faCircle,
+    faUserCircle,
+    faMoneyBillWaveAlt,
+    faTable,
+    faCreditCard,
+    faDoorOpen,
+    faUserPlus,
+    faUsers
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faEye, faChevronLeft, faChevronRight, faCircle);
+library.add(
+    faEye,
+    faChevronLeft,
+    faChevronRight,
+    faCircle,
+    faUserCircle,
+    faMoneyBillWaveAlt,
+    faTable,
+    faCreditCard,
+    faDoorOpen,
+    faUserPlus,
+    faUsers
+);

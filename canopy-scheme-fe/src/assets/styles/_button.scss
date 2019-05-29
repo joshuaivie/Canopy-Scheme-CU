@@ -1,7 +1,7 @@
 button,
 .btn {
   font-family: 'Nexa Bold';
-  border: none !important;
+  border-radius: 20px;
   &:before {
     content: '';
     background-color: aliceblue;
@@ -22,9 +22,18 @@ button,
     }
   }
 }
+.btn-link {
+  color: $purple;
+}
 
 .btn-primary {
-  background-color: $purple !important;
+  background-color: $purple;
+  border: 1px solid $purple;
+}
+
+.btn-outline-primary {
+  color: $purple;
+  border: 1px solid $purple;
 }
 
 @keyframes click_effect {

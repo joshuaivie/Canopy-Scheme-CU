@@ -44,3 +44,17 @@
       'nav';
   }
 }
+
+.dashboard {
+  background-color: rgba(128, 0, 128, 0.027);
+  padding-top: 5vh;
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+    max-width: 1280px;
+    margin: auto;
+    height: 100vh;
+  }
+}

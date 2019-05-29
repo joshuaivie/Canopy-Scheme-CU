@@ -1,11 +1,11 @@
 @font-face {
-	font-family: "Nexa Bold";
-	src: url("../fonts/Nexa Bold.otf");
+  font-family: 'Nexa Bold';
+  src: url('../fonts/Nexa Bold.otf');
 }
 
 @font-face {
-	font-family: "Nexa Light";
-	src: url("../fonts/Nexa Light.otf");
+  font-family: 'Nexa Light';
+  src: url('../fonts/Nexa Light.otf');
 }
 
 @import './imports';
@@ -22,54 +22,44 @@
 @import './misc';
 
 body {
-	font-family: "Nexa Light", sans-serif !important;
-	font-weight: 900;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-family: "Nexa Bold", sans-serif;
-	color: $purple;
+  font-family: 'Nexa Light', sans-serif !important;
+  font-weight: 900;
 }
 
 .password-toggle-icon {
-	float: right;
-	margin-left: -25px;
-	margin-top: -25px;
-	position: relative;
-	z-index: 2;
+  float: right;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
 }
 
 #fullpage {
-	.section {
-		width: 90vw;
-		margin: auto;
-		.box-test {
-			height: 300px;
-			width: 300px;
-			background: red;
-		}
+  .section {
+    width: 90vw;
+    margin: auto;
+    .box-test {
+      height: 300px;
+      width: 300px;
+      background: red;
+    }
 
-		.left {
-			text-align: left;
-			padding-top: 50px;
-			line-height: 2rem;
-		}
-		.right {
-			text-align: center;
-			img {
-				animation: float 3s ease-out infinite;
-			}
-		}
-	}
+    .left {
+      text-align: left;
+      padding-top: 50px;
+      line-height: 2rem;
+    }
+    .right {
+      text-align: center;
+      img {
+        animation: float 3s ease-out infinite;
+      }
+    }
+  }
 }
 
 @keyframes float {
-	50% {
-		transform: translate(0, 20px);
-	}
+  50% {
+    transform: translate(0, 20px);
+  }
 }
