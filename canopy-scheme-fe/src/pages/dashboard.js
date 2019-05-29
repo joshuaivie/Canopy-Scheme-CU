@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row } from "react-bootstrap";
 
 import Groups from "../components/DashboardComponents/groups";
-import Profile from "../components/DashboardComponents/profile";
+// import Profile from "../components/DashboardComponents/profile";
 import Payments from "../components/DashboardComponents/payments";
 // import Data from "../assets/data";
 
