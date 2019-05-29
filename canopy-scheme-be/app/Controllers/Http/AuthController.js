@@ -12,14 +12,14 @@ class UserController {
   /**
    * Registers a new user.
    */
-  async register({ request, response }) {
+  async register({ request, response, auth }) {
     const details = request.only(['email', 'matric_no', 'password', 'firstname', 'lastname', 'telephone_no']);
 
     try {
       const user = await User.create({ ...details });
       Kue.dispatch(Job.key, { user }, { priority: 'normal', attempts: 3, remove: true, jobFn: () => {} });
 
-      return response.send({ msg: 'Registration successfull' });
+      return await auth.withRefreshToken().attempt(email, password);
     } catch (err) {
       console.log(err);
       throw new InternalServerError();

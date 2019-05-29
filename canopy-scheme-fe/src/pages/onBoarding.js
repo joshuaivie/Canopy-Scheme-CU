@@ -38,60 +38,56 @@ class OnBoarding extends React.Component {
         };
 
         return (
-            <div id="on-boarding">
-                <div className="skip-text">
-                    <Button variant="link" onClick={this.completeOnBoarding}>
-                        Skip
-                    </Button>
-                </div>
-                <div className="content">
-                    <Slider ref={c => (this.slider = c)} {...settings}>
-                        <div className="item" key={1}>
-                            <img
-                                src={studentSvg}
-                                alt="onborading"
-                                width="150"
-                            />
-                            <h3>Hello world</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.{" "}
-                            </p>
-                        </div>
-                        <div className="item" key={2}>
-                            <img
-                                src={studentSvg}
-                                alt="onborading"
-                                width="150"
-                            />
-                            <h3>Hello</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.{" "}
-                            </p>
-                        </div>
-                        <div className="item" key={3}>
-                            <img
-                                src={studentSvg}
-                                alt="onborading"
-                                width="150"
-                            />
-                            <h3>World</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.{" "}
-                            </p>
-                        </div>
-                    </Slider>
-                    <Button className="float-right" onClick={this.next}>
-                        Next
-                    </Button>
-                </div>
-            </div>
-        );
+			<div id="on-boarding">
+				<div className="skip-text">
+					<Button variant="link" onClick={this.completeOnBoarding}>
+						Skip
+					</Button>
+				</div>
+				<div className="content">
+					<Slider ref={c => (this.slider = c)} {...settings}>
+						<div className="item" key={1}>
+							<img
+								src={studentSvg}
+								alt="onborading"
+								width="150"
+							/>
+							<h3>Canopy Scheme 2019</h3>
+							<p>Convenient, Excellent and orderly</p>
+						</div>
+						<div className="item" key={2}>
+							<img
+								src={studentSvg}
+								alt="onborading"
+								width="150"
+							/>
+							<h3>Hello</h3>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur
+								adipiscing elit, sed do eiusmod tempor
+								incididunt ut labore et dolore magna aliqua.{" "}
+							</p>
+						</div>
+						<div className="item" key={3}>
+							<img
+								src={studentSvg}
+								alt="onborading"
+								width="150"
+							/>
+							<h3>World</h3>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur
+								adipiscing elit, sed do eiusmod tempor
+								incididunt ut labore et dolore magna aliqua.{" "}
+							</p>
+						</div>
+					</Slider>
+					<Button className="float-right" onClick={this.next}>
+						Next
+					</Button>
+				</div>
+			</div>
+		);
     }
 }
 
