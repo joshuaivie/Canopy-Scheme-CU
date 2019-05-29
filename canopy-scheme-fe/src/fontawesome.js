@@ -10,7 +10,9 @@ import {
     faCreditCard,
     faDoorOpen,
     faUserPlus,
-    faUsers
+    faUsers,
+    faCartPlus,
+    faPlus
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -24,5 +26,7 @@ library.add(
     faCreditCard,
     faDoorOpen,
     faUserPlus,
-    faUsers
+    faUsers,
+    faCartPlus,
+    faPlus
 );
