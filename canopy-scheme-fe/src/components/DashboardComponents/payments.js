@@ -64,7 +64,9 @@ class Payments extends React.Component {
         show: false,
         numberOfTables: 1,
         tablePrice: 15000,
-        totalPrice: 15000
+        totalPrice: 15000,
+
+        isLoading: false
     };
 
     handleClose = () => {
@@ -82,7 +84,9 @@ class Payments extends React.Component {
         this.setState({ totalPrice: tablePrice * numberOfTablesSelected });
     };
 
-    handleSubmit = event => {};
+    handleSubmit = event => {
+        this.setState({ isLoading: true });
+    };
 
     render() {
         const { totalPrice, show } = this.state;
@@ -136,8 +140,9 @@ class Payments extends React.Component {
                             type="submit"
                             onClick={this.handleSubmit}
                         >
-                            Proceed to Checkout{" "}
-                            <FontAwesomeIcon icon="long-arrow-right" />
+                            {this.state.isLoading
+                                ? "Proceed to Checkout"
+                                : "Loading..."}
                         </Button>
                     </Modal.Footer>
                 </Modal>

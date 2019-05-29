@@ -69,3 +69,13 @@
 		float: right !important;
 	}
 }
+
+.group-container {
+	display: flex;
+	justify-content: space-around;
+	.btn {
+		width: 100px !important;
+		height: 100px !important;
+		border-radius: 50%;
+	}
+}
