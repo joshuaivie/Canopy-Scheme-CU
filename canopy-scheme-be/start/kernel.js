@@ -28,12 +28,13 @@ const globalMiddleware = [
 | Named middleware is key/value object to conditionally add middleware on
 | specific routes or group of routes.
 |
-| 
+|
 */
 const namedMiddleware = {
     auth: "Adonis/Middleware/Auth",
     isUserGroupOwner: "App/Middleware/IsUserGroupOwner",
     notInUserGroup: "App/Middleware/NotInUserGroup",
+    inviteeNotInUserGroup: "App/Middleware/InviteeNotInUserGroup",
     inUserGroup: "App/Middleware/InUserGroup",
     isValidGroupInviteLink: "App/Middleware/IsValidGroupInviteLink"
 };

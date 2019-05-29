@@ -47,24 +47,26 @@ class Payments extends React.Component {
             { name: "date" },
             { name: "amount" },
             { name: "tables" },
-            { name: "PayStack Reference" }
+            { name: "Transaction ID" }
         ],
         data: [
-            // {
-            // 	date: "12-03-19",
-            // 	amount: "15,000",
-            // 	tables: "1"
-            // },
-            // {
-            // 	date: "26-03-19",
-            // 	amount: "45,000",
-            // 	tables: "3"
-            // }
+            {
+                date: "12-03-19",
+                amount: "15,000",
+                tables: "1"
+            },
+            {
+                date: "26-03-19",
+                amount: "45,000",
+                tables: "3"
+            }
         ],
         show: false,
         numberOfTables: 1,
         tablePrice: 15000,
-        totalPrice: 15000
+        totalPrice: 15000,
+
+        isLoading: false
     };
 
     handleClose = () => {
@@ -82,7 +84,9 @@ class Payments extends React.Component {
         this.setState({ totalPrice: tablePrice * numberOfTablesSelected });
     };
 
-    handleSubmit = event => {};
+    handleSubmit = event => {
+        this.setState({ isLoading: true });
+    };
 
     render() {
         const { totalPrice, show } = this.state;
@@ -136,8 +140,9 @@ class Payments extends React.Component {
                             type="submit"
                             onClick={this.handleSubmit}
                         >
-                            Proceed to Checkout{" "}
-                            <FontAwesomeIcon icon="long-arrow-right" />
+                            {this.state.isLoading
+                                ? "Proceed to Checkout"
+                                : "Loading..."}
                         </Button>
                     </Modal.Footer>
                 </Modal>

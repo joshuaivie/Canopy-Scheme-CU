@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Table } from "react-bootstrap";
+import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const RenderEmptyGroup = columns => (
@@ -56,7 +56,16 @@ class Groups extends React.Component {
             // 	amount: "45,000",
             // 	tables: "3"
             // }
-        ]
+        ],
+        show: false
+    };
+
+    handleOpen = () => {
+        this.setState({ show: true });
+    };
+
+    handleClose = () => {
+        this.setState({ show: false });
     };
     render() {
         return (
@@ -64,13 +73,13 @@ class Groups extends React.Component {
                 <Card className="material-card">
                     <Card.Header>
                         <h5>Group</h5>
-                        <Button variant="outline-danger">
-                            Leave Group
-                            <FontAwesomeIcon icon="door-open" />
-                        </Button>
+                        {/* <Button variant="outline-danger">
+							Leave Group
+							<FontAwesomeIcon icon="door-open" />
+						</Button> */}
                     </Card.Header>
                     <Card.Body>
-                        <br />
+                        {/* <br />
                         <h6>Members</h6>
                         <p>
                             <FontAwesomeIcon icon="user-circle" /> Femi Ajisafe
@@ -82,9 +91,80 @@ class Groups extends React.Component {
                             Invite new member
                             {"  "}
                             <FontAwesomeIcon icon="user-plus" />
-                        </Button>
+						</Button> */}
+                        <p style={{ textAlign: "center" }}>
+                            Invite your friends to share your joy
+                        </p>
+                        <div className="group-container-mobile">
+                            <Button
+                                variant="outline-success"
+                                onClick={this.handleOpen}
+                            >
+                                Invite new member
+                                {"  "}
+                                <FontAwesomeIcon icon="user-plus" />
+                            </Button>
+                        </div>
+                        <div className="group-container">
+                            <Button
+                                size="lg"
+                                className="btn-primary"
+                                onClick={this.handleOpen}
+                            >
+                                <FontAwesomeIcon icon="plus" />
+                            </Button>
+                            <Button
+                                size="lg"
+                                className="btn-primary"
+                                onClick={this.handleOpen}
+                            >
+                                <FontAwesomeIcon icon="plus" />
+                            </Button>
+                            <Button
+                                size="lg"
+                                className="btn-primary"
+                                onClick={this.handleOpen}
+                            >
+                                <FontAwesomeIcon icon="plus" />
+                            </Button>
+                            <Button
+                                size="lg"
+                                className="btn-primary"
+                                onClick={this.handleOpen}
+                            >
+                                <FontAwesomeIcon icon="plus" />
+                            </Button>
+                            <Button
+                                size="lg"
+                                className="btn-primary"
+                                onClick={this.handleOpen}
+                            >
+                                <FontAwesomeIcon icon="plus" />
+                            </Button>
+                        </div>
                     </Card.Body>
                 </Card>
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            Enter your friend's matriculation number
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group>
+                            <Form.Label>Matriculation Number</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Matriculation Number"
+                            />
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={this.handleClose}>
+                            Add to Group
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Col>
         );
     }

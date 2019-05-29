@@ -24,13 +24,9 @@ class Login extends React.Component {
     async login() {
         try {
             const { email, password } = this.state;
-            console.log(email, password);
             const res = await post("login", { email, password });
             localStorage.setItem("authToken", res.data.token);
-            let { history } = this.props;
-            window.setTimeout(function() {
-                history.push("/app");
-            }, 2000);
+            window.location.href = "/app";
         } catch (err) {
             this.setState({ isLoading: false });
         }
@@ -45,11 +41,6 @@ class Login extends React.Component {
         return (
             <Container>
                 <Form onSubmit={this.handleSubmit}>
-                    <div className="text-center">
-                        <h4 className="dark-grey-text">
-                            <strong>Login to your account</strong>
-                        </h4>
-                    </div>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control
@@ -77,7 +68,6 @@ class Login extends React.Component {
                     <Button variant="primary" type="submit">
                         Login
                     </Button>
-                    <br />
                     <p>
                         Don't have an account?{" "}
                         <span

@@ -1,10 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import AuthModal from "../AuthComponents/authModal";
 import { Navbar, Nav } from "react-bootstrap";
+import { isLoggedIn } from "../../utils/auth";
 
 class Header extends React.Component {
     state = {
-        showAuthModal: false,
+        showAuthModal: false
     };
 
     toggleModal = () => {
@@ -29,13 +31,19 @@ class Header extends React.Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto" />
-                        <Nav.Link
-                            onClick={() => {
-                                this.toggleModal();
-                            }}
-                        >
-                            Login/Register
-                        </Nav.Link>
+                        {isLoggedIn() ? (
+                            <Nav.Link href="/app">
+                                <Link to="/app">Dashboard</Link>
+                            </Nav.Link>
+                        ) : (
+                            <Nav.Link
+                                onClick={() => {
+                                    this.toggleModal();
+                                }}
+                            >
+                                Login/Register
+                            </Nav.Link>
+                        )}
                     </Navbar.Collapse>
                 </Navbar>
                 <AuthModal

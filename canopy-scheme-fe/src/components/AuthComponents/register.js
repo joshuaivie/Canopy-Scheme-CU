@@ -47,9 +47,6 @@ class Register extends React.Component {
                 lastName,
                 telephoneNo
             } = this.state;
-            console.log(
-                `This is ${email}, ${password}, ${matriculationNumber}, ${firstName}, ${lastName}`
-            );
             const res = await post("register", {
                 email,
                 matric_no: matriculationNumber,
@@ -60,10 +57,7 @@ class Register extends React.Component {
             });
 
             localStorage.setItem("authToken", res.data.token);
-            let { history } = this.props;
-            window.setTimeout(function() {
-                history.push("/app");
-            }, 2000);
+            window.location.href = "/app";
         } catch (err) {
             console.error(err);
         } finally {
@@ -88,11 +82,6 @@ class Register extends React.Component {
         return (
             <Container>
                 <Form onSubmit={this.handleSubmit}>
-                    <div className="text-center">
-                        <h4 className="dark-grey-text">
-                            <strong>Register to an account</strong>
-                        </h4>
-                    </div>
                     <Form.Group>
                         <Form.Label>Firstname</Form.Label>
                         <Form.Control
@@ -171,7 +160,6 @@ class Register extends React.Component {
                     <Button variant="primary" type="submit">
                         Register
                     </Button>
-                    <br />
                     <p>
                         Have an account?{" "}
                         <span

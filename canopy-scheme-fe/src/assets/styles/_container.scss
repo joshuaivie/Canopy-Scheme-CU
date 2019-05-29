@@ -69,3 +69,30 @@
 		float: right !important;
 	}
 }
+
+.group-container {
+	display: flex;
+	justify-content: space-around;
+	margin: 50px 0;
+	.btn {
+		width: 100px !important;
+		height: 100px !important;
+		border-radius: 5%;
+		background-color: transparent;
+		border: 1px dashed #800080;
+		color: #800080;
+		font-size: 2rem;
+	}
+	@media (max-width: $screen-md-min) {
+		display: none;
+	}
+}
+
+.group-container-mobile {
+	display: none;
+	@media (max-width: $screen-md-min) {
+		display: flex;
+		justify-content: center;
+		margin: 50px 0;
+	}
+}

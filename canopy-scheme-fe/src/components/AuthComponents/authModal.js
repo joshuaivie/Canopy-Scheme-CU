@@ -5,12 +5,12 @@ import RegisterComponent from "./register";
 
 class AuthModal extends React.Component {
     state = {
-        form: "login"
+        form: "Login"
     };
 
     switchForm = () => {
         const { form } = this.state;
-        this.setState({ form: form === "login" ? "register" : "login" });
+        this.setState({ form: form === "Login" ? "Register" : "Login" });
     };
 
     render() {
@@ -18,12 +18,18 @@ class AuthModal extends React.Component {
         const { form } = this.state;
         return (
             <Modal size="lg" show={show} onHide={toggleModal}>
-                <Modal.Header closeButton />
+                <Modal.Header closeButton>
+                    <Modal.Title
+                        style={{ textAlign: "center", fontSize: "2rem" }}
+                    >
+                        {form} to continue
+                    </Modal.Title>
+                </Modal.Header>
                 <Modal.Body>
-                    {form === "login" && (
+                    {form === "Login" && (
                         <LoginComponent switchForm={this.switchForm} />
                     )}
-                    {form === "register" && (
+                    {form === "Register" && (
                         <RegisterComponent switchForm={this.switchForm} />
                     )}
                 </Modal.Body>
