@@ -1,9 +1,15 @@
 .card {
-  border: none !important;
+	border: none !important;
 }
 
 .material-card {
-  box-shadow: 12px 12px 16px 0 rgba(69, 91, 99, 0.1);
-  margin: 10px;
-  height: calc(100% - 20px);
+	box-shadow: 12px 12px 16px 0 rgba(69, 91, 99, 0.1);
+	margin: 10px;
+	height: calc(100% - 20px);
+
+	.card-header {
+		background: none;
+		display: flex;
+		justify-content: space-between;
+	}
 }
