@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /*
 |--------------------------------------------------------------------------
@@ -14,41 +14,52 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route');
+const Route = use("Route");
 
 Route.group(() => {
-  Route.post('login', 'AuthController.login').validator('Login');
-  Route.post('register', 'AuthController.register').validator('Register');
-}).prefix('api');
+    Route.post("login", "AuthController.login").validator("Login");
+    Route.post("register", "AuthController.register").validator("Register");
+}).prefix("api");
 
 Route.group(() => {
-  Route.post('token/refresh', 'AuthController.refreshToken').validator('RequestToken');
-  Route.post('logout', 'AuthController.signout').validator('RequestToken');
+    Route.post("token/refresh", "AuthController.refreshToken").validator(
+        "RequestToken"
+    );
+    Route.post("logout", "AuthController.signout").validator("RequestToken");
 
-  // Payment
-  Route.post('table/pay', 'PaymentController.purchaseTable').validator('PayForTable');
+    // Payment
+    Route.post("table/pay", "PaymentController.purchaseTable").validator(
+        "PayForTable"
+    );
 
-  // User
-  Route.get('me', 'UserController.profile');
-  Route.get('me/transactions', 'UserController.transactions');
-  Route.get('me/reservations', 'UserController.reservations');
+    // User
+    Route.get("me", "UserController.profile");
+    Route.get("me/transactions", "UserController.transactions");
+    Route.get("me/reservations", "UserController.reservations");
 
-  // Group
-  Route.get('group', 'GroupController.getGroupForUser').middleware('inUserGroup');
-  Route.delete('group', 'GroupController.delete').middleware('isUserGroupOwner');
-  Route.post('group', 'GroupController.create')
-    .validator('CreateGroup')
-    .middleware('notInUserGroup');
-  Route.post('group/invite', 'GroupController.invite')
-    .validator('InviteUsersToGroup')
-    .middleware('isUserGroupOwner');
+    // Group
+    Route.get("group", "GroupController.getGroupForUser").middleware(
+        "inUserGroup"
+    );
+    Route.delete("group", "GroupController.delete").middleware(
+        "isUserGroupOwner"
+    );
+    Route.post("group", "GroupController.create")
+        .validator("CreateGroup")
+        .middleware("notInUserGroup");
+    Route.post("group/invite", "GroupController.invite")
+        .validator("InviteUsersToGroup")
+        .middleware("isUserGroupOwner");
 })
-  .prefix('api')
-  .middleware('auth');
+    .prefix("api")
+    .middleware("auth");
 
 Route.group(() => {
-  Route.get('group/join/:group_id/:token/:invitee_email', 'GroupController.join')
-    .middleware('inviteeNotInUserGroup')
-    .middleware('isValidGroupInviteLink')
-    .as('group.join');
+    Route.get(
+        "group/join/:group_id/:token/:invitee_email",
+        "GroupController.join"
+    )
+        .middleware("inviteeNotInUserGroup")
+        .middleware("isValidGroupInviteLink")
+        .as("group.join");
 });

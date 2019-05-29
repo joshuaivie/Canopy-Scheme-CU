@@ -7,6 +7,9 @@ import checklistSvg from "../assets/svg/checklist.svg";
 import handGestureSvg from "../assets/svg/hand-gesture.svg";
 
 class OnBoarding extends React.Component {
+    state = {
+        atStart: true
+    };
     next = () => {
         this.slider.slickNext();
     };
@@ -17,6 +20,12 @@ class OnBoarding extends React.Component {
     checkIndex = (oldIndex, newIndex) => {
         if (oldIndex === 2) {
             this.completeOnBoarding();
+        }
+
+        if (oldIndex === 1 && newIndex === 0) {
+            this.setState({ atStart: true });
+        } else {
+            this.setState({ atStart: false });
         }
     };
 
@@ -31,13 +40,14 @@ class OnBoarding extends React.Component {
     render() {
         const settings = {
             dots: true,
-            draggable: true,
             speed: 200,
             slidesToShow: 1,
             slidesToScroll: 1,
             beforeChange: (oldIndex, newIndex) =>
                 this.checkIndex(oldIndex, newIndex)
         };
+
+        const { atStart } = this.state;
 
         return (
             <div id="on-boarding">
@@ -54,7 +64,7 @@ class OnBoarding extends React.Component {
                                 src={handGestureSvg}
                                 className="float"
                                 alt="onboarding"
-                                width="250"
+                                width="200"
                             />
                             <h3>Convenient</h3>
                             <p>
@@ -67,13 +77,13 @@ class OnBoarding extends React.Component {
                                 src={browserSvg}
                                 className="float"
                                 alt="onboarding"
-                                width="250"
+                                width="200"
                             />
                             <h3>Flexible</h3>
                             <p>
                                 The platform provides you with all your needs
                                 for making a reservation from making an order to
-                                cotacting us from support.{" "}
+                                contacting us from support.{" "}
                             </p>
                         </div>
                         <div className="item" key={3}>
@@ -81,7 +91,7 @@ class OnBoarding extends React.Component {
                                 src={checklistSvg}
                                 className="float"
                                 alt="onboarding"
-                                width="250"
+                                width="200"
                             />
                             <h3>Orderly</h3>
                             <p>
@@ -91,6 +101,14 @@ class OnBoarding extends React.Component {
                             </p>
                         </div>
                     </Slider>
+                    <Button
+                        className="float-left"
+                        variant="link"
+                        disabled={atStart}
+                        onClick={this.previous}
+                    >
+                        Prev
+                    </Button>
                     <Button className="float-right" onClick={this.next}>
                         Next
                     </Button>

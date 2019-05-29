@@ -129,12 +129,12 @@ class Payments extends React.Component {
                                     <option>6</option>
                                 </Form.Control>
                             </Form.Group>
+                            <p className="total-price-text">
+                                <strong>Total Price:</strong> ₦{totalPrice}
+                            </p>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <p className="total-price-text">
-                            <strong>Total Price:</strong> ₦{totalPrice}
-                        </p>
                         <Button
                             variant="primary"
                             type="submit"

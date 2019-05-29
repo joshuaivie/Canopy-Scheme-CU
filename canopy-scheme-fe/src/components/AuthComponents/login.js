@@ -21,16 +21,16 @@ class Login extends React.Component {
         this.login();
     };
 
-	async login() {
-		try {
-			const { email, password } = this.state;
-      const res = await post("login", {email, password });
-	  localStorage.setItem("authToken", res.data.token);
-	  window.location.href = "/app";
-		} catch (err) {
-			this.setState({ isLoading: false });
-		}
-	}
+    async login() {
+        try {
+            const { email, password } = this.state;
+            const res = await post("login", { email, password });
+            localStorage.setItem("authToken", res.data.token);
+            window.location.href = "/app";
+        } catch (err) {
+            this.setState({ isLoading: false });
+        }
+    }
 
     render() {
         const { email, password, isLoading } = this.state;

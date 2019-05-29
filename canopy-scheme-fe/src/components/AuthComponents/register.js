@@ -56,14 +56,14 @@ class Register extends React.Component {
                 telephone_no: telephoneNo
             });
 
-			localStorage.setItem("authToken", res.data.token);
-			window.location.href = "/app";
-		} catch (err) {
-			console.error(err);
-		} finally {
-			this.setState({ isLoading: false });
-		}
-	}
+            localStorage.setItem("authToken", res.data.token);
+            window.location.href = "/app";
+        } catch (err) {
+            console.error(err);
+        } finally {
+            this.setState({ isLoading: false });
+        }
+    }
 
     render() {
         const {
