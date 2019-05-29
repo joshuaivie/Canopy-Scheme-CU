@@ -16,7 +16,8 @@ class Register extends BaseValidator {
 
   get sanitizationRules() {
     return {
-      email: 'normalize_email'
+      email: 'normalize_email',
+      matric_no: 'lowercase'
     };
   }
 

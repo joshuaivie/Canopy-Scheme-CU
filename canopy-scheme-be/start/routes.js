@@ -34,18 +34,21 @@ Route.group(() => {
   Route.get('me/reservations', 'UserController.reservations');
 
   // Group
-  Route.get('group', 'GroupController.get').middleware('inUserGroup');
+  Route.get('group', 'GroupController.getGroupForUser').middleware('inUserGroup');
   Route.delete('group', 'GroupController.delete').middleware('isUserGroupOwner');
   Route.post('group', 'GroupController.create')
     .validator('CreateGroup')
     .middleware('notInUserGroup');
+  Route.post('group/invite', 'GroupController.invite')
+    .validator('InviteUsersToGroup')
+    .middleware('isUserGroupOwner');
 })
   .prefix('api')
   .middleware('auth');
 
 Route.group(() => {
-  Route.get('group/join/:group_id/:token', 'GroupController.join')
-    .middleware('notInUserGroup')
+  Route.get('group/join/:group_id/:token/:invitee_email', 'GroupController.join')
+    .middleware('inviteeNotInUserGroup')
     .middleware('isValidGroupInviteLink')
     .as('group.join');
-}).middleware('auth');
+});
