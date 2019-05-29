@@ -24,7 +24,6 @@ class Login extends React.Component {
 	async login() {
 		try {
 			const { email, password } = this.state;
-      console.log(email, password);
       const res = await post("login", {email, password });
       localStorage.setItem("authToken", res.data.token);
       let {history} = this.props;
@@ -45,11 +44,6 @@ class Login extends React.Component {
 		return (
 			<Container>
 				<Form onSubmit={this.handleSubmit}>
-					<div className="text-center">
-						<h3 className="dark-grey-text">
-							<strong>Login to continue</strong>
-						</h3>
-					</div>
 					<Form.Group controlId="formBasicEmail">
 						<Form.Label>Email address</Form.Label>
 						<Form.Control

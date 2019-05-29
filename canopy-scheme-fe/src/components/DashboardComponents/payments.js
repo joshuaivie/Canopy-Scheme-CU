@@ -47,19 +47,19 @@ class Payments extends React.Component {
             { name: "date" },
             { name: "amount" },
             { name: "tables" },
-            { name: "PayStack Reference" }
+            { name: "transaction ID" }
         ],
         data: [
-            // {
-            // 	date: "12-03-19",
-            // 	amount: "15,000",
-            // 	tables: "1"
-            // },
-            // {
-            // 	date: "26-03-19",
-            // 	amount: "45,000",
-            // 	tables: "3"
-            // }
+            {
+            	date: "12-03-19",
+            	amount: "15,000",
+            	tables: "1"
+            },
+            {
+            	date: "26-03-19",
+            	amount: "45,000",
+            	tables: "3"
+            }
         ],
         show: false,
         numberOfTables: 1,
