@@ -1,17 +1,17 @@
-'use strict';
+"use strict";
 
-const BaseValidator = use('App/Validators/BaseValidator');
+const BaseValidator = use("App/Validators/BaseValidator");
 
 class CreateGroup extends BaseValidator {
   get rules() {
     return {
-      name: 'required|unique:user_groups,name'
+      name: "required|unique:user_groups,name"
     };
   }
 
   get messages() {
     return {
-      'name.unique': 'The specified group name already exists.'
+      "name.unique": "The specified group name already exists."
     };
   }
 }

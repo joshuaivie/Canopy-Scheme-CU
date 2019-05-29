@@ -1,4 +1,4 @@
-const { reduceError } = use('App/Helpers/Sanitizers');
+const { reduceError } = use("App/Helpers/Sanitizers");
 
 class BaseValidator {
   get validateAll() {

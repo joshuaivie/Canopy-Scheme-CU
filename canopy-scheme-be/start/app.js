@@ -53,7 +53,7 @@ const aceProviders = [
 |
 */
 const aliases = {
-  Paystack: "Paystack/Paystack",
+  Paystack: "Paystack/Paystack"
 };
 
 /*
