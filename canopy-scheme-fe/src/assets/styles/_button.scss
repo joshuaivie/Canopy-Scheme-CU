@@ -29,6 +29,10 @@ button,
 .btn-primary {
   background-color: $purple;
   border: 1px solid $purple;
+  &:hover {
+    background-color: darken($purple, 10);
+    border: 1px solid darken($purple, 10);
+  }
 }
 
 .btn-outline-primary {

@@ -6,3 +6,16 @@ h5,
 h6 {
   font-family: 'Nexa Bold', sans-serif;
 }
+
+.primary-text {
+  color: $purple;
+}
+
+@media (max-width: 650px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.2rem;
+  }
+}
