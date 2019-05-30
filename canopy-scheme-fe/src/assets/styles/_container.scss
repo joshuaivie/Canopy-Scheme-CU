@@ -73,6 +73,7 @@
 .group-container {
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 	margin: 50px 0;
 	.btn {
 		width: 100px !important;
@@ -92,6 +93,7 @@
 	display: none;
 	@media (max-width: $screen-md-min) {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		margin: 50px 0;
 	}
