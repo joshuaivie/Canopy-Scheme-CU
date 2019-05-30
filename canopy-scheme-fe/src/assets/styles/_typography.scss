@@ -4,11 +4,15 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: "Nexa Bold", sans-serif;
+  font-family: 'Nexa Bold', sans-serif;
 }
 
 .primary-text {
   color: $purple;
+}
+
+.accent-text {
+  color: $gold;
 }
 
 @media (max-width: 650px) {

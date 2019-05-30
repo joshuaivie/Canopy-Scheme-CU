@@ -1,98 +1,124 @@
+#landing-page {
+  .section {
+    .right {
+      img {
+        width: 400px;
+      }
+    }
+  }
+}
+
 .main-container {
-	width: 100vw;
-	height: 100vh;
-	background: $white;
+  width: 100vw;
+  height: 100vh;
+  background: $white;
 }
 
 .auth-container {
-	color: red;
-	width: 700px;
-	margin: 0.8rem auto;
+  color: red;
+  width: 700px;
+  margin: 0.8rem auto;
 }
 
 .footer-container {
-	padding: 0.8rem;
-	width: 100%;
-	text-align: center;
+  padding: 0.8rem;
+  width: 100%;
+  text-align: center;
 }
 
 .dashboard-container {
-	width: 100vw;
-	height: 100vh;
-	display: grid;
-	grid-template-rows: auto;
-	grid-template-columns: $sidebar-width auto;
-	grid-template-areas: "nav app";
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: $sidebar-width auto;
+  grid-template-areas: 'nav app';
 
-	.side-nav-container {
-		grid-area: nav;
-		background-color: #394263;
-		padding: 15px !important;
-	}
+  .side-nav-container {
+    grid-area: nav;
+    background-color: #394263;
+    padding: 15px !important;
+  }
 
-	.app-container {
-		grid-area: app;
-		background-color: $white;
-		padding: 15px !important;
-	}
+  .app-container {
+    grid-area: app;
+    background-color: $white;
+    padding: 15px !important;
+  }
 
-	@media (max-width: $screen-md-min) {
-		grid-template-rows: auto $header-height;
-		grid-template-columns: auto;
-		grid-template-areas:
-			"app"
-			"nav";
-	}
+  @media (max-width: $screen-md-min) {
+    grid-template-rows: auto $header-height;
+    grid-template-columns: auto;
+    grid-template-areas:
+      'app'
+      'nav';
+  }
 }
 
 .dashboard {
-	background-color: rgba(128, 0, 128, 0.027);
-	padding-top: 5vh;
-	.dashboard-content {
-		display: flex;
-		flex-direction: column;
-		align-content: center;
-		width: 100%;
-		max-width: 1280px;
-		margin: auto;
-		height: 100vh;
-	}
+  background-color: rgba(128, 0, 128, 0.027);
+  padding-top: 5vh;
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+    max-width: 1280px;
+    margin: auto;
+    height: 100vh;
+  }
 }
 
 .modal-footer {
-	justify-content: space-between;
-	p {
-		justify-content: center;
-		padding-top: 15px;
-	}
-	.btn {
-		float: right !important;
-	}
+  justify-content: space-between;
+  p {
+    justify-content: center;
+    padding-top: 15px;
+  }
+  .btn {
+    float: right !important;
+  }
 }
 
 .group-container {
-	display: flex;
-	justify-content: space-around;
-	margin: 50px 0;
-	.btn {
-		width: 100px !important;
-		height: 100px !important;
-		border-radius: 5%;
-		background-color: transparent;
-		border: 1px dashed #800080;
-		color: #800080;
-		font-size: 2rem;
-	}
-	@media (max-width: $screen-md-min) {
-		display: none;
-	}
+  display: flex;
+  justify-content: space-around;
+  margin: 50px 0;
+  .btn {
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 5%;
+    background-color: transparent;
+    border: 1px dashed #800080;
+    color: #800080;
+    font-size: 2rem;
+  }
+  @media (max-width: $screen-md-min) {
+    display: none;
+  }
 }
 
 .group-container-mobile {
-	display: none;
-	@media (max-width: $screen-md-min) {
-		display: flex;
-		justify-content: center;
-		margin: 50px 0;
-	}
+  display: none;
+  @media (max-width: $screen-md-min) {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0;
+  }
+}
+
+@media (max-width: $screen-md-min) {
+  #landing-page {
+  .section {
+    .left {
+      order: 2;
+    }
+    .right {
+      order: 1;
+      img {
+        width: 200px;
+      }
+    }
+  }
+}
 }
