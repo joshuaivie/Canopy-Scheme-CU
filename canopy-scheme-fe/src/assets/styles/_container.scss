@@ -99,13 +99,13 @@
 }
 
 .group-container-mobile {
-  display: none;
-  @media (max-width: $screen-md-min) {
-    display: flex;
-    justify-content: center;
-    margin: 50px 0;
-  }
-}
+	display: none;
+	@media (max-width: $screen-md-min) {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin: 50px 0;
+	}
 
 @media (max-width: $screen-md-min) {
   #landing-page {
