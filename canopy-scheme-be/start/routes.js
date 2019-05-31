@@ -28,7 +28,7 @@ Route.group(() => {
   Route.post("logout", "AuthController.signout").validator("RequestToken");
 
   // Payment
-  Route.post("table/pay", "PaymentController.purchaseTable").validator(
+  Route.post("table/purchase", "PaymentController.purchaseTable").validator(
     "PayForTable"
   );
 

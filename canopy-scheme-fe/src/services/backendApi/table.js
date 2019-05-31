@@ -2,7 +2,11 @@ import * as ENDPOINTS from "./endpoints";
 import { HTTP, generateBearer } from "../../utils/fetch";
 
 export default class TableApi {
-  static pay = async token => {
-    return HTTP.get(ENDPOINTS.TABLE_PAY, generateBearer(token));
+  static purchaseTable = async (totalTables, amount, paystackRef, token) => {
+    return HTTP.post(
+      ENDPOINTS.TABLE_PURCHASE,
+      { total_tables: totalTables, amount, paystack_ref: paystackRef },
+      generateBearer(token)
+    );
   };
 }
