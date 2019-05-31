@@ -189,7 +189,7 @@ class Register extends React.Component {
               required
             />
           </Form.Group>
-          {error.password ? <p className="form-error-msg">{errorMsg.password}</p> : null}
+          {errorMsg.password ? <p className="form-error-msg">{errorMsg.password}</p> : null}
           <Button
             variant="primary"
             type="submit"
