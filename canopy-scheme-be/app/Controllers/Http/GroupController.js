@@ -7,29 +7,6 @@ const randomString = require("crypto-random-string");
 const UserGroupMember = use("App/Models/UserGroupMember");
 
 class GroupController {
-  /**
-   * Get group information about a given user.
-   */
-  async getGroupForUser({ response, auth }) {
-    try {
-      if (auth.user.is_group_owner == true) {
-        const group = await auth.user
-          .group()
-          .with("members")
-          .fetch();
-        return response.ok({ group: group.toJSON() });
-      }
-
-      const {
-        token,
-        ...group
-      } = (await (await auth.user.group().first()).group().fetch()).toJSON();
-      return response.ok({ group });
-    } catch (err) {
-      return response.internalServerError({ msg: err.message });
-    }
-  }
-
   async invite({ request, response, auth }) {
     const { users } = request.only(["users"]);
 
@@ -53,7 +30,7 @@ class GroupController {
    * Allow a user to join a user group via a unique URL.
    */
   async join({ request, response }) {
-    // `invitee` gets added in the InviteeNotInUserGroup middleware
+    // `invitee` param gets added in the InviteeNotInUserGroup middleware
     const { group_id, invitee } = request.params;
 
     try {
@@ -83,24 +60,6 @@ class GroupController {
       trx.commit();
 
       return response.ok({ msg: "Group has been created." });
-    } catch (err) {
-      return response.internalServerError({ msg: err.message });
-    }
-  }
-
-  /**
-   * Delete a user group created by an authenticated user.
-   */
-  async delete({ response, auth }) {
-    const trx = await Database.beginTransaction();
-
-    try {
-      await auth.user.group().delete(trx);
-      auth.user.is_group_owner = false;
-      await auth.user.save(trx);
-      trx.commit();
-
-      return response.ok({ msg: "Group successfully deleted." });
     } catch (err) {
       return response.internalServerError({ msg: err.message });
     }
