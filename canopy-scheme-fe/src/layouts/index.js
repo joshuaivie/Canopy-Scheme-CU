@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../components/LayoutComponent/header";
-import Footer from "../components/LayoutComponent/footer";
+import Header from "../components/LayoutComponent/Header";
+import Footer from "../components/LayoutComponent/Footer";
 
 export default ({ children }) => (
   <div className="main-container">
