@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
-import { UserStorage } from "storage";
+// import { UserStorage } from "storage";
 var commaNumber = require("comma-number");
 
 const RenderEmptyHistory = columns => (

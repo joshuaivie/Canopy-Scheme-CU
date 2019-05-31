@@ -11,9 +11,9 @@ class Groups extends React.Component {
       show: false,
       newMember: "",
       groupMembers: [
-        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
-        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
+        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
         // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
       ],
@@ -86,7 +86,7 @@ class Groups extends React.Component {
             <Card.Title>{groupMember.name}</Card.Title>
             <Card.Text>{groupMember.matricNumber}</Card.Text>
             <Button
-              className="btn-danger remove-button"
+              className="remove-button"
               onClick={() => this.handleRemoveMember(groupMember.matricNumber)}
             >
               <FontAwesomeIcon icon="user-minus" />
@@ -100,7 +100,8 @@ class Groups extends React.Component {
 
   render() {
     const { newMember, groupMembers } = this.state;
-    const groupAdmin = true;
+    const groupAdmin = false;
+    // const groupAdmin = true;
     if (groupMembers.length <= 0) {
       return <this.renderEmptyGroup />;
     }
@@ -156,39 +157,37 @@ class Groups extends React.Component {
         </Col>
       );
     } else {
-      if (groupMembers !== null && groupMembers !== "") {
-        return (
-          <Col xs="12" md="12">
-            <Card className="material-card">
-              <Card.Header>
-                <h5>Group</h5>
-                <Button variant="outline-danger" onClick={this.handleGroup}>
-                  Leave Group
-                  <FontAwesomeIcon icon="door-open" />
-                </Button>
-              </Card.Header>
-              <Card.Body>
-                <div className="group-container">
-                  {groupMembers.map((groupMember, index) => (
-                    <Card key={"member_" + index}>
-                      <Card.Title>{groupMember.name}</Card.Title>
-                      <Card.Text>{groupMember.matricNumber}</Card.Text>
-                    </Card>
-                  ))}
-                </div>
-                <div className="group-container-mobile">
-                  {groupMembers.map((groupMember, index) => (
-                    <Card key={"member_" + index}>
-                      <Card.Title>{groupMember.name}</Card.Title>
-                      <Card.Text>{groupMember.matricNumber}</Card.Text>
-                    </Card>
-                  ))}
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        );
-      }
+      return (
+        <Col xs="12" md="12">
+          <Card className="material-card">
+            <Card.Header>
+              <h5>Group</h5>
+              <Button variant="outline-danger" onClick={this.handleGroup}>
+                Leave Group
+                <FontAwesomeIcon icon="door-open" />
+              </Button>
+            </Card.Header>
+            <Card.Body>
+              <div className="group-container">
+                {groupMembers.map((groupMember, index) => (
+                  <Card key={"member_" + index}>
+                    <Card.Title>{groupMember.name}</Card.Title>
+                    <Card.Text>{groupMember.matricNumber}</Card.Text>
+                  </Card>
+                ))}
+              </div>
+              <div className="group-container-mobile">
+                {groupMembers.map((groupMember, index) => (
+                  <Card key={"member_" + index}>
+                    <Card.Title>{groupMember.name}</Card.Title>
+                    <Card.Text>{groupMember.matricNumber}</Card.Text>
+                  </Card>
+                ))}
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      );
     }
   }
 }
