@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
 import { UserAction } from "actions";
 import { generateRandomString } from "utils/string";
-import { nairaToKobo, koboToNaira } from "utils/money";
+import { nairaToKobo } from "utils/money";
+import { UserStorage } from "storage";
 const commaNumber = require("comma-number");
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
@@ -56,8 +57,9 @@ class Payments extends React.Component {
     data: [],
     show: false,
     numberOfTables: 1,
-    tablePrice: nairaToKobo(7500), // kobo for paystack.
-    totalPrice: nairaToKobo(7500) // kobo for paystack.
+    tablePrice: 7500, // naira
+    totalPrice: 7500, // naira
+    isLoading: false
   };
 
   componentDidMount() {
@@ -74,9 +76,8 @@ class Payments extends React.Component {
 
   handleChange = event => {
     let numberOfTablesSelected = event.target.value;
-    const { tablePrice } = this.state;
     this.setState({ [event.target.name]: numberOfTablesSelected });
-    this.setState({ totalPrice: tablePrice * numberOfTablesSelected });
+    this.setState({ totalPrice: this.state.tablePrice * numberOfTablesSelected });
   };
 
   getPaymentHistory = async () => {
@@ -98,18 +99,20 @@ class Payments extends React.Component {
 
   render() {
     const { totalPrice, tablePrice, show, numberOfTables } = this.state;
+    const { email } = UserStorage.userInfo;
 
-    const userEmail = "awotunde.emmanuel1@gmail.com"; // UserStorage.userInfo.email;
     return (
       <Col xs="12" md="12">
         <Card className="material-card">
           <Card.Header>
             <h5>Payments</h5>
+
             <Button onClick={this.handleOpen}>
               Make Payment &nbsp;&nbsp;
               <FontAwesomeIcon icon="credit-card" />
             </Button>
           </Card.Header>
+
           <Card.Body>
             <DisplayPayments data={this.state.data} columns={this.state.columns} />
           </Card.Body>
@@ -118,7 +121,7 @@ class Payments extends React.Component {
         {/* payment modal */}
         <Modal show={show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Pay for Tables</Modal.Title>
+            <Modal.Title style={{ textAlign: "center" }}>Pay for Tables</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -134,6 +137,7 @@ class Payments extends React.Component {
                 <h4>₦{commaNumber(totalPrice)}</h4>
               </div>
               <br />
+
               <Form.Label>Select Number of Tables</Form.Label>
               <Form.Control
                 as="select"
@@ -147,17 +151,18 @@ class Payments extends React.Component {
                 <option>5</option>
                 <option>6</option>
               </Form.Control>
+
               <p className="calculate-price">
-                ₦{commaNumber(koboToNaira(tablePrice))} <FontAwesomeIcon icon="times" />{" "}
+                ₦{commaNumber(tablePrice)} <FontAwesomeIcon icon="times" />{" "}
                 {numberOfTables} Table(s) <FontAwesomeIcon icon="times" /> 8 Chairs = ₦
-                {commaNumber(koboToNaira(totalPrice))}
+                {commaNumber(totalPrice)}
               </p>
 
               <PaystackButton
                 text="Pay"
                 tag="button"
-                email={userEmail}
-                amount={totalPrice}
+                email={email}
+                amount={nairaToKobo(totalPrice)} // Paystack works with kobo
                 close={this.paystackClose}
                 class="btn btn-primary btn-center"
                 callback={this.paystackCallback}

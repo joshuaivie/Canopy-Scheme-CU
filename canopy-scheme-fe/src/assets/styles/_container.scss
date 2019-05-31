@@ -77,25 +77,33 @@
   }
 }
 
+.not-group-admin {
+  .remove-button {
+    display: none;
+  }
+}
+
 .group-container {
   display: flex;
   justify-content: space-around;
   margin: 50px 0;
   .btn {
     position: relative;
-    .invite-button {
-      width: 100px !important;
-      height: 100px !important;
-      border-radius: 5%;
-      background-color: transparent;
-      border: 1px dashed #800080;
-      color: #800080;
-      font-size: 2rem;
-    }
   }
 
   @media (max-width: $screen-md-min) {
     display: none;
+  }
+
+  .invite-button {
+    width: 180px !important;
+    height: 130px !important;
+    border-radius: 5%;
+    background-color: transparent;
+    margin: 0 15px;
+    border: 1px dashed #800080;
+    color: #800080;
+    font-size: 2rem;
   }
 
   .remove-button {
@@ -103,10 +111,11 @@
     float: right;
     border: 0 !important;
     position: absolute;
-    top: -10px;
+    top: -20px;
     right: -10px;
     z-index: 2;
-    box-shadow: 6px 6px 8px 0 rgba(69, 91, 99, 0.1);
+    box-shadow: 0 0 4px 0 rgba(17, 22, 26, 0.16), 0 2px 4px 0 rgba(17, 22, 26, 0.08),
+      0 4px 8px 0 rgba(17, 22, 26, 0.08);
   }
 }
 
@@ -136,13 +145,19 @@
 @media (max-width: $screen-md-min) {
   #landing-page {
     .section {
-      .left {
-        order: 1;
-      }
-      .right {
-        order: 0;
-        img {
-          width: 200px;
+      .fp-tableCell {
+        .left {
+          text-align: center;
+          width: 100%;
+          order: 2;
+        }
+        .right {
+          width: 100%;
+          order: 1;
+          position: relative;
+          img {
+            width: 150px;
+          }
         }
       }
     }
