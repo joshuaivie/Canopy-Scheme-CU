@@ -10,7 +10,7 @@ class Register extends BaseValidator {
       password: "required|min:8",
       firstname: "required|string|min:3|max:200",
       lastname: "required|string|min:3|max:200",
-      telephone_no: "required|string|min:8|max:14"
+      telephone_no: "required|unique:users,telephone_no|string|min:8|max:14"
     };
   }
 
@@ -23,8 +23,9 @@ class Register extends BaseValidator {
 
   get messages() {
     return {
-      "email.unique": "Email already exists.",
-      "password.min": "Password must not be less than 8 characters long."
+      "password.min": "Password must not be less than 8 characters long.",
+      required: "{{ field }} is required to register.",
+      unique: "This {{ field }} has already been registered."
     };
   }
 }
