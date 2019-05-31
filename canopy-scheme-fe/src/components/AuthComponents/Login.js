@@ -30,7 +30,7 @@ class Login extends React.Component {
       await AuthAction.login({ ...this.state });
       window.location.href = ROUTES.APP;
     } catch (errorMsg) {
-      this.setState({ isLoading: false, errorMsg, error: true });
+      this.setState({ isLoading: false, errorMsg });
     }
   }
 
