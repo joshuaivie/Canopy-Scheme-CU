@@ -1,10 +1,10 @@
 import React from "react";
-import Header from "../components/LayoutComponent/header";
-import Footer from "../components/LayoutComponent/footer";
+import Header from "../components/LayoutComponent/Header";
+import Footer from "../components/LayoutComponent/Footer";
 
-export default ({ children }) => (
+export default ({ children, toggleModal }) => (
   <div className="main-container">
-    <Header />
+    <Header toggleModal={toggleModal} />
     {children}
     <Footer />
   </div>

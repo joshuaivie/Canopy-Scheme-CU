@@ -1,47 +1,19 @@
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
 function getAuthToken() {
   return localStorage.getItem("authToken");
 }
 
-export function get(url, use_header = false) {
-  if (use_header) {
-    getAuthToken();
-    return axios.get(`${API_URL}${url}`, {
-      headers: { Authorization: `Bearer ${getAuthToken()}` }
-    });
+export const HTTP = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  headers: {
+    "Content-Type": "application/json"
   }
-  return axios.get(`${API_URL}${url}`);
-}
+});
 
-export function post(url, data, use_header = false) {
-  if (use_header) {
-    return axios.post(`${API_URL}${url}`, data, {
-      headers: { Authorization: `Bearer ${getAuthToken()}` }
-    });
-  }
-  return axios.post(`${API_URL}${url}`, data);
-}
-
-export function put(url, data, use_header = false) {
-  if (use_header) {
-    return axios.put(`${API_URL}${url}`, data, {
-      headers: { Authorization: `Bearer ${getAuthToken()}` }
-    });
-  }
-  return axios.post(`${API_URL}${url}`, data);
-}
-
-export function del(url, use_header = false) {
-  if (use_header) {
-    return axios.delete(`${API_URL}${url}`, {
-      headers: { Authorization: `Bearer ${getAuthToken()}` }
-    });
-  }
-  return axios.delete(`${API_URL}${url}`);
-}
+export const generateBearer = token => {
+  return { headers: { Authorization: `Bearer ${token}` } };
+};
 
 export function responseErrorObj(e) {
   const res = { status: 0, message: "You are offline" };

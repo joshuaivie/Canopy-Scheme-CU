@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Contact from "./contact";
 import tentSvg from "../../assets/svg/tent.svg";
 import familySvg from "../../assets/svg/family.svg";
 import dinningTableSvg from "../../assets/svg/dinning-table.svg";
 
-export default () => (
+export default ({ toggleModal }) => (
   <div id="landing-page">
     <div className="section">
       <div className="left">
@@ -17,7 +17,7 @@ export default () => (
           spot today!{" "}
         </p>
         <Link to="/app">
-          <Button>Make a reservation</Button>
+          <Button onClick={toggleModal}>Make a reservation</Button>
         </Link>
       </div>
       <div className="right">
@@ -32,7 +32,7 @@ export default () => (
           here.{" "}
         </p>
         <Link to="/app">
-          <Button>Make a reservation</Button>
+          <Button onClick={toggleModal}>Make a reservation</Button>
         </Link>
       </div>
       <div className="right">
@@ -49,7 +49,7 @@ export default () => (
           <li>Maximum group size is 5</li>
         </ol>
         <Link to="/app">
-          <Button>Create a group</Button>
+          <Button onClick={toggleModal}>Create a group</Button>
         </Link>
       </div>
       <div className="right">

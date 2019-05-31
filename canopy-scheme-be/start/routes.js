@@ -28,7 +28,7 @@ Route.group(() => {
   Route.post("logout", "AuthController.signout").validator("RequestToken");
 
   // Payment
-  Route.post("table/pay", "PaymentController.purchaseTable").validator(
+  Route.post("table/purchase", "PaymentController.purchaseTable").validator(
     "PayForTable"
   );
 
@@ -36,14 +36,12 @@ Route.group(() => {
   Route.get("me", "UserController.profile");
   Route.get("me/transactions", "UserController.transactions");
   Route.get("me/reservations", "UserController.reservations");
-
-  // Group
-  Route.get("group", "GroupController.getGroupForUser").middleware(
-    "inUserGroup"
-  );
-  Route.delete("group", "GroupController.delete").middleware(
+  Route.get("me/group", "UserController.getGroup").middleware("inUserGroup");
+  Route.delete("me/group", "UserController.deleteGroup").middleware(
     "isUserGroupOwner"
   );
+
+  // Group
   Route.post("group", "GroupController.create")
     .validator("CreateGroup")
     .middleware("notInUserGroup");

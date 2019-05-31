@@ -1,7 +1,7 @@
 import React from "react";
-import { Modal, Col, Row } from "react-bootstrap";
-import LoginComponent from "./login";
-import RegisterComponent from "./register";
+import { Modal, Col } from "react-bootstrap";
+import LoginComponent from "./Login";
+import RegisterComponent from "./Register";
 
 class AuthModal extends React.Component {
   state = {
@@ -24,10 +24,8 @@ class AuthModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Col xs="12" md="6">
-            {form === "Login" && <LoginComponent switchForm={this.switchForm} />}
-            {form === "Register" && <RegisterComponent switchForm={this.switchForm} />}
-          </Col>
+          {form === "Login" && <LoginComponent switchForm={this.switchForm} />}
+          {form === "Register" && <RegisterComponent switchForm={this.switchForm} />}
         </Modal.Body>
       </Modal>
     );
