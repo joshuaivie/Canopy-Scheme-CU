@@ -11,11 +11,13 @@ class Groups extends React.Component {
       show: false,
       newMember: "",
       groupMembers: [
-        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
-        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
-        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
-        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
-        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
       ],
       isLoading: false
     };

@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
+import { toast } from "react-toastify";	
 import * as ROUTES from "./routes";
 
 import ProtectedRoute from "./layouts/ProtectedRoute";
@@ -16,7 +17,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 import "./assets/styles/main.scss";
 import "./fontawesome";
-// import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
 class App extends React.Component {
   render() {
