@@ -17,6 +17,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import "./assets/styles/main.scss";
 import "./fontawesome";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends React.Component {
   render() {
