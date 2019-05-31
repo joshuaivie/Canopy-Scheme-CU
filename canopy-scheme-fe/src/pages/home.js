@@ -2,8 +2,7 @@ import React from "react";
 import Layout from "../layouts";
 import ReactFullpage from "@fullpage/react-fullpage";
 import * as Routes from "../routes";
-import Sliders from "../components/HomeComponents/sliders";
-import Contact from "../components/HomeComponents/contact";
+import Sliders from "../components/HomeComponents/Sliders";
 import { isLoggedIn } from "../utils/auth";
 
 class Home extends React.Component {
@@ -27,7 +26,6 @@ class Home extends React.Component {
             return (
               <ReactFullpage.Wrapper>
                 <Sliders />
-                <Contact />
               </ReactFullpage.Wrapper>
             );
           }}

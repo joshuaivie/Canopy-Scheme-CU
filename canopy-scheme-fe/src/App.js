@@ -19,21 +19,17 @@ import "./assets/styles/main.scss";
 import "./fontawesome";
 
 class App extends React.Component {
-    render() {
-        return (
-            <BrowserRouter>
-                <Switch>
-                    <DefaultLayout exact path={ROUTES.HOME} component={Home} />
-                    <DefaultLayout
-                        exact
-                        path={ROUTES.ONBOARDING}
-                        component={OnBoarding}
-                    />
-                    <ProtectedRoute path={ROUTES.APP} component={Dashboard} />
-                </Switch>
-            </BrowserRouter>
-        );
-    }
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <DefaultLayout exact path={ROUTES.HOME} component={Home} />
+          <DefaultLayout exact path={ROUTES.ONBOARDING} component={OnBoarding} />
+          <ProtectedRoute path={ROUTES.APP} component={Dashboard} />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;

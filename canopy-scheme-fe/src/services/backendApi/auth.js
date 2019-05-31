@@ -34,10 +34,6 @@ export default class AuthApi {
    * Performs a login request to backend.
    */
   static logout = async ({ email, refresh_token, token }) => {
-    return HTTP.post(
-      ENDPOINTS.LOGOUT,
-      { email, refresh_token },
-      generateBearer(token)
-    );
+    return HTTP.post(ENDPOINTS.LOGOUT, { email, refresh_token }, generateBearer(token));
   };
 }

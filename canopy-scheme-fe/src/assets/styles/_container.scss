@@ -1,3 +1,13 @@
+#landing-page {
+	.section {
+		.right {
+			img {
+				width: 400px;
+			}
+		}
+	}
+}
+
 .main-container {
 	width: 100vw;
 	height: 100vh;
@@ -92,7 +102,24 @@
 	display: none;
 	@media (max-width: $screen-md-min) {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		margin: 50px 0;
+	}
+
+	@media (max-width: $screen-md-min) {
+		#landing-page {
+			.section {
+				.left {
+					order: 1;
+				}
+				.right {
+					order: 0;
+					img {
+						width: 200px;
+					}
+				}
+			}
+		}
 	}
 }

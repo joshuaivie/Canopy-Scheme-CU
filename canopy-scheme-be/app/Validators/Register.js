@@ -23,6 +23,7 @@ class Register extends BaseValidator {
 
   get messages() {
     return {
+      "email.unique": "Email already exists.",
       "password.min": "Password must not be less than 8 characters long."
     };
   }

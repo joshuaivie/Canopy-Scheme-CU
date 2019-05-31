@@ -15,30 +15,30 @@ export const generateBearer = token => {
   return { headers: { Authorization: `Bearer ${token}` } };
 };
 
-export function handleErrors(e) {
+export function responseErrorObj(e) {
+  const res = { status: 0, message: "You are offline" };
   if (e.response) {
     if (e.response.status === 500) {
       console.log("ERROR 500: Server ran into a problem");
-      return "We ran into an error, we'll notify the development team right away";
+      res.status = 500;
+      res.message =
+        "We ran into an error, we'll notify the development team right away";
     } else if (e.response.status === 404) {
-      console.log("ERROR 404: Page not found");
-      return 404;
+      console.log("ERROR 404: Url not found");
+      res.status = 404;
+      res.message = "Url not found";
     } else if (e.response.status === 401) {
       console.log("ERROR 401: Unauthorized");
       localStorage.removeItem("authToken");
       window.location.replace("/");
-    } else {
+    } else if (e.response.status === 400) {
       console.log("ERROR 400: error in response");
-      Object.keys(e.response.data).forEach(function(key) {
-        for (let i = 0; i < e.response.data[key].length; i++) {
-          // msg.push(`${e.response.data[key][i]}`);
-          console.log(`${e.response.data[key][i]}`);
-        }
-      });
-      return e.response.data.error;
+      // console.log(e.response.data);
+      res.status = 400;
+      res.message = e.response.data;
     }
   } else {
-    console.log("ERROR 0: Server is down or there is no internet connection");
-    return "Unable to connect, try again";
+    console.log("ERROR 0: You are offline");
   }
+  return res;
 }
