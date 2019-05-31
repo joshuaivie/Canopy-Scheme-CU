@@ -48,8 +48,11 @@ class UserController {
     const { email, password } = request.only(["email", "password"]);
 
     try {
-      return await auth.withRefreshToken().attempt(email, password);
+      const data = await auth.withRefreshToken().attempt(email, password);
+      const user = await User.findBy("email", email);
+      return response.ok({ msg: "Login successfull.", ...data, user });
     } catch (err) {
+      console.log(err);
       return response.badRequest({ msg: "Invalid email or password." });
     }
   }

@@ -7,56 +7,58 @@ class UserStorage {
    * Gets the user's authentication token from local storage.
    */
   static get token() {
-    return localStorage.getItem(USER_TOKEN);
+    const tk = localStorage.getItem(USER_TOKEN);
+    return tk != null ? atob(tk) : tk;
   }
 
   /**
    * Sets the user's authentication token to local storage.
    */
   static set token(token) {
-    localStorage.setItem(USER_TOKEN, token);
+    localStorage.setItem(USER_TOKEN, btoa(token));
   }
 
-  static unsetToken = () => {
+  static unsetToken() {
     localStorage.removeItem(USER_TOKEN);
-  };
+  }
 
   /**
    * Gets the user's refresh token from local storage.
    */
   static get refreshToken() {
-    return localStorage.getItem(USER_REFRESH_TOKEN);
+    const tk = localStorage.getItem(USER_REFRESH_TOKEN);
+    return tk != null ? atob(tk) : tk;
   }
 
   /**
    * Sets the user's refresh token to local storage.
    */
   static set refreshToken(token) {
-    localStorage.setItem(USER_REFRESH_TOKEN, token);
+    localStorage.setItem(USER_REFRESH_TOKEN, btoa(token));
   }
 
-  static unsetRefreshToken = () => {
+  static unsetRefreshToken() {
     localStorage.removeItem(USER_REFRESH_TOKEN);
-  };
+  }
 
   /**
    * Sets the user info to local storage.
    */
   static get userInfo() {
-    return localStorage.getItem(USER_INFO);
+    const info = localStorage.getItem(USER_INFO);
+    return info != null ? JSON.parse(atob(info)) : info;
   }
 
   /**
    * Sets the user info to local storage.
    */
   static set userInfo(user) {
-    localStorage.setItem(USER_INFO, user);
+    localStorage.setItem(USER_INFO, btoa(JSON.stringify(user)));
   }
 
-  static unsetUserInfo = () => {
+  static unsetUserInfo() {
     localStorage.removeItem(USER_INFO);
-  };
-
+  }
 }
 
 export default UserStorage;

@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from "react";
+import { AuthAction } from "../../actions";
 import { Form, Button, Container } from "react-bootstrap";
-import { HTTP, responseErrorObj } from "../../utils/fetch";
 
 class Login extends React.Component {
   constructor(props) {
@@ -9,8 +10,7 @@ class Login extends React.Component {
       email: "",
       password: "",
       isLoading: false,
-      error: false,
-      errorMsg: ""
+      errorMsg: {}
     };
   }
 
@@ -19,34 +19,23 @@ class Login extends React.Component {
   };
 
   handleSubmit = event => {
-    this.setState({ isLoading: true, error: false });
+    this.setState({ isLoading: true, errorMsg: {} });
     this.login();
     event.preventDefault();
   };
 
   async login() {
     try {
-      const { email, password } = this.state;
-      // const res = await post("login", { email, password });
-      // localStorage.setItem("authToken", res.data.token);
+      await AuthAction.login({ ...this.state });
       window.location.href = "/app";
-    } catch (e) {
-      const { messages } = responseErrorObj(e);
-      let errorMsg = "";
-      if (Array.isArray(messages)) {
-        messages.map(error => {
-          errorMsg += Object.values(error)[0];
-          return null;
-        });
-      } else {
-        errorMsg = messages.msg;
-      }
-      this.setState({ isLoading: false, errorMsg: errorMsg, error: true });
+      console.log("logged in");
+    } catch (errorMsg) {
+      this.setState({ isLoading: false, errorMsg, error: true });
     }
   }
 
   render() {
-    const { email, password, isLoading, error, errorMsg } = this.state;
+    const { email, password, isLoading, errorMsg } = this.state;
     const { switchForm } = this.props;
     return (
       <Container>
@@ -63,6 +52,7 @@ class Login extends React.Component {
             />
           </Form.Group>
 
+          {errorMsg.email ? <p className="form-error-msg">{errorMsg.email}</p> : null}
           <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -74,7 +64,11 @@ class Login extends React.Component {
               required
             />
           </Form.Group>
-          {error ? <p className="form-error-msg">{errorMsg}</p> : null}
+
+          {errorMsg.password ? (
+            <p className="form-error-msg">{errorMsg.password}</p>
+          ) : null}
+
           <Button
             variant="primary"
             type="submit"
@@ -83,6 +77,7 @@ class Login extends React.Component {
           >
             Login
           </Button>
+
           <p style={{ textAlign: "center" }}>
             Don't have an account?{" "}
             <span

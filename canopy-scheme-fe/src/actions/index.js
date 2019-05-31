@@ -1,6 +1,6 @@
-import CourseAction from "./course.actions";
-import LecturerAction from "./lecturer.actions";
-import StudentAction from "./student.actions";
+import GroupAction from "./group.actions";
+import PaymentAction from "./payment.actions";
+import UserAction from "./user.actions";
 import AuthAction from "./auth.actions";
 
-export { CourseAction, AuthAction, LecturerAction, StudentAction };
+export { GroupAction, AuthAction, PaymentAction, UserAction };

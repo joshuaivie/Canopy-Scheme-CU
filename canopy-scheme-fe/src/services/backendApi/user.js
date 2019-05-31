@@ -1,4 +1,4 @@
-import { HTTP, generateBearer } from "../../helpers/http";
+import HTTP, { generateBearer } from "../../utils/HTTP";
 import * as ENDPOINTS from "./endpoints";
 
 export default class UserApi {
