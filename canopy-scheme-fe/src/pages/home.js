@@ -7,16 +7,16 @@ import Contact from "../components/HomeComponents/contact";
 import { isLoggedIn } from "../utils/auth";
 
 class Home extends React.Component {
-	componentDidMount() {
-		const {
-			history: { push }
-		} = this.props;
-		if (!localStorage.getItem("oldUser")) {
-			push(Routes.ONBOARDING);
-		} else if (isLoggedIn()){
-			push(Routes.APP);
-		}
-	}
+  componentDidMount() {
+    const {
+      history: { push }
+    } = this.props;
+    if (!localStorage.getItem("oldUser")) {
+      push(Routes.ONBOARDING);
+    } else if (isLoggedIn()) {
+      push(Routes.APP);
+    }
+  }
 
   render() {
     return (
