@@ -16,9 +16,7 @@ export default ({ toggleModal }) => (
           and divor around as your spend your day with family and loved ones. Book a
           spot today!{" "}
         </p>
-        <Link to="/app">
-          <Button onClick={toggleModal}>Make a reservation</Button>
-        </Link>
+        <Button onClick={() => toggleModal()}>Make a reservation</Button>
       </div>
       <div className="right">
         <img src={tentSvg} alt="" />
@@ -31,9 +29,7 @@ export default ({ toggleModal }) => (
           Different packages to match different needs. Find what suits your requirements
           here.{" "}
         </p>
-        <Link to="/app">
-          <Button onClick={toggleModal}>Make a reservation</Button>
-        </Link>
+        <Button onClick={() => toggleModal()}>Make a reservation</Button>
       </div>
       <div className="right">
         <img src={dinningTableSvg} alt="" />
@@ -48,9 +44,7 @@ export default ({ toggleModal }) => (
           <li>Your group would be allocated around one another</li>
           <li>Maximum group size is 5</li>
         </ol>
-        <Link to="/app">
-          <Button onClick={toggleModal}>Create a group</Button>
-        </Link>
+        <Button onClick={() => toggleModal()}>Create a group</Button>
       </div>
       <div className="right">
         <img src={familySvg} alt="" />

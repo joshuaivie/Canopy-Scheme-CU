@@ -1,7 +1,6 @@
 const USER_TOKEN = "USER_TOKEN";
 const USER_INFO = "USER_INFO";
 const USER_REFRESH_TOKEN = "USER_REFRESH_TOKEN";
-// import LocalForage from "localforage";
 
 class UserStorage {
   /**
@@ -57,6 +56,7 @@ class UserStorage {
   static unsetUserInfo = () => {
     localStorage.removeItem(USER_INFO);
   };
+
 }
 
 export default UserStorage;

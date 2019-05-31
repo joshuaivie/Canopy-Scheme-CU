@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PaystackButton from "react-paystack";
+import { UserStorage } from "storage";
 
 const RenderEmptyHistory = columns => (
   <td
@@ -38,6 +40,7 @@ const DisplayPayments = props => {
     </Table>
   );
 };
+
 class Payments extends React.Component {
   state = {
     columns: [
@@ -62,10 +65,8 @@ class Payments extends React.Component {
     ],
     show: false,
     numberOfTables: 1,
-    tablePrice: 15000,
-    totalPrice: 15000,
-
-    isLoading: false
+    tablePrice: 7500,
+    totalPrice: 0
   };
 
   handleClose = () => {
@@ -82,13 +83,30 @@ class Payments extends React.Component {
     this.setState({ [event.target.name]: numberOfTablesSelected });
     this.setState({ totalPrice: tablePrice * numberOfTablesSelected });
   };
+  generateReference = () => {
+    let text = "";
+    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.=";
+    for (let i = 0; i < 15; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  };
 
-  handleSubmit = event => {
-    this.setState({ isLoading: true });
+  paystackCallback = response => {
+    console.log(response);
+  };
+
+  paystackClose = () => {
+    console.log("Payment closed");
+  };
+
+  validateCheckout = () => {
+    // validate that all the table pricing and everything else is correct
+    return false;
   };
 
   render() {
     const { totalPrice, show } = this.state;
+    const userEmail = "awotunde.emmanuel1@gmail.com"; // UserStorage.userInfo.email;
     return (
       <Col xs="12" md="12">
         <Card className="material-card">
@@ -104,12 +122,18 @@ class Payments extends React.Component {
             <DisplayPayments data={this.state.data} columns={this.state.columns} />
           </Card.Body>
         </Card>
+
+        {/* payment modal */}
         <Modal show={show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Pay for your Tables</Modal.Title>
+            <Modal.Title>Pay for Tables</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form
+              onSubmit={event => {
+                event.preventDefault();
+              }}
+            >
               <Form.Group as={Col} controlId="formGridState">
                 <Form.Label>Select Number of Tables</Form.Label>
                 <Form.Control
@@ -122,19 +146,25 @@ class Payments extends React.Component {
                   <option>3</option>
                   <option>4</option>
                   <option>5</option>
-                  <option>6</option>
                 </Form.Control>
               </Form.Group>
               <p className="total-price-text">
                 <strong>Total Price:</strong> ₦{totalPrice}
               </p>
+              <PaystackButton
+                text="Pay"
+                class="btn btn-primary btn-center"
+                callback={this.paystackCallback}
+                close={this.paystackClose}
+                disabled={this.validateCheckout()}
+                reference={this.generateReference()}
+                email={userEmail}
+                amount={totalPrice}
+                paystackkey={process.env.REACT_APP_PAYSTACK_KEY}
+                tag="button"
+              />
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" type="submit" onClick={this.handleSubmit}>
-              {this.state.isLoading ? "Proceed to Checkout" : "Loading..."}
-            </Button>
-          </Modal.Footer>
         </Modal>
       </Col>
     );
