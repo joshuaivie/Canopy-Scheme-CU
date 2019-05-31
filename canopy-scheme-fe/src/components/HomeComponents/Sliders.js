@@ -6,7 +6,7 @@ import tentSvg from "../../assets/svg/tent.svg";
 import familySvg from "../../assets/svg/family.svg";
 import dinningTableSvg from "../../assets/svg/dinning-table.svg";
 
-export default () => (
+export default ({ toggleModal }) => (
   <div id="landing-page">
     <div className="section">
       <Row>
@@ -17,9 +17,13 @@ export default () => (
             and color around as your spend your day with family and loved ones. Book a
             spot today!{" "}
           </p>
-          <Link to="/app">
-            <Button>Make a reservation</Button>
-          </Link>
+          <Button
+            onClick={() => {
+              toggleModal();
+            }}
+          >
+            Make a reservation
+          </Button>
         </Col>
         <Col xs="12" md="6" className="right">
           <img src={tentSvg} alt="" />
@@ -34,9 +38,13 @@ export default () => (
             Different packages to match different needs. Find what suits your
             requirements here.{" "}
           </p>
-          <Link to="/app">
-            <Button>Make a reservation</Button>
-          </Link>
+          <Button
+            onClick={() => {
+              toggleModal();
+            }}
+          >
+            Make a reservation
+          </Button>
         </Col>
         <Col xs="12" md="6" className="right">
           <img src={dinningTableSvg} alt="" />
@@ -53,9 +61,13 @@ export default () => (
             <li>Your group would be allocated around one another</li>
             <li>Maximum group size is 5</li>
           </ul>
-          <Link to="/app">
-            <Button>Create a group</Button>
-          </Link>
+          <Button
+            onClick={() => {
+              toggleModal();
+            }}
+          >
+            Create a group
+          </Button>
         </Col>
         <Col xs="12" md="6" className="right">
           <img src={familySvg} alt="" />
