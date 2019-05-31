@@ -1,6 +1,6 @@
 button,
 .btn {
-  font-family: 'Nexa Bold';
+  font-family: "Nexa Bold";
   &:hover {
     text-decoration: none !important;
   }
@@ -23,8 +23,29 @@ button,
   color: $purple;
   border: 1px solid $purple;
 }
+.remove-button {
+  width: 50px;
+  float: right;
+  border: 0 !important;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 2;
+  box-shadow: 6px 6px 8px 0 rgba(69, 91, 99, 0.1);
+}
 
 .btn-link {
   cursor: pointer;
   color: $gold;
+}
+
+.remove-button {
+  width: 50px;
+  float: right;
+  border: 0 !important;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 2;
+  box-shadow: 6px 6px 8px 0 rgba(69, 91, 99, 0.1);
 }

@@ -5,6 +5,7 @@ import PaystackButton from "react-paystack";
 import { UserAction } from "actions";
 import { generateRandomString } from "utils/string";
 import { nairaToKobo, koboToNaira } from "utils/money";
+const commaNumber = require("comma-number");
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
 const RenderEmptyHistory = columns => (
@@ -96,7 +97,7 @@ class Payments extends React.Component {
   };
 
   render() {
-    const { totalPrice, show } = this.state;
+    const { totalPrice, tablePrice, show, numberOfTables } = this.state;
 
     const userEmail = "awotunde.emmanuel1@gmail.com"; // UserStorage.userInfo.email;
     return (
@@ -126,23 +127,30 @@ class Payments extends React.Component {
                 event.preventDefault();
               }}
             >
-              <Form.Group as={Col} controlId="formGridState">
-                <Form.Label>Select Number of Tables</Form.Label>
-                <Form.Control
-                  as="select"
-                  name="numberOfTables"
-                  onChange={this.handleChange}
-                >
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </Form.Control>
-              </Form.Group>
+              <br />
 
-              <p className="total-price-text">
-                <strong>Total Price:</strong> ₦{koboToNaira(totalPrice)}
+              <div className="display-price">
+                <p>Total cost</p>
+                <h4>₦{commaNumber(totalPrice)}</h4>
+              </div>
+              <br />
+              <Form.Label>Select Number of Tables</Form.Label>
+              <Form.Control
+                as="select"
+                name="numberOfTables"
+                onChange={this.handleChange}
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+              </Form.Control>
+              <p className="calculate-price">
+                ₦{commaNumber(koboToNaira(tablePrice))} <FontAwesomeIcon icon="times" />{" "}
+                {numberOfTables} Table(s) <FontAwesomeIcon icon="times" /> 8 Chairs = ₦
+                {commaNumber(koboToNaira(totalPrice))}
               </p>
 
               <PaystackButton
