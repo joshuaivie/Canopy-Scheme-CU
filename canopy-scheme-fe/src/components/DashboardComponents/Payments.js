@@ -2,7 +2,10 @@ import React from "react";
 import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
-import { UserStorage } from "storage";
+import { UserAction } from "actions";
+import { generateRandomString } from "utils/string";
+import { nairaToKobo, koboToNaira } from "utils/money";
+const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
 const RenderEmptyHistory = columns => (
   <td
@@ -14,10 +17,10 @@ const RenderEmptyHistory = columns => (
 );
 
 const RenderPaymentHistory = (data, columns) =>
-  data.map(row => (
-    <tr key={"row_" + row.id}>
+  data.map((row, index) => (
+    <tr key={`row_${index}`}>
       {columns.map(column => (
-        <td key={"data" + column.name}>{row[column.name]}</td>
+        <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
       ))}
     </tr>
   ));
@@ -27,7 +30,7 @@ const DisplayPayments = props => {
     <Table borderless hover responsive>
       <thead>
         {props.columns.map(column => (
-          <th style={{ textTransform: "capitalize" }} key={column.name}>
+          <th style={{ textTransform: "capitalize" }} key={`payment_${column.name}`}>
             {column.name}
           </th>
         ))}
@@ -44,30 +47,21 @@ const DisplayPayments = props => {
 class Payments extends React.Component {
   state = {
     columns: [
-      { name: "date" },
-      { name: "amount" },
-      { name: "tables" },
-      { name: "Reference" }
+      { name: "date", dataName: "created_at" },
+      { name: "amount", dataName: "amount" },
+      { name: "tables", dataName: "total_table" },
+      { name: "Reference", dataName: "paystack_ref" }
     ],
-    data: [
-      {
-        date: "12-03-19",
-        amount: "15,000",
-        tables: "1",
-        id: 1
-      },
-      {
-        date: "26-03-19",
-        amount: "45,000",
-        tables: "3",
-        id: 2
-      }
-    ],
+    data: [],
     show: false,
     numberOfTables: 1,
-    tablePrice: 7500,
-    totalPrice: 0
+    tablePrice: nairaToKobo(7500), // kobo for paystack.
+    totalPrice: nairaToKobo(7500) // kobo for paystack.
   };
+
+  componentDidMount() {
+    this.getPaymentHistory();
+  }
 
   handleClose = () => {
     this.setState({ show: false });
@@ -83,12 +77,9 @@ class Payments extends React.Component {
     this.setState({ [event.target.name]: numberOfTablesSelected });
     this.setState({ totalPrice: tablePrice * numberOfTablesSelected });
   };
-  generateReference = () => {
-    let text = "";
-    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.=";
-    for (let i = 0; i < 15; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
+
+  getPaymentHistory = async () => {
+    this.setState({ data: await UserAction.getTransactions() });
   };
 
   paystackCallback = response => {
@@ -106,6 +97,7 @@ class Payments extends React.Component {
 
   render() {
     const { totalPrice, show } = this.state;
+
     const userEmail = "awotunde.emmanuel1@gmail.com"; // UserStorage.userInfo.email;
     return (
       <Col xs="12" md="12">
@@ -113,8 +105,7 @@ class Payments extends React.Component {
           <Card.Header>
             <h5>Payments</h5>
             <Button onClick={this.handleOpen}>
-              Make Payment
-              {"  "}
+              Make Payment &nbsp;&nbsp;
               <FontAwesomeIcon icon="credit-card" />
             </Button>
           </Card.Header>
@@ -128,6 +119,7 @@ class Payments extends React.Component {
           <Modal.Header closeButton>
             <Modal.Title>Pay for Tables</Modal.Title>
           </Modal.Header>
+
           <Modal.Body>
             <Form
               onSubmit={event => {
@@ -148,20 +140,22 @@ class Payments extends React.Component {
                   <option>5</option>
                 </Form.Control>
               </Form.Group>
+
               <p className="total-price-text">
-                <strong>Total Price:</strong> ₦{totalPrice}
+                <strong>Total Price:</strong> ₦{koboToNaira(totalPrice)}
               </p>
+
               <PaystackButton
                 text="Pay"
-                class="btn btn-primary btn-center"
-                callback={this.paystackCallback}
-                close={this.paystackClose}
-                disabled={this.validateCheckout()}
-                reference={this.generateReference()}
+                tag="button"
                 email={userEmail}
                 amount={totalPrice}
-                paystackkey={process.env.REACT_APP_PAYSTACK_KEY}
-                tag="button"
+                close={this.paystackClose}
+                class="btn btn-primary btn-center"
+                callback={this.paystackCallback}
+                disabled={this.validateCheckout()}
+                reference={generateRandomString()}
+                paystackkey={PAYSTACK_PUBLIC_KEY}
               />
             </Form>
           </Modal.Body>

@@ -1,18 +1,21 @@
 import { UserApi } from "../services/backendApi";
 import { errorAlert } from "../utils/notification";
 import { UserStorage } from "../storage";
+import { resolveRequestError } from "../utils/HTTP";
 
 class UserAction {
-  static async getTransactions({ token = UserStorage.token }) {
+  static async getTransactions({ token } = UserStorage) {
     try {
       const response = await UserApi.getTransactions({ token });
       return response.data.transactions;
-    } catch (err) {}
+    } catch (err) {
+      resolveRequestError(err, { showAllAlert: false }); // only displays error when offline.
+    }
 
     return [];
   }
 
-  static async getProfile({ token = UserStorage.token }) {
+  static async getProfile({ token } = UserStorage) {
     try {
       const response = await UserApi.getProfile({ token });
       return response.data.user;
@@ -22,7 +25,7 @@ class UserAction {
     }
   }
 
-  static async getReservations({ token = UserStorage.token }) {
+  static async getReservations({ token } = UserStorage) {
     try {
       const response = await UserApi.getReservations({ token });
       return response.data.reservations;
@@ -31,7 +34,7 @@ class UserAction {
     return [];
   }
 
-  static async getGroup({ token = UserStorage.token }) {
+  static async getGroup({ token } = UserStorage) {
     try {
       const response = await UserApi.getGroup({ token });
       return response.data.reservations;
@@ -41,7 +44,7 @@ class UserAction {
     }
   }
 
-  static async deleteGroup({ token = UserStorage.token }) {
+  static async deleteGroup({ token } = UserStorage) {
     try {
       await UserApi.deleteGroup({ token });
     } catch (err) {

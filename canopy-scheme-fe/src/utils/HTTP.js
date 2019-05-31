@@ -31,11 +31,14 @@ function errorHandler(e) {
   return res;
 }
 
-export function resolveRequestError(err) {
-  const { data } = errorHandler(err);
+export function resolveRequestError(err, { showAllAlert = true }) {
+  const { status, data } = errorHandler(err);
   if (data.errors) throw data.errors;
-  errorAlert(data.msg);
-  throw err;
+  if (showAllAlert === true) {
+    errorAlert(data.msg);
+    throw err;
+  }
+  if (status === 0) errorAlert(data);
 }
 
 export default HTTP;

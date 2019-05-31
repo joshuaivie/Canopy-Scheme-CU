@@ -8,7 +8,7 @@ class UserStorage {
    */
   static get token() {
     const tk = localStorage.getItem(USER_TOKEN);
-    return tk != null ? atob(tk) : tk;
+    return tk == null ? tk : atob(tk);
   }
 
   /**
