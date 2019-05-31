@@ -15,4 +15,4 @@ export const GROUP_INVITE = `${GROUP}/invite`;
 
 // Table
 export const TABLE = `/table`;
-export const TABLE_PAY = `${TABLE}/pay`;
+export const TABLE_PURCHASE = `${TABLE}/purchase`;

@@ -3,16 +3,16 @@ import * as ENDPOINTS from "./endpoints";
 
 export default class GroupApi {
   /**
-   * Performs a login request to backend.
+   * Create a user group.
    */
-  static create = async ({ name, token }) => {
+  static createGroup = async ({ name, token }) => {
     return HTTP.post(ENDPOINTS.GROUP, { name }, generateBearer(token));
   };
 
   /**
-   * Performs a registration request to backend.
+   * Performs a invite user request.
    */
-  static invite = async ({ users, token }) => {
+  static inviteUsers = async ({ users, token }) => {
     return HTTP.post(ENDPOINTS.GROUP_INVITE, { users }, generateBearer(token));
   };
 }
