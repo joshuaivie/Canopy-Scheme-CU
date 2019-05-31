@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Form, Button, Col } from "react-bootstrap";
-import { post, responseErrorObj } from "../../utils/fetch";
+import { HTTP, responseErrorObj } from "../../utils/fetch";
 
 class Register extends React.Component {
   state = {
@@ -49,15 +49,15 @@ class Register extends React.Component {
         lastName,
         telephoneNo
       } = this.state;
-      const res = await post("register", {
-        email,
-        matric_no: matriculationNumber,
-        password,
-        firstname: firstName,
-        lastname: lastName,
-        telephone_no: telephoneNo
-      });
-      localStorage.setItem("authToken", res.data.token);
+      // const res = await post("register", {
+      //   email,
+      //   matric_no: matriculationNumber,
+      //   password,
+      //   firstname: firstName,
+      //   lastname: lastName,
+      //   telephone_no: telephoneNo
+      // });
+      // localStorage.setItem("authToken", res.data.token);
       window.location.href = "/app";
     } catch (e) {
       const {message} = responseErrorObj(e);

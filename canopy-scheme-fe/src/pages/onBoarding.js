@@ -67,34 +67,24 @@ class OnBoarding extends React.Component {
               />
               <h3>Convenient</h3>
               <p>
-                Place your convocation table reservations with your device from
-                anywhere at anytime.{" "}
+                Place your convocation table reservations with your device from anywhere
+                at anytime.{" "}
               </p>
             </div>
             <div className="item" key={2}>
-              <img
-                src={browserSvg}
-                className="float"
-                alt="onboarding"
-                width="150"
-              />
+              <img src={browserSvg} className="float" alt="onboarding" width="150" />
               <h3>Flexible</h3>
               <p>
-                The platform provides you with all your needs for making a
-                reservation from making an order to contacting us from support.{" "}
+                The platform provides you with all your needs for making a reservation
+                from making an order to contacting us from support.{" "}
               </p>
             </div>
             <div className="item" key={3}>
-              <img
-                src={checklistSvg}
-                className="float"
-                alt="onboarding"
-                width="150"
-              />
+              <img src={checklistSvg} className="float" alt="onboarding" width="150" />
               <h3>Orderly</h3>
               <p>
-                Easily find information you need and perform various actions to
-                make your reservation seemless.{" "}
+                Easily find information you need and perform various actions to make
+                your reservation seemless.{" "}
               </p>
             </div>
           </Slider>

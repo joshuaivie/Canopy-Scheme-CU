@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
-import Contact from "./contact";
+import Contact from "./Contact";
 import tentSvg from "../../assets/svg/tent.svg";
 import familySvg from "../../assets/svg/family.svg";
 import dinningTableSvg from "../../assets/svg/dinning-table.svg";
@@ -13,9 +13,9 @@ export default () => (
         <Col xs="12" md="6" className="left">
           <h1 className="primary-text">Canopy Scheme</h1>
           <p>
-            Make every moment of your convocation worth it by having order,
-            organization and color around as your spend your day with family and
-            loved ones. Book a spot today!{" "}
+            Make every moment of your convocation worth it by having order, organization
+            and color around as your spend your day with family and loved ones. Book a
+            spot today!{" "}
           </p>
           <Link to="/app">
             <Button>Make a reservation</Button>

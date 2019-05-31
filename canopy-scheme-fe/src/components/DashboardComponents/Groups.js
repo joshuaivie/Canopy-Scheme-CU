@@ -56,13 +56,13 @@ class Groups extends React.Component {
 						</Button> */}
           </Card.Header>
           <Card.Body>
-            <p style={{ textAlign: "center" }}>
-              Invite your friends to share your joy
-            </p>
+            <p style={{ textAlign: "center" }}>Invite your friends to share your joy</p>
             <div className="group-container">
               {groupMembers.map((groupMember, index) =>
                 groupMember !== "" && groupMember !== null ? (
-                  <div className="group-member-box" key={"member_" + groupMember}>{groupMember}</div>
+                  <div className="group-member-box" key={"member_" + groupMember}>
+                    {groupMember}
+                  </div>
                 ) : (
                   <this.AddGroupMembers key={"member_" + index} />
                 )
@@ -103,11 +103,7 @@ class Groups extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              type="submit"
-              variant="primary"
-              onClick={this.handleAddButton}
-            >
+            <Button type="submit" variant="primary" onClick={this.handleAddButton}>
               {this.state.isLoading ? "Loading..." : "Add to Group"}
             </Button>
           </Modal.Footer>

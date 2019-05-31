@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Button, Container } from "react-bootstrap";
-import { post, responseErrorObj } from "../../utils/fetch";
+import { HTTP, responseErrorObj } from "../../utils/fetch";
 
 class Login extends React.Component {
   constructor(props) {
@@ -27,8 +27,8 @@ class Login extends React.Component {
   async login() {
     try {
       const { email, password } = this.state;
-      const res = await post("login", { email, password });
-      localStorage.setItem("authToken", res.data.token);
+      // const res = await post("login", { email, password });
+      // localStorage.setItem("authToken", res.data.token);
       window.location.href = "/app";
     } catch (e) {
       const {messages} = responseErrorObj(e);

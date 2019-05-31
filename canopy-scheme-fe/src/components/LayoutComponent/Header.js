@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import AuthModal from "../AuthComponents/authModal";
+import AuthModal from "../AuthComponents/AuthModal";
 import { Navbar, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { isLoggedIn } from "../../utils/auth";

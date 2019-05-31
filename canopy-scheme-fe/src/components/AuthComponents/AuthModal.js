@@ -1,7 +1,7 @@
 import React from "react";
-import { Modal } from "react-bootstrap";
-import LoginComponent from "./login";
-import RegisterComponent from "./register";
+import { Modal, Col } from "react-bootstrap";
+import LoginComponent from "./Login";
+import RegisterComponent from "./Register";
 
 class AuthModal extends React.Component {
   state = {

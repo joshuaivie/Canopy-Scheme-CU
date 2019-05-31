@@ -7,17 +7,12 @@ export default () => (
     <Row>
       <Col xs="12" md="6">
         <h1>Contact Us</h1>
-        <img
-          src={contactSvg}
-          className="float"
-          alt="email illustration"
-          width="150"
-        />
+        <img src={contactSvg} className="float" alt="email illustration" width="150" />
         <br />
         <br />
         <p>
-          We're here for you. Let us know any feedback or extra support you
-          would need and we'll be happy to help.{" "}
+          We're here for you. Let us know any feedback or extra support you would need
+          and we'll be happy to help.{" "}
         </p>
       </Col>
       <Col xs="12" md="6" className="text-left">
