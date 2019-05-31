@@ -36,7 +36,7 @@ class Home extends React.Component {
             render={({ state, fullpageApi }) => {
               return (
                 <ReactFullpage.Wrapper>
-                  <Sliders toggleModal={this.toggleModal}/>
+                  <Sliders toggleModal={this.toggleModal} />
                 </ReactFullpage.Wrapper>
               );
             }}
