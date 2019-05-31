@@ -13,9 +13,9 @@ const RenderEmptyHistory = columns => (
 
 const RenderPaymentHistory = (data, columns) =>
   data.map(row => (
-    <tr key={row.id}>
+    <tr key={"row_" + row.id}>
       {columns.map(column => (
-        <td key={column.name}>{row[column.name]}</td>
+        <td key={"data" + column.name}>{row[column.name]}</td>
       ))}
     </tr>
   ));
@@ -50,12 +50,14 @@ class Payments extends React.Component {
       {
         date: "12-03-19",
         amount: "15,000",
-        tables: "1"
+        tables: "1",
+        id: 1
       },
       {
         date: "26-03-19",
         amount: "45,000",
-        tables: "3"
+        tables: "3",
+        id: 2
       }
     ],
     show: false,

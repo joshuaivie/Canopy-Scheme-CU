@@ -28,9 +28,7 @@ class Header extends React.Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto" />
             {isLoggedIn() ? (
-              <Nav.Link href="/app">
-                <Link to="/app">Dashboard</Link>
-              </Nav.Link>
+              <Link to="/app">Dashboard</Link>
             ) : (
               <Nav.Link
                 onClick={() => {

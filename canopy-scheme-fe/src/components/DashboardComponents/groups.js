@@ -60,17 +60,17 @@ class Groups extends React.Component {
               Invite your friends to share your joy
             </p>
             <div className="group-container">
-              {groupMembers.map(groupMember =>
+              {groupMembers.map((groupMember, index) =>
                 groupMember !== "" && groupMember !== null ? (
-                  <div className="group-member-box">{groupMember}</div>
+                  <div className="group-member-box" key={"member_" + groupMember}>{groupMember}</div>
                 ) : (
-                  <this.AddGroupMembers />
+                  <this.AddGroupMembers key={"member_" + index} />
                 )
               )}
             </div>
             <div className="group-container-mobile">
-              {groupMembers.map(groupMember => (
-                <div>{groupMember}</div>
+              {groupMembers.map((groupMember, index) => (
+                <div key={groupMember + index}>{groupMember}</div>
               ))}
               {groupMembers.length < 5 ? (
                 <Button variant="outline-success" onClick={this.handleOpen}>

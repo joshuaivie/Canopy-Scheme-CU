@@ -2,7 +2,6 @@ import React from "react";
 import { Modal, Col, Row } from "react-bootstrap";
 import LoginComponent from "./login";
 import RegisterComponent from "./register";
-import shieldSvg from "../../assets/svg/shield.svg";
 
 class AuthModal extends React.Component {
   state = {
@@ -25,10 +24,6 @@ class AuthModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row>
-            <Col xs="12" md="6" className="text-center">
-              <img src={shieldSvg} width="150" alt="shield illustration" />
-            </Col>
             <Col xs="12" md="6">
               {form === "Login" && (
                 <LoginComponent switchForm={this.switchForm} />
@@ -37,7 +32,6 @@ class AuthModal extends React.Component {
                 <RegisterComponent switchForm={this.switchForm} />
               )}
             </Col>
-          </Row>
         </Modal.Body>
       </Modal>
     );
