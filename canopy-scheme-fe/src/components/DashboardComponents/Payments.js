@@ -69,8 +69,7 @@ class Payments extends React.Component {
       ],
       show: false,
       numberOfTables: 1,
-      tablePrice: 15000,
-      totalPrice: 15000,
+      totalPrice: 0,
 
       isLoading: false
     };
@@ -86,7 +85,7 @@ class Payments extends React.Component {
 
   handleChange = event => {
     let numberOfTablesSelected = event.target.value;
-    const { tablePrice } = this.state;
+    const tablePrice = 7500;
     this.setState({ [event.target.name]: numberOfTablesSelected });
     this.setState({ totalPrice: tablePrice * numberOfTablesSelected });
   };
@@ -113,7 +112,8 @@ class Payments extends React.Component {
 
   render() {
     const userEmail = "awotunde.emmanuel1@gmail.com"; // UserStorage.userInfo.email;
-    const { totalPrice, tablePrice, show, numberOfTables } = this.state;
+    const tablePrice = 7500;
+    const { totalPrice, show, numberOfTables } = this.state;
     return (
       <Col xs="12" md="12">
         <Card className="material-card">
@@ -154,6 +154,7 @@ class Payments extends React.Component {
                 name="numberOfTables"
                 onChange={this.handleChange}
               >
+                <option>0</option>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>

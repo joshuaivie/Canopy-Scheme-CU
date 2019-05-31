@@ -11,9 +11,9 @@ class Groups extends React.Component {
       show: false,
       newMember: "",
       groupMembers: [
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
-        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
-        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
         // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
       ],
@@ -22,7 +22,12 @@ class Groups extends React.Component {
   }
 
   componentDidMount() {
-    //Fethc the API call for isGroOwner, isMember
+    //Fetch the API call for isGroOwner, isMember
+    const { groupMembers } = this.state;
+    for (let groupLength = groupMembers.length; groupLength < 5; groupLength++) {
+      groupMembers.push(null);
+    }
+    this.setState({ groupMembers: groupMembers });
   }
 
   handleOpen = () => {
@@ -51,7 +56,7 @@ class Groups extends React.Component {
   };
 
   AddGroupMembers = () => (
-    <Button size="lg" className="btn-primary invite-button" onClick={this.handleOpen}>
+    <Button size="lg" className="invite-button" onClick={this.handleOpen}>
       <FontAwesomeIcon icon="plus" />
     </Button>
   );
@@ -77,11 +82,11 @@ class Groups extends React.Component {
     </Col>
   );
 
-  renderGroupAdminMembers = ({ groupMembers }) =>
+  renderGroupMembers = ({ groupMembers }) =>
     groupMembers.map((groupMember, index) =>
       groupMember !== "" && groupMember !== null ? (
         <div key={"member_" + index}>
-          <Card className="material-card" key={"member_" + index}>
+          <Card className="member-card" key={"member_" + index}>
             <Card.Img />
             <Card.Title>{groupMember.name}</Card.Title>
             <Card.Text>{groupMember.matricNumber}</Card.Text>
@@ -89,7 +94,7 @@ class Groups extends React.Component {
               className="remove-button"
               onClick={() => this.handleRemoveMember(groupMember.matricNumber)}
             >
-              <FontAwesomeIcon icon="user-minus" />
+              <FontAwesomeIcon icon="minus" />
             </Button>
           </Card>
         </div>
@@ -100,8 +105,8 @@ class Groups extends React.Component {
 
   render() {
     const { newMember, groupMembers } = this.state;
-    const groupAdmin = false;
-    // const groupAdmin = true;
+    // const groupAdmin = false;
+    const groupAdmin = true;
     if (groupMembers.length <= 0) {
       return <this.renderEmptyGroup />;
     }
@@ -123,10 +128,10 @@ class Groups extends React.Component {
                 Invite your friends to share your joy
               </p>
               <div className="group-container">
-                <this.renderGroupAdminMembers groupMembers={groupMembers} />
+                <this.renderGroupMembers groupMembers={groupMembers} />
               </div>
               <div className="group-container-mobile">
-                <this.renderGroupAdminMembers groupMembers={groupMembers} />
+                <this.renderGroupMembers groupMembers={groupMembers} />
               </div>
             </Card.Body>
           </Card>
@@ -167,22 +172,12 @@ class Groups extends React.Component {
                 <FontAwesomeIcon icon="door-open" />
               </Button>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="not-group-admin">
               <div className="group-container">
-                {groupMembers.map((groupMember, index) => (
-                  <Card key={"member_" + index}>
-                    <Card.Title>{groupMember.name}</Card.Title>
-                    <Card.Text>{groupMember.matricNumber}</Card.Text>
-                  </Card>
-                ))}
+                <this.renderGroupMembers groupMembers={groupMembers} />
               </div>
               <div className="group-container-mobile">
-                {groupMembers.map((groupMember, index) => (
-                  <Card key={"member_" + index}>
-                    <Card.Title>{groupMember.name}</Card.Title>
-                    <Card.Text>{groupMember.matricNumber}</Card.Text>
-                  </Card>
-                ))}
+                <this.renderGroupMembers groupMembers={groupMembers} />
               </div>
             </Card.Body>
           </Card>
