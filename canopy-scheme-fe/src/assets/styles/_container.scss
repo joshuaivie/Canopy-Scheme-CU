@@ -23,10 +23,11 @@
           width: 150px;
           margin: 20px;
         }
-        .right {
-          img {
-            width: 400px;
-          }
+      }
+
+      .right {
+        img {
+          width: 400px;
         }
       }
     }
@@ -97,30 +98,6 @@
       display: none;
     }
   }
-}
-
-.remove-button {
-  width: 50px;
-  float: right;
-  border: 0 !important;
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  z-index: 2;
-  box-shadow: 6px 6px 8px 0 rgba(69, 91, 99, 0.1);
-}
-
-.display-price {
-  h4 {
-    color: #800080 !important;
-    font-size: 2rem !important;
-  }
-  padding-bottom: 15px;
-  line-height: 1px;
-}
-
-.calculate-price {
-  margin-top: 50px;
 }
 
 .remove-button {

@@ -14,14 +14,15 @@ class Groups extends React.Component {
         { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
+        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
       ],
       isLoading: false
     };
   }
 
   componentDidMount() {
-    // Fetch user information from local storage
-    // fetch group memebers from API call
+    //Fethc the API call for isGroOwner, isMember
   }
 
   handleOpen = () => {
