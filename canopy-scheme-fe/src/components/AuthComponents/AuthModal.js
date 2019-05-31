@@ -24,10 +24,8 @@ class AuthModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Col xs="12" md="6">
-            {form === "Login" && <LoginComponent switchForm={this.switchForm} />}
-            {form === "Register" && <RegisterComponent switchForm={this.switchForm} />}
-          </Col>
+          {form === "Login" && <LoginComponent switchForm={this.switchForm} />}
+          {form === "Register" && <RegisterComponent switchForm={this.switchForm} />}
         </Modal.Body>
       </Modal>
     );

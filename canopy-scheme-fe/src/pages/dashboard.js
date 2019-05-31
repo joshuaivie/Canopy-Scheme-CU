@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Row } from "react-bootstrap";
 
 import Groups from "../components/DashboardComponents/Groups";
-// import Profile from "../components/DashboardComponents/profile";
 import Payments from "../components/DashboardComponents/Payments";
 
 class Dashboard extends React.Component {
@@ -12,7 +11,6 @@ class Dashboard extends React.Component {
         <Container>
           <h2>Welcome, Jane</h2>
           <Row>
-            {/* <Profile /> */}
             <Payments />
             <Groups />
           </Row>

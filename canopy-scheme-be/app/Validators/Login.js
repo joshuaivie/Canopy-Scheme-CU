@@ -15,6 +15,11 @@ class Login extends BaseValidator {
       email: "normalize_email"
     };
   }
+  get messages() {
+    return {
+      required: "{{ field }} is required to login.",
+    };
+  }
 }
 
 module.exports = Login;
