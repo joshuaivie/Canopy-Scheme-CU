@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Form, Button, Col } from "react-bootstrap";
-import { HTTP, responseErrorObj } from "../../utils/fetch";
+import HTTP, { resolveRequestError } from "../../utils/HTTP";
 
 class Register extends React.Component {
   state = {
@@ -10,8 +10,7 @@ class Register extends React.Component {
     password: "",
     matriculationNumber: "",
     telephoneNo: "",
-    errorMsg: {
-    },
+    errorMsg: {},
     isLoading: false
   };
 
@@ -60,14 +59,8 @@ class Register extends React.Component {
       // localStorage.setItem("authToken", res.data.token);
       window.location.href = "/app";
     } catch (e) {
-      const {message} = responseErrorObj(e);
-      let errorObj = {}
-      message.map(error => {
-        const firstKey = Object.keys(error)[0];
-        errorObj[firstKey] = error[firstKey];
-        return null;
-      });
-      this.setState({ isLoading: false, errorMsg: errorObj, error: true });
+      const { message } = resolveRequestError(e);
+      this.setState({ isLoading: false, errorMsg: message });
     }
   }
 
@@ -79,7 +72,6 @@ class Register extends React.Component {
       firstName,
       lastName,
       telephoneNo,
-      error,
       errorMsg,
       isLoading
     } = this.state;
@@ -189,7 +181,9 @@ class Register extends React.Component {
               required
             />
           </Form.Group>
-          {errorMsg.password ? <p className="form-error-msg">{errorMsg.password}</p> : null}
+          {errorMsg.password ? (
+            <p className="form-error-msg">{errorMsg.password}</p>
+          ) : null}
           <Button
             variant="primary"
             type="submit"

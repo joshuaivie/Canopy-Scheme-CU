@@ -1,16 +1,16 @@
 import { UserStorage } from "../storage";
 import { AuthApi } from "../services/backendApi";
+import { resolveRequestError } from "../utils/HTTP";
 
 class AuthActions {
   static async login({ email, password }) {
     try {
-      const response = await AuthApi.login({ email, password });
-      UserStorage.token = response.data.token;
-      UserStorage.refreshToken = response.data.refresh_token;
-      UserStorage.userInfo = response.data.user;
+      const { data } = await AuthApi.login({ email, password });
+      UserStorage.token = data.token;
+      UserStorage.refreshToken = data.refreshToken;
+      UserStorage.userInfo = data.user;
     } catch (err) {
-      errorsAlert(err.msg);
-      throw err;
+      throw resolveRequestError(err);
     }
   }
 
@@ -32,8 +32,7 @@ class AuthActions {
         telephoneNo
       });
     } catch (err) {
-      errorsAlert(err.msg);
-      throw err;
+      throw resolveRequestError(err);
     }
   }
 
@@ -48,8 +47,7 @@ class AuthActions {
       UserStorage.unsetUserInfo();
       UserStorage.unsetRefreshToken();
     } catch (err) {
-      errorsAlert(err.msg);
-      throw err;
+      throw resolveRequestError(err);
     }
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Col } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import LoginComponent from "./Login";
 import RegisterComponent from "./Register";
 

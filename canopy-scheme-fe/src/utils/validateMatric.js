@@ -1,4 +1,4 @@
-let courseCodes = {
+const courseCodes = {
   aa: ["accounting"],
   ab: ["business administration"],
   ac: ["industrial relations and human resource management"],
@@ -40,17 +40,17 @@ let courseCodes = {
   co: ["biology"]
 };
 
-let courseCodeList = Object.keys(courseCodes);
+const courseCodeList = Object.keys(courseCodes);
 
 export function validateMatricNo(matricNo) {
-  let result = { error: false, msg: "", programs: [] };
+  const result = { error: false, msg: "", programs: [] };
   if (matricNo === null || matricNo === undefined) {
     result.error = true;
     result.msg = "Matriculation number is required";
   }
 
   matricNo = matricNo.toLowerCase();
-  let courseCode = matricNo.substr(2, 2);
+  const courseCode = matricNo.substr(2, 2);
   if (!courseCodeList.includes(courseCode)) {
     result.error = true;
     result.msg = "Course code doesn't exist";

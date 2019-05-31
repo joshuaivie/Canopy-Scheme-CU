@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import Contact from "./Contact";
 import tentSvg from "../../assets/svg/tent.svg";

@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 
-export const errorAlert = (error, options = {}) => {
-  toast.error(error, ...options);
+export const errorAlert = error => {
+  toast.error(error);
 };
 
-export const successAlert = (message, options = {}) => {
-  toast.success(message, options);
+export const successAlert = message => {
+  toast.success(message);
 };
