@@ -23,7 +23,7 @@ class AuthActions {
     telephoneNo
   }) {
     try {
-      await AuthApi.register({
+      const { data } = await AuthApi.register({
         email,
         password,
         firstname,
@@ -31,6 +31,9 @@ class AuthActions {
         matricNo,
         telephoneNo
       });
+      UserStorage.token = data.token;
+      UserStorage.refreshToken = data.refreshToken;
+      UserStorage.userInfo = data.user;
     } catch (err) {
       throw resolveRequestError(err);
     }

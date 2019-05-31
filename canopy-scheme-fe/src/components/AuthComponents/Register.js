@@ -1,14 +1,15 @@
 import React from "react";
 import { Container, Form, Button, Col } from "react-bootstrap";
-import HTTP, { resolveRequestError } from "../../utils/HTTP";
+import { AuthAction } from "../../actions";
+import * as ROUTES from "../../routes";
 
 class Register extends React.Component {
   state = {
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
-    matriculationNumber: "",
+    matricNo: "",
     telephoneNo: "",
     errorMsg: {},
     isLoading: false
@@ -40,37 +41,20 @@ class Register extends React.Component {
 
   async register() {
     try {
-      const {
-        email,
-        password,
-        matriculationNumber,
-        firstName,
-        lastName,
-        telephoneNo
-      } = this.state;
-      // const res = await post("register", {
-      //   email,
-      //   matric_no: matriculationNumber,
-      //   password,
-      //   firstname: firstName,
-      //   lastname: lastName,
-      //   telephone_no: telephoneNo
-      // });
-      // localStorage.setItem("authToken", res.data.token);
-      window.location.href = "/app";
-    } catch (e) {
-      const { message } = resolveRequestError(e);
-      this.setState({ isLoading: false, errorMsg: message });
+      await AuthAction.register({ ...this.state });
+      window.location.href = ROUTES.APP;
+    } catch (errorMsg) {
+      this.setState({ isLoading: false, errorMsg });
     }
   }
 
   render() {
     const {
       email,
-      matriculationNumber,
+      matricNo,
       password,
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       telephoneNo,
       errorMsg,
       isLoading
@@ -86,8 +70,8 @@ class Register extends React.Component {
                 <Form.Control
                   type="text"
                   placeholder="Enter your firstname"
-                  name="firstName"
-                  value={firstName}
+                  name="firstname"
+                  value={firstname}
                   onChange={this.handleChange}
                   required
                 />
@@ -102,8 +86,8 @@ class Register extends React.Component {
                 <Form.Control
                   type="text"
                   placeholder="Enter your lastname"
-                  name="lastName"
-                  value={lastName}
+                  name="lastname"
+                  value={lastname}
                   onChange={this.handleChange}
                   required
                 />
@@ -140,8 +124,8 @@ class Register extends React.Component {
                 <Form.Control
                   type="text"
                   placeholder="e.g 15CF02600"
-                  name="matriculationNumber"
-                  value={matriculationNumber}
+                  name="matricNo"
+                  value={matricNo}
                   onChange={this.handleChange}
                   required
                 />

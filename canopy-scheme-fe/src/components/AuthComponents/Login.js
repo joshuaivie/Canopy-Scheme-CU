@@ -2,6 +2,7 @@
 import React from "react";
 import { AuthAction } from "../../actions";
 import { Form, Button, Container } from "react-bootstrap";
+import * as ROUTES from "../../routes";
 
 class Login extends React.Component {
   constructor(props) {
@@ -27,8 +28,7 @@ class Login extends React.Component {
   async login() {
     try {
       await AuthAction.login({ ...this.state });
-      window.location.href = "/app";
-      console.log("logged in");
+      window.location.href = ROUTES.APP;
     } catch (errorMsg) {
       this.setState({ isLoading: false, errorMsg, error: true });
     }
