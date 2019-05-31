@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, Col, Row } from "react-bootstrap";
 import LoginComponent from "./login";
 import RegisterComponent from "./register";
-import shieldSvg from "assets/svg/shield.svg";
+import shieldSvg from "../../assets/svg/shield.svg";
 
 class AuthModal extends React.Component {
   state = {
