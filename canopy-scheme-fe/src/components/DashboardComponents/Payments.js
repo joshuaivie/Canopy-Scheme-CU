@@ -3,6 +3,7 @@ import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
 import { UserStorage } from "storage";
+var commaNumber = require("comma-number");
 
 const RenderEmptyHistory = columns => (
   <td
@@ -42,32 +43,38 @@ const DisplayPayments = props => {
 };
 
 class Payments extends React.Component {
-  state = {
-    columns: [
-      { name: "date" },
-      { name: "amount" },
-      { name: "tables" },
-      { name: "Reference" }
-    ],
-    data: [
-      {
-        date: "12-03-19",
-        amount: "15,000",
-        tables: "1",
-        id: 1
-      },
-      {
-        date: "26-03-19",
-        amount: "45,000",
-        tables: "3",
-        id: 2
-      }
-    ],
-    show: false,
-    numberOfTables: 1,
-    tablePrice: 7500,
-    totalPrice: 0
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      columns: [
+        { name: "date" },
+        { name: "amount" },
+        { name: "tables" },
+        { name: "Reference" }
+      ],
+      data: [
+        {
+          date: "12-03-19",
+          amount: "15,000",
+          tables: "1",
+          id: 1
+        },
+        {
+          date: "26-03-19",
+          amount: "45,000",
+          tables: "3",
+          id: 2
+        }
+      ],
+      show: false,
+      numberOfTables: 1,
+      tablePrice: 15000,
+      totalPrice: 15000,
+
+      isLoading: false
+    };
+  }
 
   handleClose = () => {
     this.setState({ show: false });
@@ -105,8 +112,8 @@ class Payments extends React.Component {
   };
 
   render() {
-    const { totalPrice, show } = this.state;
     const userEmail = "awotunde.emmanuel1@gmail.com"; // UserStorage.userInfo.email;
+    const { totalPrice, tablePrice, show, numberOfTables } = this.state;
     return (
       <Col xs="12" md="12">
         <Card className="material-card">
@@ -134,22 +141,30 @@ class Payments extends React.Component {
                 event.preventDefault();
               }}
             >
-              <Form.Group as={Col} controlId="formGridState">
-                <Form.Label>Select Number of Tables</Form.Label>
-                <Form.Control
-                  as="select"
-                  name="numberOfTables"
-                  onChange={this.handleChange}
-                >
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </Form.Control>
-              </Form.Group>
-              <p className="total-price-text">
-                <strong>Total Price:</strong> ₦{totalPrice}
+              <br />
+
+              <div className="display-price">
+                <p>Total cost</p>
+                <h4>₦{commaNumber(totalPrice)}</h4>
+              </div>
+              <br />
+              <Form.Label>Select Number of Tables</Form.Label>
+              <Form.Control
+                as="select"
+                name="numberOfTables"
+                onChange={this.handleChange}
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+              </Form.Control>
+              <p className="calculate-price">
+                ₦{commaNumber(tablePrice)} <FontAwesomeIcon icon="times" />{" "}
+                {numberOfTables} Table(s) <FontAwesomeIcon icon="times" /> 8 Chairs = ₦
+                {commaNumber(totalPrice)}
               </p>
               <PaystackButton
                 text="Pay"

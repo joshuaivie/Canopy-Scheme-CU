@@ -1,15 +1,16 @@
 .card {
-	border: none !important;
+  padding: 15px;
+  margin: 5px;
 }
 
 .material-card {
-	box-shadow: 12px 12px 16px 0 rgba(69, 91, 99, 0.1);
-	margin: 10px;
-	height: calc(100% - 20px);
-
-	.card-header {
-		background: none;
-		display: flex;
-		justify-content: space-between;
-	}
+  box-shadow: 12px 12px 16px 0 rgba(69, 91, 99, 0.1);
+  margin: 10px;
+  height: calc(100% - 20px);
+  border: none !important;
+  .card-header {
+    background: none;
+    display: flex;
+    justify-content: space-between;
+  }
 }

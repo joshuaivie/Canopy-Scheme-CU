@@ -13,7 +13,9 @@ import {
   faUsers,
   faCartPlus,
   faPlus,
-  faSignInAlt
+  faSignInAlt,
+  faUserMinus,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -27,8 +29,10 @@ library.add(
   faCreditCard,
   faDoorOpen,
   faUserPlus,
+  faUserMinus,
   faUsers,
   faCartPlus,
   faPlus,
-  faSignInAlt
+  faSignInAlt,
+  faTimes
 );
