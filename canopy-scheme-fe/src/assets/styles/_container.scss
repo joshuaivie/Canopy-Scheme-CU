@@ -16,10 +16,12 @@
   #contact-section {
     .fp-tableCell {
       div {
+        text-align: left !important;
         @include flex(column, center);
         width: 50%;
         img {
           width: 150px;
+          margin: 20px;
         }
       }
     }

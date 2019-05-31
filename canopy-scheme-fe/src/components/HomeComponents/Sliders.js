@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import Contact from "./contact";
+import Contact from "./Contact";
 import tentSvg from "../../assets/svg/tent.svg";
 import familySvg from "../../assets/svg/family.svg";
 import dinningTableSvg from "../../assets/svg/dinning-table.svg";
