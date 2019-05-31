@@ -17,3 +17,15 @@ $screen-xl-min: 1200px;
 $header-height: 100px;
 
 $sidebar-width: 300px;
+
+$number-bg: $purple;
+$number-color: #fff;
+
+$number-size: 30px;
+$number-bg-size: 5px;
+
+@for $i from 1 through 20 {
+  ol[start="#{$i}"] {
+    counter-reset: step-counter $i - 1;
+  }
+}
