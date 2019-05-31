@@ -13,8 +13,8 @@ class Groups extends React.Component {
       groupMembers: [
         { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
+        { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
-        // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" },
         // { name: "Emmanuel Awotunde", matricNumber: "15cg03621" }
       ],
       isLoading: false
