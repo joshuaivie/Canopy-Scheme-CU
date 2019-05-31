@@ -19,7 +19,7 @@ class Login extends React.Component {
   };
 
   handleSubmit = event => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, error: false });
     this.login();
     event.preventDefault();
   };
@@ -31,8 +31,17 @@ class Login extends React.Component {
       localStorage.setItem("authToken", res.data.token);
       window.location.href = "/app";
     } catch (e) {
-      const err = responseErrorObj(e);
-      this.setState({ isLoading: false, errorMsg: err.message.msg, error: true });
+      const {messages} = responseErrorObj(e);
+      let errorMsg = "";
+      if (Array.isArray(messages)) {
+        messages.map(error => {
+          errorMsg += Object.values(error)[0];
+          return null;
+        });
+      } else {
+        errorMsg = messages.msg;
+      }
+      this.setState({ isLoading: false, errorMsg: errorMsg, error: true });
     }
   }
 
@@ -42,7 +51,7 @@ class Login extends React.Component {
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group>
             <Form.Label>Email address</Form.Label>
             <Form.Control
               type="email"
@@ -50,10 +59,11 @@ class Login extends React.Component {
               name="email"
               value={email}
               onChange={this.handleChange}
+              required
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -61,18 +71,19 @@ class Login extends React.Component {
               name="password"
               value={password}
               onChange={this.handleChange}
+              required
             />
           </Form.Group>
-          {error ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
+          {error ? <p className="form-error-msg">{errorMsg}</p> : null}
           <Button
             variant="primary"
             type="submit"
             disabled={isLoading}
-            style={{ margin: "auto", display: "block", width: "100px" }}
+            className="btn-center"
           >
             Login
           </Button>
-          <p>
+          <p style={{ textAlign: "center" }}>
             Don't have an account?{" "}
             <span
               onClick={() => {

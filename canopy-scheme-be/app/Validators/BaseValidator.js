@@ -6,7 +6,7 @@ class BaseValidator {
   }
 
   async fails(errorMessages) {
-    return this.ctx.response.send(reduceError(errorMessages));
+    return this.ctx.response.badRequest(reduceError(errorMessages));
   }
 }
 

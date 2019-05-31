@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Col } from "react-bootstrap";
 import { post, responseErrorObj } from "../../utils/fetch";
 
 class Register extends React.Component {
@@ -10,8 +10,8 @@ class Register extends React.Component {
     password: "",
     matriculationNumber: "",
     telephoneNo: "",
-    error: false,
-    errorMsg: "",
+    errorMsg: {
+    },
     isLoading: false
   };
 
@@ -21,7 +21,7 @@ class Register extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, errorMsg: {} });
     this.register();
   };
 
@@ -60,9 +60,14 @@ class Register extends React.Component {
       localStorage.setItem("authToken", res.data.token);
       window.location.href = "/app";
     } catch (e) {
-      const err = responseErrorObj(e);
-      console.error(err);
-      this.setState({ isLoading: false, errorMsg: err.message.msg, error: true });
+      const {message} = responseErrorObj(e);
+      let errorObj = {}
+      message.map(error => {
+        const firstKey = Object.keys(error)[0];
+        errorObj[firstKey] = error[firstKey];
+        return null;
+      });
+      this.setState({ isLoading: false, errorMsg: errorObj, error: true });
     }
   }
 
@@ -73,7 +78,7 @@ class Register extends React.Component {
       password,
       firstName,
       lastName,
-      phoneNo,
+      telephoneNo,
       error,
       errorMsg,
       isLoading
@@ -82,71 +87,98 @@ class Register extends React.Component {
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Label>Firstname</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your firstname"
-              name="firstName"
-              value={firstName}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Lastname</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your lastname"
-              name="lastName"
-              value={lastName}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              name="email"
-              value={email}
-              onChange={this.handleChange}
-              required
-            />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
+          <Form.Row>
+            <Col>
+              <Form.Group>
+                <Form.Label>Firstname</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your firstname"
+                  name="firstName"
+                  value={firstName}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              {errorMsg.firstname ? (
+                <p className="form-error-msg">{errorMsg.firstname}</p>
+              ) : null}
+            </Col>
+            <Col>
+              <Form.Group>
+                <Form.Label>Lastname</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your lastname"
+                  name="lastName"
+                  value={lastName}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              {errorMsg.lastname ? (
+                <p className="form-error-msg">{errorMsg.lastname}</p>
+              ) : null}
+            </Col>
+          </Form.Row>
 
-          <Form.Group>
-            <Form.Label>Matriculation number</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="e.g 15CF02600"
-              name="matriculationNumber"
-              value={matriculationNumber}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
+          <Form.Row>
+            <Col>
+              <Form.Group>
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  name="email"
+                  value={email}
+                  onChange={this.handleChange}
+                  required
+                />
+                <Form.Text className="text-muted">
+                  We'll never share your email with anyone else.
+                </Form.Text>
+                {errorMsg.email ? (
+                  <p className="form-error-msg">{errorMsg.email}</p>
+                ) : null}
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group>
+                <Form.Label>Matric number</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="e.g 15CF02600"
+                  name="matriculationNumber"
+                  value={matriculationNumber}
+                  onChange={this.handleChange}
+                  required
+                />
+                {errorMsg.matric_no ? (
+                  <p className="form-error-msg">{errorMsg.matric_no}</p>
+                ) : null}
+              </Form.Group>
+            </Col>
+          </Form.Row>
 
           <Form.Group>
             <Form.Label>Phone number</Form.Label>
             <Form.Control
               type="text"
               placeholder="e.g +2348000000000"
-              name="phoneNo"
-              value={phoneNo}
+              name="telephoneNo"
+              value={telephoneNo}
               onChange={this.handleChange}
               required
             />
             <Form.Text className="text-muted">
               We'll need it for contacting you
             </Form.Text>
+            {errorMsg.telephone_no ? (
+              <p className="form-error-msg">{errorMsg.telephone_no}</p>
+            ) : null}
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -157,16 +189,16 @@ class Register extends React.Component {
               required
             />
           </Form.Group>
-          {error ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
+          {error.password ? <p className="form-error-msg">{errorMsg.password}</p> : null}
           <Button
             variant="primary"
             type="submit"
             disabled={isLoading}
-            style={{ margin: "auto", display: "block", width: "100px" }}
+            className="btn-center"
           >
             Register
           </Button>
-          <p>
+          <p style={{ textAlign: "center" }}>
             Have an account?{" "}
             <span
               onClick={() => {
