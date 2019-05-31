@@ -101,10 +101,7 @@ class Payments extends React.Component {
             </Button>
           </Card.Header>
           <Card.Body>
-            <DisplayPayments
-              data={this.state.data}
-              columns={this.state.columns}
-            />
+            <DisplayPayments data={this.state.data} columns={this.state.columns} />
           </Card.Body>
         </Card>
         <Modal show={show} onHide={this.handleClose}>

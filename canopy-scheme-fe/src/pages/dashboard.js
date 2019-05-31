@@ -7,19 +7,19 @@ import Payments from "../components/DashboardComponents/payments";
 // import Data from "../assets/data";
 
 class Dashboard extends React.Component {
-    render() {
-        return (
-            <div className="dashboard">
-                <Container>
-                    <h2>Welcome, Jane</h2>
-                    <Row>
-                        {/* <Profile /> */}
-                        <Payments />
-                        <Groups />
-                    </Row>
-                </Container>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="dashboard">
+        <Container>
+          <h2>Welcome, Jane</h2>
+          <Row>
+            {/* <Profile /> */}
+            <Payments />
+            <Groups />
+          </Row>
+        </Container>
+      </div>
+    );
+  }
 }
 export default Dashboard;
