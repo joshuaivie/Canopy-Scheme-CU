@@ -4,7 +4,7 @@ const Encryption = use("Encryption");
 const User = use("App/Models/User");
 const Token = use("App/Models/Token");
 const Kue = use("Kue");
-const Job = use("App/Jobs/SignupEmail");
+const SignupEmailJob = use("App/Jobs/SignupEmail");
 
 class UserController {
   /**
@@ -23,7 +23,7 @@ class UserController {
     try {
       const user = await User.create({ ...details });
       Kue.dispatch(
-        Job.key,
+        SignupEmailJob.key,
         { user },
         {
           priority: "normal",
@@ -33,9 +33,10 @@ class UserController {
         }
       );
 
-      return await auth
+      const data = await auth
         .withRefreshToken()
         .attempt(details.email, details.password);
+      return response.ok({ msg: "Registration successfull.", ...data, user });
     } catch (err) {
       return response.badRequest({ msg: err.message });
     }
