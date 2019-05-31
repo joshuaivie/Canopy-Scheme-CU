@@ -145,13 +145,19 @@
 @media (max-width: $screen-md-min) {
   #landing-page {
     .section {
-      .left {
-        order: 1;
-      }
-      .right {
-        order: 0;
-        img {
-          width: 200px;
+      .fp-tableCell {
+        .left {
+          text-align: center;
+          width: 100%;
+          order: 2;
+        }
+        .right {
+          width: 100%;
+          order: 1;
+          position: relative;
+          img {
+            width: 150px;
+          }
         }
       }
     }

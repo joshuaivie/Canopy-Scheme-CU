@@ -133,7 +133,7 @@ class Payments extends React.Component {
         {/* payment modal */}
         <Modal show={show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Pay for Tables</Modal.Title>
+            <Modal.Title style={{ textAlign: "center" }}>Pay for Tables</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form
