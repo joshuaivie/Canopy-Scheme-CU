@@ -1,9 +1,19 @@
-.nav-link {
-  font-family: 'Nexa Bold';
-  color: rgb(20, 20, 20);
-}
-
-.navbar-toggler {
-  border: none;
-  color: $purple !important;
+.navbar {
+  padding-top: 20px;
+  @include flex(row, space-between);
+  .navbar-brand {
+    padding: 0 !important;
+    line-height: 1rem !important;
+    h3 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .nav-link {
+    line-height: 1rem;
+    padding: 0;
+    margin: 0;
+    font-family: "Nexa Bold";
+    color: rgb(20, 20, 20);
+  }
 }

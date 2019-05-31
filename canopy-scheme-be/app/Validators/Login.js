@@ -17,7 +17,7 @@ class Login extends BaseValidator {
   }
   get messages() {
     return {
-      required: "{{ field }} is required to login.",
+      required: "{{ field }} is required to login."
     };
   }
 }
