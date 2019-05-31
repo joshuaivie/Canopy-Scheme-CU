@@ -4,7 +4,8 @@
 	"private": true,
 	"dependencies": {
 		"npm": "^6.9.0",
-		"react-addons-css-transition-group": "^15.6.2"
+		"react-addons-css-transition-group": "^15.6.2",
+		"react-toastify": "^5.2.1"
 	},
 	"scripts": {
 		"start": "concurrently \"cd canopy-scheme-be && npm start\" \"cd canopy-scheme-fe && npm start\"",
