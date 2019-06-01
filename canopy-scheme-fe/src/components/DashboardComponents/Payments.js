@@ -1,3 +1,7 @@
+//Redesign the payments modal - its too plain
+//validate the user inputs
+//Make Sure the renderPayments classes work
+
 import React from "react";
 import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +12,9 @@ import { nairaToKobo } from "utils/money";
 import { UserStorage } from "storage";
 const commaNumber = require("comma-number");
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
+
+import { UserStorage } from "storage";
+var commaNumber = require("comma-number");
 
 const RenderEmptyHistory = columns => (
   <td
@@ -130,14 +137,21 @@ class Payments extends React.Component {
                 event.preventDefault();
               }}
             >
+              <div className="table-button">
+                <button className="decrease-button" onClick={this.decreaseTableNumber}>
+                  <FontAwesomeIcon icon="minus" />
+                </button>
+                <p>{numberOfTables}</p>
+                <button className="increase-button" onClick={this.increaseTableNumber}>
+                  <FontAwesomeIcon icon="plus" />
+                </button>
+              </div>
               <br />
-
               <div className="display-price">
                 <p>Total cost</p>
                 <h4>₦{commaNumber(totalPrice)}</h4>
               </div>
               <br />
-
               <Form.Label>Select Number of Tables</Form.Label>
               <Form.Control
                 as="select"
@@ -151,13 +165,13 @@ class Payments extends React.Component {
                 <option>5</option>
                 <option>6</option>
               </Form.Control>
-
+              ======= >>>>>>> Stashed changes ======= >>>>>>> Stashed changes =======
+              >>>>>>> Stashed changes
               <p className="calculate-price">
                 ₦{commaNumber(tablePrice)} <FontAwesomeIcon icon="times" />{" "}
                 {numberOfTables} Table(s) <FontAwesomeIcon icon="times" /> 8 Chairs = ₦
                 {commaNumber(totalPrice)}
               </p>
-
               <PaystackButton
                 text="Pay"
                 tag="button"
