@@ -1,4 +1,4 @@
-import HTTP, { generateBearer } from "../../utils/HTTP";
+import HTTP, { generateBearer } from "../../utils/http";
 import * as ENDPOINTS from "./endpoints";
 
 export default class AuthApi {

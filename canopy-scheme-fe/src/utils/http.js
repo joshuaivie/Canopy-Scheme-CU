@@ -31,7 +31,7 @@ function errorHandler(e) {
   return res;
 }
 
-export function resolveRequestError(err, { showAllAlert = true }) {
+export function resolveRequestError(err, showAllAlert = true) {
   const { status, data } = errorHandler(err);
   if (data.errors) throw data.errors;
   if (showAllAlert === true) {

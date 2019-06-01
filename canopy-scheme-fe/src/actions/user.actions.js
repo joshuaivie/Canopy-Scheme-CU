@@ -1,7 +1,7 @@
 import { UserApi } from "../services/backendApi";
 import { errorAlert } from "../utils/notification";
 import { UserStorage } from "../storage";
-import { resolveRequestError } from "../utils/HTTP";
+import { resolveRequestError } from "../utils/http";
 
 class UserAction {
   static async getTransactions({ token } = UserStorage) {
@@ -9,7 +9,7 @@ class UserAction {
       const response = await UserApi.getTransactions({ token });
       return response.data.transactions;
     } catch (err) {
-      resolveRequestError(err, { showAllAlert: false }); // only displays error when offline.
+      resolveRequestError(err, false); // only displays error when offline.
     }
 
     return [];

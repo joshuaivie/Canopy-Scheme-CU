@@ -1,6 +1,6 @@
 import { UserStorage } from "../storage";
 import { AuthApi } from "../services/backendApi";
-import { resolveRequestError } from "../utils/HTTP";
+import { resolveRequestError } from "../utils/http";
 
 class AuthActions {
   static async login({ email, password }) {

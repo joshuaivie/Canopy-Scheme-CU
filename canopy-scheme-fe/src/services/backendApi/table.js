@@ -1,5 +1,5 @@
 import * as ENDPOINTS from "./endpoints";
-import HTTP, { generateBearer } from "../../utils/HTTP";
+import HTTP, { generateBearer } from "../../utils/http";
 import { UserStorage } from "../../storage";
 
 export default class TableApi {
