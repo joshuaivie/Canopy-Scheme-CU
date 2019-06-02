@@ -89,13 +89,13 @@ class UserController {
   async changePassword({ request, response, auth }) {
     const user = auth.user;
     const data = request.only([
-      "current_password",
+      "old_password",
       "new_password",
       "new_password_confirm"
     ]);
 
     const verifyPassword = await Hash.verify(
-      data["current_password"],
+      data["old_password"],
       user.password
     );
 
