@@ -23,16 +23,6 @@ button,
   color: $purple;
   border: 1px solid $purple;
 }
-.remove-button {
-  width: 50px;
-  float: right;
-  border: 0 !important;
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  z-index: 2;
-  box-shadow: 6px 6px 8px 0 rgba(69, 91, 99, 0.1);
-}
 
 .btn-link {
   cursor: pointer;
@@ -48,4 +38,24 @@ button,
   right: -10px;
   z-index: 2;
   box-shadow: 6px 6px 8px 0 rgba(69, 91, 99, 0.1);
+}
+
+.payment-button {
+  width: 100% !important;
+  margin-top: 15px !important;
+}
+
+.make-payment-button {
+  @media (max-width: $screen-md-min) {
+    display: none;
+  }
+
+  &.mobile {
+    display: none;
+    margin: auto;
+
+    @media (max-width: $screen-md-min) {
+      display: block;
+    }
+  }
 }

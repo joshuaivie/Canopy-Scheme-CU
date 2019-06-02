@@ -31,11 +31,10 @@ const DisplayPayments = props => {
   return (
     <Table borderless hover responsive>
       <thead>
-        {props.columns.map(column => (
-          <th style={{ textTransform: "capitalize" }} key={`payment_${column.name}`}>
-            {column.name}
-          </th>
-        ))}
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Tables</th>
+        <th>Reference</th>
       </thead>
       <tbody>
         {props.data.length > 0
@@ -47,20 +46,25 @@ const DisplayPayments = props => {
 };
 
 class Payments extends React.Component {
-  state = {
-    columns: [
-      { name: "date", dataName: "created_at" },
-      { name: "amount", dataName: "amount" },
-      { name: "tables", dataName: "total_table" },
-      { name: "Reference", dataName: "paystack_ref" }
-    ],
-    data: [],
-    show: false,
-    numberOfTables: 1,
-    tablePrice: 7500, // naira
-    totalPrice: 7500, // naira
-    isLoading: false
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      columns: [
+        { name: "date", dataName: "created_at" },
+        { name: "amount", dataName: "amount" },
+        { name: "tables", dataName: "total_table" },
+        { name: "Reference", dataName: "paystack_ref" }
+      ],
+      data: [],
+      show: false,
+      numberOfTables: 1,
+      tablePrice: 10000, // naira
+      totalPrice: 10000, // naira
+      isLoading: false,
+      errorMsg: ""
+    };
+  }
 
   componentDidMount() {
     this.getPaymentHistory();
@@ -74,10 +78,33 @@ class Payments extends React.Component {
     this.setState({ show: true });
   };
 
-  handleChange = event => {
-    let numberOfTablesSelected = event.target.value;
-    this.setState({ [event.target.name]: numberOfTablesSelected });
-    this.setState({ totalPrice: this.state.tablePrice * numberOfTablesSelected });
+  // handleChange = event => {
+  //   this.setState({ [event.target.name]: event.target.value });
+  //   this.setState({ totalPrice: this.state.tablePrice * event.target.value });
+  // };
+
+  increaseTableNumber = event => {
+    event.preventDefault();
+    const { numberOfTables, tablePrice } = this.state;
+    if (numberOfTables < 5) {
+      this.setState({
+        numberOfTables: numberOfTables + 1
+      });
+    } else {
+      this.setState({ errorMsg: "Oops, you cannot have more than 5 tables" });
+    }
+    this.setState({ totalPrice: numberOfTables * tablePrice });
+  };
+
+  decreaseTableNumber = event => {
+    event.preventDefault();
+    const { numberOfTables, tablePrice } = this.state;
+    numberOfTables > 1
+      ? this.setState({
+          numberOfTables: numberOfTables - 1
+        })
+      : this.setState({ errorMsg: "Thats just stupid" });
+    this.setState({ totalPrice: numberOfTables * tablePrice });
   };
 
   getPaymentHistory = async () => {
@@ -92,13 +119,8 @@ class Payments extends React.Component {
     console.log("Payment closed");
   };
 
-  validateCheckout = () => {
-    // validate that all the table pricing and everything else is correct
-    return false;
-  };
-
   render() {
-    const { totalPrice, tablePrice, show, numberOfTables } = this.state;
+    const { data, totalPrice, tablePrice, show, numberOfTables } = this.state;
     const { email } = UserStorage.userInfo;
 
     return (
@@ -106,22 +128,38 @@ class Payments extends React.Component {
         <Card className="material-card">
           <Card.Header>
             <h5>Payments</h5>
-
-            <Button onClick={this.handleOpen}>
-              Make Payment &nbsp;&nbsp;
-              <FontAwesomeIcon icon="credit-card" />
-            </Button>
+            {data.length <= 5 ? (
+              <Button onClick={this.handleOpen} className="make-payment-button">
+                Book Table(s) &nbsp;&nbsp;
+                <FontAwesomeIcon icon="credit-card" />
+              </Button>
+            ) : (
+              <></>
+            )}
           </Card.Header>
 
           <Card.Body>
             <DisplayPayments data={this.state.data} columns={this.state.columns} />
+            <div>
+              {data.length <= 5 ? (
+                <Button
+                  onClick={this.handleOpen}
+                  className="make-payment-button mobile"
+                >
+                  Book Table(s) &nbsp;&nbsp;
+                  <FontAwesomeIcon icon="credit-card" />
+                </Button>
+              ) : (
+                <></>
+              )}
+            </div>
           </Card.Body>
         </Card>
 
         {/* payment modal */}
         <Modal show={show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title style={{ textAlign: "center" }}>Pay for Tables</Modal.Title>
+            <Modal.Title>Pay for Tables</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -130,43 +168,57 @@ class Payments extends React.Component {
                 event.preventDefault();
               }}
             >
-              <br />
-
-              <div className="display-price">
-                <p>Total cost</p>
-                <h4>₦{commaNumber(totalPrice)}</h4>
+              {/* Where table selection happen 😃 */}
+              <div className="payment-container">
+                <div className="display-table">
+                  <p>Tables</p>
+                  <div className="table-button">
+                    <button onClick={this.decreaseTableNumber}>
+                      <FontAwesomeIcon icon="minus" />
+                    </button>
+                    <p style={{ color: "white" }}>{numberOfTables}</p>
+                    <button onClick={this.increaseTableNumber}>
+                      <FontAwesomeIcon icon="plus" />
+                    </button>
+                  </div>
+                </div>
+                <div className="display-price">
+                  <p>Total cost</p>
+                  <h4>₦{commaNumber(numberOfTables * tablePrice)}</h4>
+                </div>
               </div>
-              <br />
 
-              <Form.Label>Select Number of Tables</Form.Label>
-              <Form.Control
-                as="select"
-                name="numberOfTables"
-                onChange={this.handleChange}
-              >
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-              </Form.Control>
+              {/* Where payments breakdown is displayed */}
+              <div className="payment-breakdown-container">
+                <p>
+                  Number of Tables <span>{numberOfTables}</span>
+                </p>
+                <p>
+                  Number of Chairs <span>{numberOfTables * 8}</span>
+                </p>
+                <p>
+                  Decoration{" "}
+                  <span>
+                    <FontAwesomeIcon icon="check-circle" />
+                  </span>
+                </p>
+                <p>
+                  Security{" "}
+                  <span>
+                    <FontAwesomeIcon icon="check-circle" />
+                  </span>
+                </p>
+              </div>
 
-              <p className="calculate-price">
-                ₦{commaNumber(tablePrice)} <FontAwesomeIcon icon="times" />{" "}
-                {numberOfTables} Table(s) <FontAwesomeIcon icon="times" /> 8 Chairs = ₦
-                {commaNumber(totalPrice)}
-              </p>
-
+              {/* Paystack Button */}
               <PaystackButton
                 text="Pay"
                 tag="button"
                 email={email}
                 amount={nairaToKobo(totalPrice)} // Paystack works with kobo
                 close={this.paystackClose}
-                class="btn btn-primary btn-center"
+                class="btn btn-primary btn-center payment-button"
                 callback={this.paystackCallback}
-                disabled={this.validateCheckout()}
                 reference={generateRandomString()}
                 paystackkey={PAYSTACK_PUBLIC_KEY}
               />
@@ -177,5 +229,4 @@ class Payments extends React.Component {
     );
   }
 }
-
 export default Payments;
