@@ -1,6 +1,7 @@
 "use strict";
 
 const Database = use("Database");
+const Hash = use("Hash");
 
 class UserController {
   /**
@@ -79,6 +80,37 @@ class UserController {
     } catch (err) {
       return response.internalServerError({ msg: err.message });
     }
+  }
+
+  /**
+   * Change password.
+   */
+
+  async changePassword({ request, response, auth }) {
+    const user = auth.user;
+    const data = request.only([
+      "current_password",
+      "new_password",
+      "new_password_confirm"
+    ]);
+
+    const verifyPassword = await Hash.verify(
+      data["current_password"],
+      user.password
+    );
+
+    if (!verifyPassword) {
+      return response.badRequest({
+        msg: "Current is password wrong."
+      });
+    }
+
+    if (data["new_password"] != data["new_password_confirm"]) {
+      return response.badRequest({ msg: "New passwords don't match" });
+    }
+    user.password = data["new_password"];
+    await user.save();
+    return response.ok({ msg: "Password updated." });
   }
 }
 
