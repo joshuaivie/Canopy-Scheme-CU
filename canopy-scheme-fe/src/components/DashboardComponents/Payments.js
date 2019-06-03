@@ -6,6 +6,7 @@ import { UserAction } from "actions";
 import { generateRandomString } from "utils/string";
 import { nairaToKobo } from "utils/money";
 import { UserStorage } from "storage";
+import { errorAlert } from "utils/notification";
 const commaNumber = require("comma-number");
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
@@ -18,8 +19,8 @@ const RenderEmptyHistory = columns => (
   </td>
 );
 
-const RenderPaymentHistory = (data, columns) =>
-  data.map((row, index) => (
+const RenderPaymentHistory = (transactions, columns) =>
+  transactions.map((row, index) => (
     <tr key={`row_${index}`}>
       {columns.map(column => (
         <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
@@ -37,8 +38,8 @@ const DisplayPayments = props => {
         <th>Reference</th>
       </thead>
       <tbody>
-        {props.data.length > 0
-          ? RenderPaymentHistory(props.data, props.columns)
+        {props.transactions.length > 0
+          ? RenderPaymentHistory(props.transactions, props.columns)
           : RenderEmptyHistory(props.columns)}
       </tbody>
     </Table>
@@ -56,13 +57,12 @@ class Payments extends React.Component {
         { name: "tables", dataName: "total_table" },
         { name: "Reference", dataName: "paystack_ref" }
       ],
-      data: [],
+      transactions: [],
       show: false,
       numberOfTables: 1,
       tablePrice: 10000, // naira
       totalPrice: 10000, // naira
-      isLoading: false,
-      errorMsg: ""
+      isLoading: false
     };
   }
 
@@ -78,37 +78,38 @@ class Payments extends React.Component {
     this.setState({ show: true });
   };
 
-  // handleChange = event => {
-  //   this.setState({ [event.target.name]: event.target.value });
-  //   this.setState({ totalPrice: this.state.tablePrice * event.target.value });
-  // };
-
   increaseTableNumber = event => {
     event.preventDefault();
-    const { numberOfTables, tablePrice } = this.state;
-    if (numberOfTables < 5) {
-      this.setState({
-        numberOfTables: numberOfTables + 1
-      });
-    } else {
-      this.setState({ errorMsg: "Oops, you cannot have more than 5 tables" });
+    let { numberOfTables, tablePrice, transactions } = this.state;
+    let limit = 5;
+    transactions.forEach(transaction => {
+      limit -= transaction.total_table;
+    });
+    if (numberOfTables >= limit) {
+      errorAlert(`You can only pay for ${limit} more table(s)`);
+      return;
     }
-    this.setState({ totalPrice: numberOfTables * tablePrice });
+    numberOfTables += 1;
+    this.setState({
+      numberOfTables,
+      totalPrice: numberOfTables * tablePrice
+    });
   };
 
   decreaseTableNumber = event => {
     event.preventDefault();
-    const { numberOfTables, tablePrice } = this.state;
-    numberOfTables > 1
-      ? this.setState({
-          numberOfTables: numberOfTables - 1
-        })
-      : this.setState({ errorMsg: "Thats just stupid" });
-    this.setState({ totalPrice: numberOfTables * tablePrice });
+    let { numberOfTables, tablePrice } = this.state;
+    if (numberOfTables <= 1) return;
+
+    numberOfTables -= 1;
+    this.setState({
+      numberOfTables,
+      totalPrice: numberOfTables * tablePrice
+    });
   };
 
   getPaymentHistory = async () => {
-    this.setState({ data: await UserAction.getTransactions() });
+    this.setState({ transactions: await UserAction.getTransactions() });
   };
 
   paystackCallback = response => {
@@ -120,28 +121,35 @@ class Payments extends React.Component {
   };
 
   render() {
-    const { data, totalPrice, tablePrice, show, numberOfTables } = this.state;
+    const { transactions, totalPrice, tablePrice, show, numberOfTables } = this.state;
     const { email } = UserStorage.userInfo;
+    let limit = 5;
+    transactions.forEach(transaction => {
+      limit -= transaction.total_table;
+    });
 
     return (
       <Col xs="12" md="12">
         <Card className="material-card">
           <Card.Header>
             <h5>Payments</h5>
-            {data.length <= 5 ? (
+            {limit > 0 ? (
               <Button onClick={this.handleOpen} className="make-payment-button">
                 Book Table(s) &nbsp;&nbsp;
                 <FontAwesomeIcon icon="credit-card" />
               </Button>
             ) : (
-              <></>
+              <p className="form-error-msg">You have payed for 5 tables</p>
             )}
           </Card.Header>
 
           <Card.Body>
-            <DisplayPayments data={this.state.data} columns={this.state.columns} />
+            <DisplayPayments
+              transactions={this.state.transactions}
+              columns={this.state.columns}
+            />
             <div>
-              {data.length <= 5 ? (
+              {transactions.length <= 5 ? (
                 <Button
                   onClick={this.handleOpen}
                   className="make-payment-button mobile"
