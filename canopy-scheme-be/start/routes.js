@@ -22,6 +22,9 @@ Route.group(() => {
 }).prefix("api");
 
 Route.group(() => {
+  Route.post("password/change", "UserController.changePassword").validator(
+    "ChangePassword"
+  );
   Route.post("token/refresh", "AuthController.refreshToken").validator(
     "RequestToken"
   );
