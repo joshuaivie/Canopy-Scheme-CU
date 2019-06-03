@@ -101,7 +101,7 @@ class UserController {
 
     if (!verifyPassword) {
       return response.badRequest({
-        msg: "Current is password wrong."
+        msg: "Old password is wrong."
       });
     }
 
