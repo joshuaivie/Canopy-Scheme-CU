@@ -15,7 +15,7 @@ class SignupEmail {
   async handle(data) {
     const { user } = data;
 
-    await Mail.send("emails.signup", user, message => {
+    await Mail.send("emails.signup", data, message => {
       message
         .to(user.email, `${user.firstname} ${user.lastname}`)
         .from(

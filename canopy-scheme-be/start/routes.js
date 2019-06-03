@@ -19,6 +19,9 @@ const Route = use("Route");
 Route.group(() => {
   Route.post("login", "AuthController.login").validator("Login");
   Route.post("register", "AuthController.register").validator("Register");
+  Route.get("email-verification/:token", "UserController.verifyEmail").as(
+    "email.verify"
+  );
 }).prefix("api");
 
 Route.group(() => {
