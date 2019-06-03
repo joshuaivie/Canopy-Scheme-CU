@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Form, Button, Col } from "react-bootstrap";
 import { AuthAction } from "../../actions";
 import * as ROUTES from "../../routes";
+import { validateMatricNo } from "utils/validateMatric";
 
 class Register extends React.Component {
   state = {
@@ -22,7 +23,12 @@ class Register extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     this.setState({ isLoading: true, errorMsg: {} });
-    this.register();
+    const matricVal = validateMatricNo(this.state.matricNo);
+    if (matricVal.error) {
+      this.setState({ errorMsg: { matric_no: matricVal.msg }, isLoading: false });
+    } else {
+      this.register();
+    }
   };
 
   // handlePasswordToggle = () => {
