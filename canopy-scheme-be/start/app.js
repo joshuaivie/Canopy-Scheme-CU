@@ -74,6 +74,10 @@ const commands = [];
 | Here you write jobs
 |
 */
-const jobs = ["App/Jobs/SignupEmail", "App/Jobs/GroupInvite"];
+const jobs = [
+  "App/Jobs/SignupEmail",
+  "App/Jobs/GroupInvite",
+  "App/Jobs/PasswordResetEmail"
+];
 
 module.exports = { providers, aceProviders, aliases, commands, jobs };
