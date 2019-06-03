@@ -7,8 +7,9 @@ const PasswordReset = use("App/Models/PasswordReset");
 const randomString = require("crypto-random-string");
 const Kue = use("Kue");
 const SignupEmailJob = use("App/Jobs/SignupEmail");
-const PasswordResetJob = use("App/Jobs/PasswordResetEmail");
+const EmailVerification = use("App/Models/EmailVerification");
 const Link = use("App/Helpers/LinkGen");
+const PasswordResetJob = use("App/Jobs/PasswordResetEmail");
 
 class AuthController {
   /**
@@ -26,9 +27,17 @@ class AuthController {
 
     try {
       const user = await User.create({ ...details });
+      const { token } = await EmailVerification.create({
+        email: user.email,
+        token: randomString({ length: 32, type: "url-safe" })
+      });
+      const email_verify_link = Link.createEmailVerifyLink({
+        route: "email.verify",
+        token
+      });
       Kue.dispatch(
         SignupEmailJob.key,
-        { user },
+        { user, email_verify_link },
         {
           priority: "normal",
           attempts: 3,
