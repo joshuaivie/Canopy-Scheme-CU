@@ -22,9 +22,13 @@ const RenderEmptyHistory = columns => (
 const RenderPaymentHistory = (transactions, columns) =>
   transactions.map((row, index) => (
     <tr key={`row_${index}`}>
-      {columns.map(column => (
-        <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
-      ))}
+      {columns.map(column =>
+        column.dataName === "amount" ? (
+          <td key={`data_${column.dataName}`}>₦{commaNumber(row[column.dataName])}</td>
+        ) : (
+          <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
+        )
+      )}
     </tr>
   ));
 
@@ -118,6 +122,7 @@ class Payments extends React.Component {
 
   paystackClose = () => {
     console.log("Payment closed");
+    this.setState({ show: false });
   };
 
   render() {
