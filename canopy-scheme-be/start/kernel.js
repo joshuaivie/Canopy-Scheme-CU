@@ -2,9 +2,9 @@
 
 /** @type {import('@adonisjs/framework/src/Server')} */
 const Server = use("Server");
-const Kue = require("kue");
-const Env = use("Env");
-const Config = use("Config");
+// const Kue = require("kue");
+// const Env = use("Env");
+// const Config = use("Config");
 
 /*
 |--------------------------------------------------------------------------
@@ -55,11 +55,11 @@ Server.registerGlobal(globalMiddleware)
   .registerNamed(namedMiddleware)
   .use(serverMiddleware);
 
-Kue.createQueue({
-  redis: `redis://${Config.get("redis.redis.host")}:${Config.get(
-    "redis.redis.port"
-  )}`,
-  prefix: Env.get("APP_NAME", "canopy-scheme")
-});
+// Kue.createQueue({
+//   redis: `redis://${Config.get("redis.redis.host")}:${Config.get(
+//     "redis.redis.port"
+//   )}`,
+//   prefix: Env.get("APP_NAME", "canopy-scheme")
+// });
 
-Kue.app.listen(Env.get("KUE_UI_PORT", 3050));
+// Kue.app.listen(Env.get("KUE_UI_PORT", 3050));
