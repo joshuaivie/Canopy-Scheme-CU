@@ -1,6 +1,6 @@
-import { GroupApi } from "../services/backendApi";
-import { errorAlert } from "../utils/notification";
-import { UserStorage } from "../storage";
+import { GroupApi } from "services/backendApi";
+import { errorAlert } from "utils/notification";
+import { UserStorage } from "storage";
 
 class GroupActions {
   static async createGroup({ name, token = UserStorage.token }) {

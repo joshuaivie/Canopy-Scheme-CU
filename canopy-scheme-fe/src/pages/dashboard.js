@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Col, Row, Image } from "react-bootstrap";
 
-import Groups from "../components/DashboardComponents/Groups";
-import Payments from "../components/DashboardComponents/Payments";
-import studentSvg from "../assets/svg/student.svg";
+import Groups from "components/DashboardComponents/Groups";
+import Payments from "components/DashboardComponents/Payments";
+import studentSvg from "assets/svg/student.svg";
 import { UserStorage } from "storage";
 
 class Dashboard extends React.Component {

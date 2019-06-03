@@ -1,7 +1,7 @@
-import { UserApi } from "../services/backendApi";
-import { errorAlert } from "../utils/notification";
-import { UserStorage } from "../storage";
-import { resolveRequestError } from "../utils/http";
+import { UserApi } from "services/backendApi";
+import { errorAlert } from "utils/notification";
+import { UserStorage } from "storage";
+import { resolveRequestError } from "utils/http";
 
 class UserAction {
   static async getTransactions({ token } = UserStorage) {

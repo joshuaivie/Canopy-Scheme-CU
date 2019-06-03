@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Form, Button, Col } from "react-bootstrap";
-import { AuthAction } from "../../actions";
-import * as ROUTES from "../../routes";
+import { AuthAction } from "actions";
+import * as ROUTES from "routes.js";
 import { validateMatricNo } from "utils/validateMatric";
 
 class Register extends React.Component {

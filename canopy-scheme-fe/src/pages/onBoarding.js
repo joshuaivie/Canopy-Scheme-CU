@@ -1,10 +1,10 @@
 import React from "react";
 import Slider from "react-slick";
 import { Button } from "react-bootstrap";
-import * as Routes from "../routes";
-import browserSvg from "../assets/svg/browser.svg";
-import checklistSvg from "../assets/svg/checklist.svg";
-import handGestureSvg from "../assets/svg/hand-gesture.svg";
+import * as Routes from "routes";
+import browserSvg from "assets/svg/browser.svg";
+import checklistSvg from "assets/svg/checklist.svg";
+import handGestureSvg from "assets/svg/hand-gesture.svg";
 
 class OnBoarding extends React.Component {
   state = {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Col, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { validateMatricNo } from "../../utils/validateMatric";
+import { validateMatricNo } from "utils/validateMatric";
 
 class Groups extends React.Component {
   constructor(props) {

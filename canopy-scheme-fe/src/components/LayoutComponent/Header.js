@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { isLoggedIn } from "../../utils/auth";
+import { isLoggedIn } from "utils/auth";
 
 export default ({ toggleModal }) => (
   <Navbar bg="white" fixed="top" variant="light" expand="lg">

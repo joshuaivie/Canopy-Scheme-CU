@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from "react";
-import { AuthAction } from "../../actions";
+import { AuthAction } from "actions";
 import { Form, Button, Container } from "react-bootstrap";
-import * as ROUTES from "../../routes";
+import * as ROUTES from "routes.js";
 
 class Login extends React.Component {
   constructor(props) {
