@@ -19,6 +19,13 @@ const Route = use("Route");
 Route.group(() => {
   Route.post("login", "AuthController.login").validator("Login");
   Route.post("register", "AuthController.register").validator("Register");
+  Route.post(
+    "password/reset",
+    "AuthController.sendResetPasswordLink"
+  ).validator("PasswordReset");
+  Route.post("password/reset/:email_token", "AuthController.resetPassword")
+    .validator("PasswordResetCheckToken")
+    .as("password.reset-token");
 }).prefix("api");
 
 Route.group(() => {
