@@ -2,7 +2,7 @@
 import React from "react";
 import { AuthAction } from "actions";
 import { Form, Button, Container } from "react-bootstrap";
-import * as ROUTES from "routes.js";
+import * as ROUTES from "routes";
 
 class Login extends React.Component {
   constructor(props) {

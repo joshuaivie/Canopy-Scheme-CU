@@ -27,6 +27,11 @@
     }
   }
 }
+.slick-dots {
+  position: relative !important;
+  bottom: 0 !important;
+  margin-bottom: 10px;
+}
 
 .ol {
   list-style-type: none;
