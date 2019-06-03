@@ -3,6 +3,7 @@
 const Database = use("Database");
 const User = use("App/Models/User");
 const EmailVerification = use("App/Models/EmailVerification");
+const Hash = use("Hash");
 
 class UserController {
   /**
@@ -114,6 +115,36 @@ class UserController {
         msg: "Error occurred."
       });
     }
+  }
+
+  /**
+   * Change password.
+   */
+  async changePassword({ request, response, auth }) {
+    const user = auth.user;
+    const data = request.only([
+      "old_password",
+      "new_password",
+      "new_password_confirm"
+    ]);
+
+    const verifyPassword = await Hash.verify(
+      data["old_password"],
+      user.password
+    );
+
+    if (!verifyPassword) {
+      return response.badRequest({
+        msg: "Old password is wrong."
+      });
+    }
+
+    if (data["new_password"] != data["new_password_confirm"]) {
+      return response.badRequest({ msg: "New passwords don't match" });
+    }
+    user.password = data["new_password"];
+    await user.save();
+    return response.ok({ msg: "Password updated." });
   }
 }
 

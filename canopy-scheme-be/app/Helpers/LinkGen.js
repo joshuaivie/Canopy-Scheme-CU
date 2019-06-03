@@ -20,6 +20,14 @@ class LinkGen {
     const host = Env.get("APP_URL", "127.0.0.1");
     return `${host}${endpoint}`;
   }
+
+  static createPasswordLink({ route, email_token }) {
+    const endpoint = Route.url(route, {
+      email_token
+    });
+    const host = Env.get("APP_URL", "127.0.0.1");
+    return `${host}${endpoint}`;
+  }
 }
 
 module.exports = LinkGen;
