@@ -1,6 +1,8 @@
 "use strict";
 
 const Database = use("Database");
+const User = use("App/Models/User");
+const EmailVerification = use("App/Models/EmailVerification");
 const Hash = use("Hash");
 
 class UserController {
@@ -83,9 +85,41 @@ class UserController {
   }
 
   /**
+   * Verifies user's email address.
+   */
+  async verifyEmail({ params, response }) {
+    const { token } = params;
+
+    try {
+      const emailVerification = await EmailVerification.query()
+        .where("token", token)
+        .first();
+
+      if (!emailVerification) {
+        return response.badRequest({
+          msg: "Email verification link invalid."
+        });
+      }
+
+      const user = await User.findBy("email", emailVerification.email);
+      user.email_verified = true;
+      await user.save();
+
+      await EmailVerification.query()
+        .where("email", user.email)
+        .delete();
+
+      return response.ok({ msg: "Your email has been successfully verified." });
+    } catch (err) {
+      return response.badRequest({
+        msg: "Error occurred."
+      });
+    }
+  }
+
+  /**
    * Change password.
    */
-
   async changePassword({ request, response, auth }) {
     const user = auth.user;
     const data = request.only([
