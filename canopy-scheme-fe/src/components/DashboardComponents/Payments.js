@@ -144,7 +144,7 @@ class Payments extends React.Component {
                 <FontAwesomeIcon icon="credit-card" />
               </Button>
             ) : (
-              <p className="form-error-msg">You have payed for 5 tables</p>
+              <p className="form-error-msg desktop-only">You have payed for 5 tables</p>
             )}
           </Card.Header>
 
@@ -154,7 +154,7 @@ class Payments extends React.Component {
               columns={this.state.columns}
             />
             <div>
-              {transactions.length <= 5 ? (
+              {limit > 0 ? (
                 <Button
                   onClick={this.handleOpen}
                   className="make-payment-button mobile"
@@ -163,7 +163,9 @@ class Payments extends React.Component {
                   <FontAwesomeIcon icon="credit-card" />
                 </Button>
               ) : (
-                <></>
+                <p className="form-error-msg mobile-only">
+                  You have payed for 5 tables
+                </p>
               )}
             </div>
           </Card.Body>
