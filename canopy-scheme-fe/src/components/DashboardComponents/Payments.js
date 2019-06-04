@@ -11,20 +11,26 @@ const commaNumber = require("comma-number");
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
 const RenderEmptyHistory = columns => (
-  <td
-    colSpan={columns.length}
-    style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
-  >
-    You have not made any Purchase yet!
-  </td>
+  <tr>
+    <td
+      colSpan={columns.length}
+      style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
+    >
+      You have not made any Purchase yet!
+    </td>
+  </tr>
 );
 
 const RenderPaymentHistory = (transactions, columns) =>
   transactions.map((row, index) => (
     <tr key={`row_${index}`}>
-      {columns.map(column => (
-        <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
-      ))}
+      {columns.map(column =>
+        column.dataName === "amount" ? (
+          <td key={`data_${column.dataName}`}>₦{commaNumber(row[column.dataName])}</td>
+        ) : (
+          <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
+        )
+      )}
     </tr>
   ));
 
@@ -32,10 +38,12 @@ const DisplayPayments = props => {
   return (
     <Table borderless hover responsive>
       <thead>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Tables</th>
-        <th>Reference</th>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Tables</th>
+          <th>Reference</th>
+        </tr>
       </thead>
       <tbody>
         {props.transactions.length > 0
@@ -118,6 +126,7 @@ class Payments extends React.Component {
 
   paystackClose = () => {
     console.log("Payment closed");
+    this.setState({ show: false });
   };
 
   render() {
@@ -139,7 +148,7 @@ class Payments extends React.Component {
                 <FontAwesomeIcon icon="credit-card" />
               </Button>
             ) : (
-              <p className="form-error-msg">You have payed for 5 tables</p>
+              <p className="form-error-msg desktop-only">You have payed for 5 tables</p>
             )}
           </Card.Header>
 
@@ -149,7 +158,7 @@ class Payments extends React.Component {
               columns={this.state.columns}
             />
             <div>
-              {transactions.length <= 5 ? (
+              {limit > 0 ? (
                 <Button
                   onClick={this.handleOpen}
                   className="make-payment-button mobile"
@@ -158,7 +167,9 @@ class Payments extends React.Component {
                   <FontAwesomeIcon icon="credit-card" />
                 </Button>
               ) : (
-                <></>
+                <p className="form-error-msg mobile-only">
+                  You have payed for 5 tables
+                </p>
               )}
             </div>
           </Card.Body>

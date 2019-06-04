@@ -70,18 +70,31 @@ body {
 }
 
 .form-error-msg {
-	color: red;
-	font-weight: 100;
+  color: red;
+  font-weight: 100;
 }
 
 .btn-center {
-	margin: auto;
-	display: block;
-	width: 100px;
+  margin: auto;
+  display: block;
+  width: 100px;
 }
 
 @keyframes float {
   50% {
     transform: translate(0, 20px);
+  }
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: $screen-md-min) {
+  .desktop-only {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
   }
 }
