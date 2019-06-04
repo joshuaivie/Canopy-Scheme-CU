@@ -39,11 +39,11 @@ class AuthActions {
     }
   }
 
-  static async logout({
+  static async logout(
     email = UserStorage.userInfo.email,
     refreshToken = UserStorage.refreshToken,
     token = UserStorage.token
-  }) {
+  ) {
     try {
       await AuthApi.logout({ email, refreshToken, token });
       UserStorage.unsetToken();
