@@ -11,10 +11,10 @@ export default () => {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h3>
+        <h4 className="welcome-text">
           Welcome,
           {`${userInfo.firstname} ${userInfo.lastname}`}
-        </h3>
+        </h4>
         <Avatar />
       </div>
       <Container>

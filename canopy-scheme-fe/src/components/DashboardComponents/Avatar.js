@@ -14,13 +14,16 @@ class CustomToggle extends React.PureComponent {
 
   render() {
     return (
-      <Image
-        src={avatarImg}
-        className="dropdown-toggle"
-        roundedCircle
-        style={{ width: "50px" }}
-        onClick={this.handleClick}
-      />
+      <React.Fragment>
+        <Image
+          src={avatarImg}
+          className="dropdown-toggle"
+          roundedCircle
+          style={{ width: "50px" }}
+          onClick={this.handleClick}
+        />
+        <FontAwesomeIcon icon="caret-down" />
+      </React.Fragment>
     );
   }
 }
