@@ -2,7 +2,7 @@ import { TableApi } from "services/backendApi";
 import { errorAlert } from "utils/notification";
 import { UserStorage } from "storage";
 
-class TableActions {
+class TableAction {
   static async pay({ amount, totalTables, paystackRef, token = UserStorage.token }) {
     try {
       const response = await TableApi.purchaseTable({
@@ -19,4 +19,4 @@ class TableActions {
   }
 }
 
-export default TableActions;
+export default TableAction;

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
-import { UserAction } from "actions";
+import { UserAction, TableAction } from "actions";
 import { generateRandomString } from "utils/string";
 import { nairaToKobo } from "utils/money";
 import { UserStorage } from "storage";
@@ -120,8 +120,30 @@ class Payments extends React.Component {
     this.setState({ transactions: await UserAction.getTransactions() });
   };
 
-  paystackCallback = response => {
-    console.log(response);
+  paystackCallback = async response => {
+    const { trxref } = response;
+    const { numberOfTables, totalPrice } = this.state;
+    try {
+      await TableAction.pay({
+        amount: totalPrice,
+        totalTables: numberOfTables,
+        paystackRef: trxref
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      let { transactions } = this.state;
+      console.log({ transactions });
+      let date = new Date();
+      transactions.push({
+        amount: totalPrice,
+        created_at: `${date.getFullYear()}-${date.getMonth() +
+          1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+        total_table: numberOfTables,
+        paystack_ref: trxref
+      });
+      this.setState({ show: false, transactions });
+    }
   };
 
   paystackClose = () => {
@@ -148,7 +170,7 @@ class Payments extends React.Component {
                 <FontAwesomeIcon icon="credit-card" />
               </Button>
             ) : (
-              <p className="form-error-msg desktop-only">You have payed for 5 tables</p>
+              <p className="form-error-msg desktop-only">You have paid for 5 tables</p>
             )}
           </Card.Header>
 
@@ -167,9 +189,7 @@ class Payments extends React.Component {
                   <FontAwesomeIcon icon="credit-card" />
                 </Button>
               ) : (
-                <p className="form-error-msg mobile-only">
-                  You have payed for 5 tables
-                </p>
+                <p className="form-error-msg mobile-only">You have paid for 5 tables</p>
               )}
             </div>
           </Card.Body>
