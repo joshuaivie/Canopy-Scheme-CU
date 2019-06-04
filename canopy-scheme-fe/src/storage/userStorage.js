@@ -50,6 +50,15 @@ class UserStorage {
     return info != null ? JSON.parse(atob(info)) : info;
   }
 
+  static updateUserInfo(values = {}) {
+    let { userInfo } = UserStorage;
+    if (userInfo == null) userInfo = {};
+    for (const key of Object.keys(values)) {
+      userInfo[key] = values[key];
+    }
+    UserStorage.userInfo = userInfo;
+  }
+
   /**
    * Sets the user info to local storage.
    */

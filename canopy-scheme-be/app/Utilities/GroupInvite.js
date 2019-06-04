@@ -1,6 +1,7 @@
 const Kue = use("Kue");
 const { sanitize } = use("Validator");
 const User = use("App/Models/User");
+const UserGroup = use("App/Models/UserGroup");
 const Link = use("App/Helpers/LinkGen");
 const GroupInviteJob = use("App/Jobs/GroupInvite");
 
@@ -18,11 +19,18 @@ class GroupInvite {
           matric_no: "lowercase"
         });
 
-        if (inviter.email == user.email) {
+        if (inviter.email == email) {
           throw new Error(
-            "Sorry, a group creator cannot be invited to a group he/she created."
+            "A group owner cannot be invited to a group he/she created."
           );
         }
+
+        // if user already in group, don't send mails
+        const alreadyInGroup = group.basicMembersInfo.find(
+          groupMember => groupMember["user"]["email"] == user.email
+        );
+        if (alreadyInGroup) throw new Error("User already in the group");
+
         if (unique.has(email)) throw new Error("Duplicate user");
         else unique.add(email);
 
@@ -30,7 +38,8 @@ class GroupInvite {
           .where("matric_no", matric_no)
           .where("email", email)
           .first();
-        if (invitee === null) throw new Error("User doesn't exist.");
+        if (invitee === null)
+          throw new Error("User with this email/matric number doesn't exist.");
         const data = {
           route: "group.join",
           groupId: group.id,

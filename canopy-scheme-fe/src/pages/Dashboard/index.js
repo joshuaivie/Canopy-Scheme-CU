@@ -1,8 +1,7 @@
 import React from "react";
 import { Container, Row } from "react-bootstrap";
-
-import Groups from "components/DashboardComponents/Groups";
-import Payments from "components/DashboardComponents/Payments";
+import Groups from "pages/Dashboard/components/Group";
+import Payments from "pages/Dashboard/components/Payments";
 import Avatar from "components/DashboardComponents/Avatar";
 import { UserStorage } from "storage";
 
@@ -11,10 +10,7 @@ export default () => {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h3>
-          Welcome,
-          {`${userInfo.firstname} ${userInfo.lastname}`}
-        </h3>
+        <h3>Welcome, {`${userInfo.firstname} ${userInfo.lastname}`}</h3>
         <Avatar />
       </div>
       <Container>

@@ -2,6 +2,7 @@
 
 const Database = use("Database");
 const User = use("App/Models/User");
+const UserGroupMember = use("App/Models/UserGroupMember");
 const EmailVerification = use("App/Models/EmailVerification");
 const Hash = use("Hash");
 
@@ -48,19 +49,37 @@ class UserController {
    */
   async getGroup({ response, auth }) {
     try {
-      if (auth.user.is_group_owner == true) {
-        const group = await auth.user
-          .group()
-          .with("members")
-          .fetch();
-        return response.ok({ group: group.toJSON() });
-      }
+      let userGroup =
+        auth.user.is_group_owner == true
+          ? auth.user.group()
+          : (await auth.user.group().first()).group();
+      const { basicMembersInfo: members, ...group } = (await userGroup
+        .with("basicMembersInfo")
+        .with("owner", builder =>
+          builder.setVisible(["matric_no", "email", "firstname", "lastname"])
+        )
+        .setVisible(["name", "created_at"])
+        .fetch()).toJSON();
 
-      const {
-        token,
-        ...group
-      } = (await (await auth.user.group().first()).group().fetch()).toJSON();
-      return response.ok({ group });
+      return response.ok({ group: { ...group, members } });
+    } catch (err) {
+      return response.internalServerError({ msg: err.message });
+    }
+  }
+
+  /**
+   * Remove an authenticated user from being a member of group
+   * they previously belong to.
+   */
+  async leaveGroup({ response, auth }) {
+    try {
+      if (auth.user.is_group_owner == true) {
+        return response.forbidden({
+          msg: "Group creators can only delete groups."
+        });
+      }
+      await auth.user.group().delete();
+      return response.ok({ msg: "Successfully left group." });
     } catch (err) {
       return response.internalServerError({ msg: err.message });
     }
@@ -80,6 +99,33 @@ class UserController {
 
       return response.ok({ msg: "Group successfully deleted." });
     } catch (err) {
+      console.log(err);
+      return response.internalServerError({ msg: err.message });
+    }
+  }
+
+  /**
+   * Remove a group member from an authenticated user's group.
+   */
+  async removeGroupMember({ request, response, auth }) {
+    const { matric_no } = request.params;
+
+    try {
+      const user = await User.findBy("matric_no", matric_no);
+      if (!user) return response.badRequest({ msg: "User not found" });
+
+      const { id } = await auth.user.group().first();
+      console.log(id);
+      await UserGroupMember.query()
+        .where("user_id", user.id)
+        .where("user_group_id", id)
+        .delete();
+
+      return response.ok({
+        msg: `${user.firstname} has been removed from your group.`
+      });
+    } catch (err) {
+      console.log(err);
       return response.internalServerError({ msg: err.message });
     }
   }

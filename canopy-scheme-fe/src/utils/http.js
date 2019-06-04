@@ -22,10 +22,9 @@ function errorHandler(e) {
     res.status = 404;
     res.data = "URL not found";
   } else if (e.response && e.response.status === 401) {
-    // localStorage.removeItem("");
-    // flush the local storage
-    window.location.replace("/");
-  } else if (e.response && e.response.status === 400) {
+    // flush local storage
+    // window.location.replace("/");
+  } else if (e.response && (e.response.status === 400 || e.response.status === 403)) {
     res.status = 400;
     res.data = e.response.data;
   }

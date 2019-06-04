@@ -36,4 +36,18 @@ export default class UserApi {
   static deleteGroup = async ({ token }) => {
     return HTTP.delete(ENDPOINTS.USER_GROUP, generateBearer(token));
   };
+
+  /**
+   * Leave group user belongs to.
+   */
+  static leaveGroup = async ({ token }) => {
+    return HTTP.delete(ENDPOINTS.USER_GROUP_LEAVE, generateBearer(token));
+  };
+
+  /**
+   * Removes a group member.
+   */
+  static removeMember = async ({ matricNo, token }) => {
+    return HTTP.delete(ENDPOINTS.REMOVE_GROUP_MEMBER(matricNo), generateBearer(token));
+  };
 }
