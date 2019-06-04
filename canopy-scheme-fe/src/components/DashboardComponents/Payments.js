@@ -1,7 +1,3 @@
-//Redesign the payments modal - its too plain
-//validate the user inputs
-//Make Sure the renderPayments classes work
-
 import React from "react";
 import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
