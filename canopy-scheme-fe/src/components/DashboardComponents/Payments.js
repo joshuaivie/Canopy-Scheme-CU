@@ -15,12 +15,14 @@ const commaNumber = require("comma-number");
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
 const RenderEmptyHistory = columns => (
-  <td
-    colSpan={columns.length}
-    style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
-  >
-    You have not made any Purchase yet!
-  </td>
+  <tr>
+    <td
+      colSpan={columns.length}
+      style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
+    >
+      You have not made any Purchase yet!
+    </td>
+  </tr>
 );
 
 const RenderPaymentHistory = (transactions, columns) =>
@@ -40,10 +42,12 @@ const DisplayPayments = props => {
   return (
     <Table borderless hover responsive>
       <thead>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Tables</th>
-        <th>Reference</th>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Tables</th>
+          <th>Reference</th>
+        </tr>
       </thead>
       <tbody>
         {props.transactions.length > 0
