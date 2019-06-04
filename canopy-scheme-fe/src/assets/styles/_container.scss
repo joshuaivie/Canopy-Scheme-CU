@@ -129,15 +129,6 @@
   }
 }
 
-.display-price {
-  h4 {
-    color: #800080 !important;
-    font-size: 2rem !important;
-  }
-  padding-bottom: 15px;
-  line-height: 1px;
-}
-
 .calculate-price {
   margin-top: 50px;
 }
@@ -161,5 +152,55 @@
         }
       }
     }
+  }
+}
+
+.payment-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  box-sizing: border-box;
+  padding: 15px;
+  border-bottom: 1px solid lightgray;
+
+  .table-button {
+    border-radius: 15px;
+    width: 120px;
+    height: 40px;
+    display: flex;
+    background: $purple;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px;
+    margin-top: -10px;
+
+    button {
+      border: 0;
+      background: $white;
+      color: $purple;
+      border-radius: 50%;
+      height: 30px;
+      width: 30px;
+    }
+  }
+  .display-price {
+    h4 {
+      color: $purple !important;
+      font-size: 2rem !important;
+    }
+    line-height: 1px;
+  }
+}
+
+.payment-breakdown-container {
+  padding: 15px;
+  border-bottom: 1px solid lightgray;
+  p {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  span {
+    color: gray !important;
   }
 }

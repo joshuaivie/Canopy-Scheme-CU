@@ -3,10 +3,15 @@
 const Encryption = use("Encryption");
 const User = use("App/Models/User");
 const Token = use("App/Models/Token");
+const PasswordReset = use("App/Models/PasswordReset");
+const randomString = require("crypto-random-string");
 const Kue = use("Kue");
 const SignupEmailJob = use("App/Jobs/SignupEmail");
+const EmailVerification = use("App/Models/EmailVerification");
+const Link = use("App/Helpers/LinkGen");
+const PasswordResetJob = use("App/Jobs/PasswordResetEmail");
 
-class UserController {
+class AuthController {
   /**
    * Registers a new user.
    */
@@ -22,9 +27,17 @@ class UserController {
 
     try {
       const user = await User.create({ ...details });
+      const { token } = await EmailVerification.create({
+        email: user.email,
+        token: randomString({ length: 32, type: "url-safe" })
+      });
+      const email_verify_link = Link.createEmailVerifyLink({
+        route: "email.verify",
+        token
+      });
       Kue.dispatch(
         SignupEmailJob.key,
-        { user },
+        { user, email_verify_link },
         {
           priority: "normal",
           attempts: 3,
@@ -82,7 +95,7 @@ class UserController {
   /**
    * Refresh a users token.
    */
-  async refreshToken({ request, auth }) {
+  async refreshToken({ request, response, auth }) {
     const { refresh_token } = request.only(["refresh_token"]);
 
     try {
@@ -93,6 +106,84 @@ class UserController {
       return response.unauthorized({ msg: "Invalid refresh token." });
     }
   }
+
+  async sendResetPasswordLink({ request, response }) {
+    const { email } = request.only(["email"]);
+    try {
+      const user = await User.findBy("email", email);
+      await PasswordReset.query()
+        .where("email", user.email)
+        .delete();
+      const { email_token } = await PasswordReset.create({
+        email: user.email,
+        email_token: randomString({ length: 32, type: "url-safe" })
+      });
+      const password_reset_link = Link.createPasswordLink({
+        route: "password.reset-token",
+        email_token
+      });
+      Kue.dispatch(
+        PasswordResetJob.key,
+        { user, password_reset_link },
+        {
+          priority: "normal",
+          attempts: 3,
+          remove: true,
+          jobFn: () => {}
+        }
+      );
+
+      return response.ok({
+        msg: "A password reset link has been sent to your email address."
+      });
+    } catch (err) {
+      return response.badRequest({
+        msg: "We couldn't find this email address"
+      });
+    }
+  }
+
+  async resetPassword({ request, params, response }) {
+    const { email_token } = params;
+    const { password, password_confirm } = request.only([
+      "password",
+      "password_confirm"
+    ]);
+
+    try {
+      const passwordReset = await PasswordReset.query()
+        .where("email_token", email_token)
+        .first();
+
+      if (!passwordReset) {
+        return response.badRequest({
+          msg:
+            "Password reset link invalid, please try the reset password process again."
+        });
+      }
+
+      if (password != password_confirm) {
+        return response.badRequest({
+          msg: "You new passwords don't match."
+        });
+      }
+
+      const user = await User.findBy("email", passwordReset.email);
+      user.password = password;
+      await user.save();
+
+      await PasswordReset.query()
+        .where("email", user.email)
+        .delete();
+
+      return response.ok({ msg: "Password successfully reset." });
+    } catch (err) {
+      return response.badRequest({
+        msg:
+          "Error resetting password, please try the reset password process again."
+      });
+    }
+  }
 }
 
-module.exports = UserController;
+module.exports = AuthController;
