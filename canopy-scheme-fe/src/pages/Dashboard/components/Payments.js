@@ -7,6 +7,8 @@ import { generateRandomString } from "utils/string";
 import { nairaToKobo } from "utils/money";
 import { UserStorage } from "storage";
 import { errorAlert } from "utils/notification";
+import { createTimeStamp } from "utils/createTimeStamp";
+
 const commaNumber = require("comma-number");
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
@@ -134,11 +136,9 @@ class Payments extends React.Component {
     } finally {
       let { transactions } = this.state;
       console.log({ transactions });
-      let date = new Date();
       transactions.push({
         amount: totalPrice,
-        created_at: `${date.getFullYear()}-${date.getMonth() +
-          1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+        created_at: createTimeStamp(),
         total_table: numberOfTables,
         paystack_ref: trxref
       });
