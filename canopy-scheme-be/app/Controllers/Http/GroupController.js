@@ -11,10 +11,13 @@ class GroupController {
     const { users } = request.only(["users"]);
 
     try {
-      const group = (await auth.user.group().first()).toJSON();
+      const group = (await auth.user
+        .group()
+        .with("basicMembersInfo")
+        .first()).toJSON();
       const { failed } = await GroupInvite.inviteUsers(auth.user, users, group);
       if (failed.length > 0) {
-        return response.ok({
+        return response.badRequest({
           failed,
           msg: "Invitation wasn't sent to one or more email addresses."
         });

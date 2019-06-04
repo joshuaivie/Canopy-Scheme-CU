@@ -15,6 +15,10 @@ class UserGroupMember extends Model {
   group() {
     return this.belongsTo("App/Models/UserGroup");
   }
+
+  user() {
+    return this.belongsTo("App/Models/User");
+  }
 }
 
 module.exports = UserGroupMember;

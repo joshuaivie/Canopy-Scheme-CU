@@ -29,27 +29,46 @@ class UserAction {
     try {
       const response = await UserApi.getReservations({ token });
       return response.data.reservations;
-    } catch (err) {}
+    } catch (err) {
+      resolveRequestError(err, false); // only displays error when offline.
+    }
 
     return [];
   }
 
-  static async getGroup({ token } = UserStorage) {
+  static async getGroup({ token = UserStorage.token, showAllAlerts = true }) {
     try {
       const response = await UserApi.getGroup({ token });
-      return response.data.reservations;
+      return response.data.group;
     } catch (err) {
-      errorAlert(err.msg);
-      throw err;
+      throw resolveRequestError(err, showAllAlerts);
     }
   }
 
   static async deleteGroup({ token } = UserStorage) {
     try {
-      await UserApi.deleteGroup({ token });
+      const response = await UserApi.deleteGroup({ token });
+      return response.data;
     } catch (err) {
-      errorAlert(err.msg);
-      throw err;
+      resolveRequestError(err); // only displays error when offline.
+    }
+  }
+
+  static async leaveGroup({ token } = UserStorage) {
+    try {
+      const response = await UserApi.leaveGroup({ token });
+      return response.data;
+    } catch (err) {
+      resolveRequestError(err); // only displays error when offline.
+    }
+  }
+
+  static async removeMember({ matricNo, token = UserStorage.token }) {
+    try {
+      const response = await UserApi.removeMember({ matricNo, token });
+      return response.data;
+    } catch (err) {
+      resolveRequestError(err); // only displays error when offline.
     }
   }
 }

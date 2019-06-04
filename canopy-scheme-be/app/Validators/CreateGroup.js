@@ -11,7 +11,8 @@ class CreateGroup extends BaseValidator {
 
   get messages() {
     return {
-      "name.unique": "The specified group name already exists."
+      "name.unique": "The specified group name already exists.",
+      "name.required": "Group name is required."
     };
   }
 }

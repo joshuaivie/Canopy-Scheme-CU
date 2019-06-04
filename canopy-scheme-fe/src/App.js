@@ -7,8 +7,8 @@ import ProtectedRoute from "./layouts/ProtectedRoute";
 import DefaultLayout from "./layouts/DefaultLayout";
 
 import OnBoarding from "./pages/onBoarding";
-import Home from "./pages/home";
-import Dashboard from "./pages/dashboard";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 
 import "bootstrap/dist/css/bootstrap.css";
 

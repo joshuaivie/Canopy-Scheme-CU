@@ -78,7 +78,6 @@ body {
 .btn-center {
   margin: auto;
   display: block;
-  width: 100px;
 }
 
 @keyframes float {
@@ -87,11 +86,20 @@ body {
   }
 }
 
+.modal-header {
+  text-align: center;
+}
 .mobile-only {
   display: none;
 }
 
 @media (max-width: $screen-md-min) {
+  .invite-button {
+    margin: auto;
+    width: 80%;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
   .desktop-only {
     display: none;
   }

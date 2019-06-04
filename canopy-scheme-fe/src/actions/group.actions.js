@@ -1,14 +1,14 @@
 import { GroupApi } from "services/backendApi";
-import { errorAlert } from "utils/notification";
 import { UserStorage } from "storage";
+import { resolveRequestError } from "utils/http";
 
 class GroupActions {
   static async createGroup({ name, token = UserStorage.token }) {
     try {
-      await GroupApi.createGroup({ name, token });
+      const response = await GroupApi.createGroup({ name, token });
+      return response.data;
     } catch (err) {
-      errorAlert(err.msg);
-      throw err;
+      throw resolveRequestError(err);
     }
   }
 
@@ -17,8 +17,7 @@ class GroupActions {
       const response = await GroupApi.inviteUsers({ users, token });
       return response.data;
     } catch (err) {
-      errorAlert(err.response.data.errors.map(x => x.message));
-      throw err;
+      throw resolveRequestError(err);
     }
   }
 }

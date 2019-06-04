@@ -2,8 +2,8 @@ import React from "react";
 import Layout from "layouts";
 import ReactFullpage from "@fullpage/react-fullpage";
 import * as Routes from "routes";
-import Sliders from "components/HomeComponents/Sliders";
-import AuthModal from "components/AuthComponents/AuthModal";
+import Sliders from "pages/Home/components/Sliders";
+import AuthModal from "pages/Home/components/AuthModal";
 import { isLoggedIn } from "utils/auth";
 
 class Home extends React.Component {

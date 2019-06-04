@@ -53,6 +53,13 @@ Route.group(() => {
   Route.delete("me/group", "UserController.deleteGroup").middleware(
     "isUserGroupOwner"
   );
+  Route.delete("me/group/leave", "UserController.leaveGroup").middleware(
+    "inUserGroup"
+  );
+  Route.delete(
+    "me/group/member/:matric_no/remove",
+    "UserController.removeGroupMember"
+  );
 
   // Group
   Route.post("group", "GroupController.create")
