@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const USER_TOKEN = "USER_TOKEN";
 const USER_INFO = "USER_INFO";
 const USER_REFRESH_TOKEN = "USER_REFRESH_TOKEN";

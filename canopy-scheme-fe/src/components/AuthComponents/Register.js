@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Form, Button, Col } from "react-bootstrap";
-import { AuthAction } from "../../actions";
-import * as ROUTES from "../../routes";
+import { AuthAction } from "actions";
+import * as ROUTES from "routes";
 import { validateMatricNo } from "utils/validateMatric";
 
 class Register extends React.Component {
@@ -70,7 +70,7 @@ class Register extends React.Component {
       <Container>
         <Form onSubmit={this.handleSubmit}>
           <Form.Row>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Firstname</Form.Label>
                 <Form.Control
@@ -86,7 +86,7 @@ class Register extends React.Component {
                 <p className="form-error-msg">{errorMsg.firstname}</p>
               ) : null}
             </Col>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Lastname</Form.Label>
                 <Form.Control
@@ -105,7 +105,7 @@ class Register extends React.Component {
           </Form.Row>
 
           <Form.Row>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
@@ -124,7 +124,7 @@ class Register extends React.Component {
                 ) : null}
               </Form.Group>
             </Col>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Matric number</Form.Label>
                 <Form.Control

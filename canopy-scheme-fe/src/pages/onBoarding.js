@@ -1,15 +1,16 @@
 import React from "react";
 import Slider from "react-slick";
 import { Button } from "react-bootstrap";
-import * as Routes from "../routes";
-import browserSvg from "../assets/svg/browser.svg";
-import checklistSvg from "../assets/svg/checklist.svg";
-import handGestureSvg from "../assets/svg/hand-gesture.svg";
+import * as Routes from "routes";
+import browserSvg from "assets/svg/browser.svg";
+import checklistSvg from "assets/svg/checklist.svg";
+import handGestureSvg from "assets/svg/hand-gesture.svg";
 
 class OnBoarding extends React.Component {
   state = {
     atStart: true
   };
+
   next = () => {
     this.slider.slickNext();
   };
@@ -18,10 +19,9 @@ class OnBoarding extends React.Component {
   };
 
   checkIndex = (oldIndex, newIndex) => {
-    if (oldIndex === 2) {
+    if (oldIndex === 2 && newIndex === 2) {
       this.completeOnBoarding();
     }
-
     if (oldIndex === 1 && newIndex === 0) {
       this.setState({ atStart: true });
     } else {
@@ -40,6 +40,7 @@ class OnBoarding extends React.Component {
   render() {
     const settings = {
       dots: true,
+      infinite: false,
       speed: 200,
       slidesToShow: 1,
       slidesToScroll: 1,
@@ -88,17 +89,19 @@ class OnBoarding extends React.Component {
               </p>
             </div>
           </Slider>
-          <Button
-            className="float-left"
-            variant="link"
-            disabled={atStart}
-            onClick={this.previous}
-          >
-            Prev
-          </Button>
-          <Button className="float-right" onClick={this.next}>
-            Next
-          </Button>
+          <div>
+            <Button
+              className="float-left"
+              variant="link"
+              disabled={atStart}
+              onClick={this.previous}
+            >
+              Prev
+            </Button>
+            <Button className="float-right" onClick={this.next}>
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     );

@@ -1,9 +1,9 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import Contact from "./Contact";
-import tentSvg from "../../assets/svg/tent.svg";
-import familySvg from "../../assets/svg/family.svg";
-import dinningTableSvg from "../../assets/svg/dinning-table.svg";
+import tentSvg from "assets/svg/tent.svg";
+import familySvg from "assets/svg/family.svg";
+import dinningTableSvg from "assets/svg/dinning-table.svg";
 
 export default ({ toggleModal }) => (
   <div id="landing-page">

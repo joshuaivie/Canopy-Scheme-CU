@@ -1,6 +1,6 @@
-import { TableApi } from "../services/backendApi";
-import { errorAlert } from "../utils/notification";
-import { UserStorage } from "../storage";
+import { TableApi } from "services/backendApi";
+import { errorAlert } from "utils/notification";
+import { UserStorage } from "storage";
 
 class TableActions {
   static async pay({ amount, totalTables, paystackRef, token = UserStorage.token }) {

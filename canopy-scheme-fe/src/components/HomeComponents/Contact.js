@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import contactSvg from "../../assets/svg/email.svg";
+import contactSvg from "assets/svg/email.svg";
 
 export default () => (
   <div id="contact-section" className="section">

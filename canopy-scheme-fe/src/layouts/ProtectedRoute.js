@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import { isLoggedIn } from "utils/auth";
 import DefaultLayout from "./DefaultLayout";
-import { isLoggedIn } from "../utils/auth";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => (
   <Route
