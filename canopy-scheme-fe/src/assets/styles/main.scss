@@ -26,6 +26,7 @@
 body {
   font-family: "Nexa Light", sans-serif !important;
   font-weight: 900;
+  color: $black;
 }
 
 .password-toggle-icon {
@@ -34,32 +35,6 @@ body {
   margin-top: -25px;
   position: relative;
   z-index: 2;
-}
-
-#fullpage {
-  .section {
-    width: 90vw;
-    margin: auto;
-    .box-test {
-      height: 300px;
-      width: 300px;
-      background: red;
-    }
-
-    .left {
-      text-align: left;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      line-height: 2rem;
-    }
-    .right {
-      text-align: center;
-      img {
-        animation: float 3s ease-out infinite;
-      }
-    }
-  }
 }
 
 .float {

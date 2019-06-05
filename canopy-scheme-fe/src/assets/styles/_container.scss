@@ -4,12 +4,13 @@
     margin-left: 0;
   }
   .section {
+    width: 90vw;
+    margin: auto;
     .fp-tableCell {
       @include flex(row, center);
       .left,
       .right {
         @include flex(column, center);
-        align-content: flex-end;
         width: 50%;
         img {
           margin: auto;
@@ -19,23 +20,25 @@
           justify-content: end;
         }
       }
+      .left {
+        text-align: left;
+        line-height: 2rem;
+      }
+      .right {
+        text-align: center;
+      }
     }
   }
   #contact-section {
     .fp-tableCell {
-      div {
-        text-align: left !important;
+      .info,
+      .form-container {
         @include flex(column, center);
+        text-align: left;
         width: 50%;
         img {
           width: 150px;
-          margin: 20px;
-        }
-      }
-
-      .right {
-        img {
-          width: 400px;
+          margin: 20px auto;
         }
       }
     }
@@ -190,6 +193,23 @@
     .dashboard-header {
       .welcome-text {
         font-size: 1rem;
+      }
+    }
+  }
+  #contact-section {
+    .fp-tableCell {
+      .info,
+      .form-container {
+        width: 100% !important;
+        img {
+          display: none;
+        }
+      }
+      .info {
+        justify-content: flex-end !important;
+      }
+      .form-container {
+        justify-content: flex-start !important;
       }
     }
   }
