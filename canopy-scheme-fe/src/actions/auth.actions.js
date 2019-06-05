@@ -53,6 +53,23 @@ class AuthActions {
       throw resolveRequestError(err);
     }
   }
+
+  static async requestChangePassword(email) {
+    try {
+      return await AuthApi.requestChangePassword({ email });
+    } catch (err) {
+      throw resolveRequestError(err);
+    }
+  }
+
+  // eslint-disable-next-line camelcase
+  static async resetPassword(password, password_confirm, token) {
+    try {
+      return await AuthApi.resetPassword({ password, password_confirm, token });
+    } catch (err) {
+      throw resolveRequestError(err);
+    }
+  }
 }
 
 export default AuthActions;

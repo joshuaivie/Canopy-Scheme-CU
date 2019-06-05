@@ -182,16 +182,16 @@ class Register extends React.Component {
           >
             Register
           </Button>
-          <p style={{ textAlign: "center" }}>
+          <br />
+          <p>
             Have an account?{" "}
             <span
+              className="primary-text"
               onClick={() => {
                 switchForm("login");
               }}
               style={{
-                textDecoration: "underline",
-                fontStyle: "italic",
-                cursor: "grabbing"
+                cursor: "pointer"
               }}
             >
               Login

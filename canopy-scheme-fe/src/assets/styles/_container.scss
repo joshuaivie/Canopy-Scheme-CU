@@ -1,3 +1,13 @@
+#layoutContent {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#layoutMain {
+  flex: 1;
+}
+
 #landing-page {
   button.btn {
     margin: 0 auto;
@@ -31,6 +41,18 @@
   }
 }
 
+#page-not-found {
+  width: 100%;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  padding-top: 100px;
+  h1 {
+    color: $purple;
+    font-size: 5rem;
+  }
+}
 .main-container {
   width: 100vw;
   height: 100vh;

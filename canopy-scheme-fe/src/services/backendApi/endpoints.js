@@ -3,6 +3,9 @@ export const REGISTER = `/register`;
 export const LOGIN = `/login`;
 export const LOGOUT = `/logout`;
 
+// RESET PASSWORD
+export const RESET_PASSWORD = "/password/reset";
+
 // User
 export const USER = `/me`;
 export const USER_TRANSACTIONS = `${USER}/transactions`;

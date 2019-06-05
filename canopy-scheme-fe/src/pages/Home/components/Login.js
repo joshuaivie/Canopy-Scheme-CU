@@ -1,19 +1,17 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from "react";
+import { Link } from "react-router-dom";
 import { AuthAction } from "actions";
 import { Form, Button, Container } from "react-bootstrap";
 import * as ROUTES from "routes";
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      isLoading: false,
-      errorMsg: {}
-    };
-  }
+  state = {
+    email: "",
+    password: "",
+    isLoading: false,
+    errorMsg: {}
+  };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -68,7 +66,7 @@ class Login extends React.Component {
           {errorMsg.password ? (
             <p className="form-error-msg">{errorMsg.password}</p>
           ) : null}
-
+          <Link to={ROUTES.FOGOT_PASSWORD}>Forgot password?</Link>
           <Button
             variant="primary"
             type="submit"
@@ -77,17 +75,16 @@ class Login extends React.Component {
           >
             Login
           </Button>
-
-          <p style={{ textAlign: "center" }}>
+          <br />
+          <p>
             Don't have an account?{" "}
             <span
+              className="primary-text"
               onClick={() => {
                 switchForm("register");
               }}
               style={{
-                textDecoration: "underline",
-                fontStyle: "italic",
-                cursor: "grabbing"
+                cursor: "pointer"
               }}
             >
               Register

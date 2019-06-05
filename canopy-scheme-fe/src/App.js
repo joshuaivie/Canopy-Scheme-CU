@@ -8,7 +8,10 @@ import DefaultLayout from "./layouts/DefaultLayout";
 
 import OnBoarding from "./pages/onBoarding";
 import Home from "./pages/Home";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
+import NotFound from "./pages/notFound";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -18,20 +21,22 @@ import "slick-carousel/slick/slick-theme.css";
 import "./assets/styles/main.scss";
 import "./fontawesome";
 import "react-toastify/dist/ReactToastify.css";
+
 toast.configure();
 
-class App extends React.Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <Switch>
-          <DefaultLayout exact path={ROUTES.HOME} component={Home} />
-          <DefaultLayout exact path={ROUTES.ONBOARDING} component={OnBoarding} />
-          <ProtectedRoute path={ROUTES.APP} component={Dashboard} />
-        </Switch>
-      </BrowserRouter>
-    );
-  }
-}
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <DefaultLayout exact path={ROUTES.HOME} component={Home} />
+        <DefaultLayout exact path={ROUTES.ONBOARDING} component={OnBoarding} />
+        <DefaultLayout exact path={ROUTES.FOGOT_PASSWORD} component={ForgotPassword} />
+        <DefaultLayout exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
+        <ProtectedRoute path={ROUTES.APP} component={Dashboard} />
+        <DefaultLayout component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 export default App;
