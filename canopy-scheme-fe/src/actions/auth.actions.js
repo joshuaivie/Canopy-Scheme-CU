@@ -9,6 +9,7 @@ class AuthActions {
       UserStorage.token = data.token;
       UserStorage.refreshToken = data.refreshToken;
       UserStorage.userInfo = data.user;
+      return data.msg;
     } catch (err) {
       throw resolveRequestError(err);
     }
@@ -34,6 +35,7 @@ class AuthActions {
       UserStorage.token = data.token;
       UserStorage.refreshToken = data.refreshToken;
       UserStorage.userInfo = data.user;
+      return data.msg;
     } catch (err) {
       throw resolveRequestError(err);
     }

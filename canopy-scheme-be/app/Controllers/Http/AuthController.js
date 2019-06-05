@@ -64,7 +64,7 @@ class AuthController {
     try {
       const data = await auth.withRefreshToken().attempt(email, password);
       const user = await User.findBy("email", email);
-      return response.ok({ msg: "Login successfull.", ...data, user });
+      return response.ok({ msg: "Login successful.", ...data, user });
     } catch (err) {
       console.log(err);
       return response.badRequest({ msg: "Invalid email or password." });
@@ -138,7 +138,7 @@ class AuthController {
       });
     } catch (err) {
       return response.badRequest({
-        msg: "We couldn't find this email address"
+        msg: "This email is not registered on this platform"
       });
     }
   }

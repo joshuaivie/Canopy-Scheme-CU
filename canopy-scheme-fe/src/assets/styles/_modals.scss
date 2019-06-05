@@ -3,10 +3,10 @@
   border: none;
   .modal-content {
     border: none;
-    padding-bottom: 30px;
     .modal-header {
       border: none;
       .modal-title {
+        text-align: center;
         width: 100%;
         font-size: 20px;
         font-family: 'Nexa Bold';
@@ -28,6 +28,7 @@
       }
     }
     .modal-body {
+      padding: 0 1rem 1rem;
     }
   }
 }

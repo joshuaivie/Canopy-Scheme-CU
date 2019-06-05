@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import { AuthAction } from "actions";
 import Layout from "layouts";
 import { successAlert } from "utils/notification";
@@ -34,17 +34,17 @@ class ForgotPassword extends React.Component {
 
   render() {
     const { email, errorMsg, isLoading } = this.state;
+    const { toggleModal, history, showAuthModal } = this.props;
     return (
-      <Layout>
+      <Layout toggleModal={toggleModal} history={history} showAuthModal={showAuthModal}>
         <div id="forgot-pasword-form">
-          <h3 className="primary-text">Forgot password ?</h3>
+          <h3 className="primary-text">Forgot your password?</h3>
           <p>
-            Don't worry. Reseting your password is easy. Just type in the email you
-            registered your account with.
+            Type in the email you registered your account with, we'll send you a pasword
+            reset link.
           </p>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
-              <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter your email"
@@ -58,7 +58,7 @@ class ForgotPassword extends React.Component {
               ) : null}
             </Form.Group>
             <Button variant="primary" type="submit" disabled={isLoading}>
-              Reset Password
+              {isLoading ? <Spinner animation="border" /> : "Reset Password"}
             </Button>
           </Form>{" "}
         </div>

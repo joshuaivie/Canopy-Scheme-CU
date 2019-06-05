@@ -115,12 +115,11 @@
 .group-container {
   display: flex;
   justify-content: space-around;
-  margin: 50px 0;
+  margin: 25px 0;
   .btn {
     position: relative;
   }
-
-  .member-card {
+  div {
     border: 1px dashed purple;
   }
 
@@ -135,11 +134,10 @@
   }
 
   .invite-button {
-    width: 130px !important;
-    height: 130px !important;
+    width: 180px !important;
+    height: 180px !important;
     border-radius: 5%;
     background-color: transparent;
-    margin: 0 15px;
     border: 1px dashed #800080;
     color: #800080;
     font-size: 2rem;
@@ -252,6 +250,6 @@
   }
 
   span {
-    color: gray !important;
+    color: green;
   }
 }

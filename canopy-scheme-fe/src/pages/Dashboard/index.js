@@ -5,16 +5,15 @@ import Payments from "pages/Dashboard/components/Payments";
 import { UserStorage } from "storage";
 import Avatar from "./components/Avatar";
 
-export default () => {
+export default ({ history }) => {
   const { userInfo } = UserStorage;
   return (
     <div className="dashboard">
       <div className="dashboard-header">
         <h4 className="welcome-text">
-          Welcome,
-          {`${userInfo.firstname} ${userInfo.lastname}`}
+          Welcome, {` ${userInfo.firstname} ${userInfo.lastname}`}
         </h4>
-        <Avatar />
+        <Avatar history={history} />
       </div>
       <Container>
         <Row>

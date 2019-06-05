@@ -33,7 +33,7 @@ class PaystackService {
         customer_note: reason
       });
     } catch (err) {
-      // push to Redis queue to continously attempt a refund until successfull.
+      // push to Redis queue to continously attempt a refund until successful.
     }
   }
 }

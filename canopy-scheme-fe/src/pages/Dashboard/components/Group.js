@@ -263,7 +263,7 @@ class Groups extends React.Component {
                 variant="outline-danger"
                 onClick={() => toggleModal("showDeleteGroupModal")}
               >
-                Delete Group
+                Delete
                 <FontAwesomeIcon icon="door-open" />
               </Button>
             </Card.Header>
@@ -332,7 +332,7 @@ class Groups extends React.Component {
                   variant="outline-danger"
                   onClick={() => toggleModal("showLeaveGroupModal")}
                 >
-                  Leave Group
+                  Leave
                   <FontAwesomeIcon icon="door-open" />
                 </Button>
               )}

@@ -28,7 +28,9 @@ const RenderPaymentHistory = (transactions, columns) =>
     <tr key={`row_${index}`}>
       {columns.map(column =>
         column.dataName === "amount" ? (
-          <td key={`data_${column.dataName}`}>₦{commaNumber(row[column.dataName])}</td>
+          <td key={`data_${column.dataName}`}>
+            ₦{commaNumber(parseInt(row[column.dataName]))}
+          </td>
         ) : (
           <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
         )
@@ -166,7 +168,7 @@ class Payments extends React.Component {
             <h5>Payments</h5>
             {limit > 0 ? (
               <Button onClick={this.handleOpen} className="make-payment-button">
-                Book Table(s) &nbsp;&nbsp;
+                Book Table(s) &nbsp;
                 <FontAwesomeIcon icon="credit-card" />
               </Button>
             ) : (
@@ -185,7 +187,7 @@ class Payments extends React.Component {
                   onClick={this.handleOpen}
                   className="make-payment-button mobile"
                 >
-                  Book Table(s) &nbsp;&nbsp;
+                  Book Table(s) &nbsp;
                   <FontAwesomeIcon icon="credit-card" />
                 </Button>
               ) : (

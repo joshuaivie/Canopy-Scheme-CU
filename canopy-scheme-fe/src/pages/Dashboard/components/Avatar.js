@@ -4,6 +4,7 @@ import { AuthAction } from "actions";
 import { errorAlert } from "utils/notification";
 import avatarImg from "assets/img/portrait.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as ROUTES from "routes";
 
 class CustomToggle extends React.PureComponent {
   handleClick = e => {
@@ -32,7 +33,7 @@ class Avatar extends React.PureComponent {
   logout = async () => {
     try {
       await AuthAction.logout();
-      window.location.href = "/";
+      this.props.history.push(ROUTES.HOME);
     } catch (error) {
       errorAlert(
         error.message || "You cannot log out till you are connected to the internet"

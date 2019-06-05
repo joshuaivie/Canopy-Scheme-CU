@@ -1,5 +1,6 @@
 import axios from "axios";
-import { errorAlert } from "./notification";
+import { UserStorage } from "storage";
+import { errorAlert } from "utils/notification";
 
 const HTTP = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -22,8 +23,13 @@ function errorHandler(e) {
     res.status = 404;
     res.data = "URL not found";
   } else if (e.response && e.response.status === 401) {
-    // flush local storage
-    // window.location.replace("/");
+    errorAlert("Your authorization token is invalid");
+    UserStorage.unsetToken();
+    UserStorage.unsetUserInfo();
+    UserStorage.unsetRefreshToken();
+    window.setTimeout(function() {
+      window.location.replace("/");
+    }, 1500);
   } else if (e.response && (e.response.status === 400 || e.response.status === 403)) {
     res.status = 400;
     res.data = e.response.data;

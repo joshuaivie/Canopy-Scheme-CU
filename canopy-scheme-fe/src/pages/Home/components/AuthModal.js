@@ -14,17 +14,21 @@ class AuthModal extends React.Component {
   };
 
   render() {
-    const { show, toggleModal } = this.props;
+    const { show, toggleModal, history } = this.props;
     const { form } = this.state;
     return (
-      <Modal size="lg" show={show} onHide={toggleModal}>
+      <Modal show={show} onHide={toggleModal}>
         <Modal.Header closeButton>
-          <Modal.Title style={{ textAlign: "center", fontSize: "1.5rem" }}>
-            {form} to continue
-          </Modal.Title>
+          <Modal.Title styl={{ fontSize: "1.5rem" }}>{form} to continue</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {form === "Login" && <LoginComponent switchForm={this.switchForm} />}
+          {form === "Login" && (
+            <LoginComponent
+              switchForm={this.switchForm}
+              history={history}
+              toggleModal={toggleModal}
+            />
+          )}
           {form === "Register" && <RegisterComponent switchForm={this.switchForm} />}
         </Modal.Body>
       </Modal>

@@ -1,8 +1,9 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import { AuthAction } from "actions";
 import Layout from "layouts";
 import { successAlert } from "utils/notification";
+import * as ROUTES from "routes";
 
 class ResetPassword extends React.Component {
   state = {
@@ -31,17 +32,25 @@ class ResetPassword extends React.Component {
         password_confirm,
         token
       );
-      this.setState({ isLoading: false });
       successAlert(response.msg);
+      const {
+        history: { push }
+      } = this.props;
+      window.setTimeout(function() {
+        push(ROUTES.HOME);
+      }, 2000);
     } catch (errorMsg) {
-      this.setState({ isLoading: false, errorMsg });
+      this.setState({ errorMsg });
+    } finally {
+      this.setState({ isLoading: false, password: "", password_confirm: "" });
     }
   }
 
   render() {
     const { password, password_confirm, errorMsg, isLoading } = this.state;
+    const { toggleModal, history, showAuthModal } = this.props;
     return (
-      <Layout>
+      <Layout toggleModal={toggleModal} history={history} showAuthModal={showAuthModal}>
         <div id="reset-pasword-form">
           <h3 className="primary-text">Reset your password</h3>
           <Form onSubmit={this.handleSubmit}>
@@ -74,7 +83,7 @@ class ResetPassword extends React.Component {
               ) : null}
             </Form.Group>
             <Button variant="primary" type="submit" disabled={isLoading}>
-              Reset Password
+              {isLoading ? <Spinner animation="border" /> : "Reset Password"}
             </Button>
           </Form>{" "}
         </div>
