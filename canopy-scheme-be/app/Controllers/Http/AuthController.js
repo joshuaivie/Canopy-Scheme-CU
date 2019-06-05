@@ -66,7 +66,6 @@ class AuthController {
       const user = await User.findBy("email", email);
       return response.ok({ msg: "Login successful.", ...data, user });
     } catch (err) {
-      console.log(err);
       return response.badRequest({ msg: "Invalid email or password." });
     }
   }

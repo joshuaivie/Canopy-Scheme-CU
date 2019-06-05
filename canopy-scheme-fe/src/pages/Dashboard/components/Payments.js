@@ -137,7 +137,6 @@ class Payments extends React.Component {
       console.log(err);
     } finally {
       let { transactions } = this.state;
-      console.log({ transactions });
       transactions.push({
         amount: totalPrice,
         created_at: createTimeStamp(),
@@ -149,7 +148,6 @@ class Payments extends React.Component {
   };
 
   paystackClose = () => {
-    console.log("Payment closed");
     this.setState({ show: false });
   };
 

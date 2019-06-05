@@ -99,7 +99,6 @@ class UserController {
 
       return response.ok({ msg: "Group successfully deleted." });
     } catch (err) {
-      console.log(err);
       return response.internalServerError({ msg: err.message });
     }
   }
@@ -115,7 +114,6 @@ class UserController {
       if (!user) return response.badRequest({ msg: "User not found" });
 
       const { id } = await auth.user.group().first();
-      console.log(id);
       await UserGroupMember.query()
         .where("user_id", user.id)
         .where("user_group_id", id)
@@ -125,7 +123,6 @@ class UserController {
         msg: `${user.firstname} has been removed from your group.`
       });
     } catch (err) {
-      console.log(err);
       return response.internalServerError({ msg: err.message });
     }
   }
