@@ -1,9 +1,9 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import Contact from "./Contact";
 import tentSvg from "assets/svg/tent.svg";
 import familySvg from "assets/svg/family.svg";
 import dinningTableSvg from "assets/svg/dinning-table.svg";
+import Contact from "./Contact";
 
 export default ({ toggleModal }) => (
   <div id="landing-page">
@@ -13,7 +13,7 @@ export default ({ toggleModal }) => (
         <p>
           Make every moment of your convocation worth it by having order, organization
           and divor around as your spend your day with family and loved ones. Book a
-          spot today!{" "}
+          spot today!
         </p>
         <Button onClick={() => toggleModal()}>Make a reservation</Button>
       </div>
@@ -26,7 +26,7 @@ export default ({ toggleModal }) => (
         <h1>Pricing</h1>
         <p>
           Different packages to match different needs. Find what suits your requirements
-          here.{" "}
+          here.
         </p>
         <Button onClick={() => toggleModal()}>Make a reservation</Button>
       </div>

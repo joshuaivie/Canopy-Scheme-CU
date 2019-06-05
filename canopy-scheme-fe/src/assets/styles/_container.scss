@@ -5,6 +5,7 @@
       .left,
       .right {
         @include flex(column, center);
+        align-content: flex-end;
         width: 50%;
         img {
           margin: auto;
@@ -67,6 +68,12 @@
       border: 2px solid#f4f4f4;
       background-color: #ffffff;
     }
+  }
+}
+
+@media (min-width: $screen-xl-min) {
+  .dashboard {
+    height: 100vh;
   }
 }
 
