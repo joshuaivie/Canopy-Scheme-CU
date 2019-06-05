@@ -14,6 +14,9 @@
           margin: auto;
           width: 300px;
         }
+        @media (max-width: $screen-md-min) {
+          justify-content: end;
+        }
       }
     }
   }
