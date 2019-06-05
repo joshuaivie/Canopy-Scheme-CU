@@ -67,7 +67,7 @@ export default ({ toggleModal }) => (
         <p>
           You can also click on the message icon&nbsp;
           <FontAwesomeIcon className="primary-text" icon="comment-alt" />
-          on the bottom right on your sceen to have a chat with the CPC team.
+          &nbsp;on the bottom right on your sceen to have a chat with the CPC team.
         </p>
       </div>
       <div className="right">
