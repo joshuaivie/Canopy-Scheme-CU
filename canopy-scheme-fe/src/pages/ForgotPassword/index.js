@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { AuthAction } from "actions";
 import Layout from "layouts";
+import { successAlert } from "utils/notification";
 
 class ForgotPassword extends React.Component {
   state = {
@@ -23,7 +24,9 @@ class ForgotPassword extends React.Component {
   async requestChangePassword() {
     try {
       const { email } = this.state;
-      await AuthAction.requestChangePassword(email);
+      const response = await AuthAction.requestChangePassword(email);
+      successAlert(response.msg);
+      this.setState({ isLoading: false, email: "" });
     } catch (errorMsg) {
       this.setState({ isLoading: false, errorMsg });
     }
@@ -50,11 +53,13 @@ class ForgotPassword extends React.Component {
                 onChange={this.handleChange}
                 required
               />
+              {errorMsg.email ? (
+                <p className="form-error-msg">{errorMsg.email}</p>
+              ) : null}
             </Form.Group>
             <Button variant="primary" type="submit" disabled={isLoading}>
               Reset Password
             </Button>
-            {errorMsg.email ? <p className="form-error-msg">{errorMsg.email}</p> : null}
           </Form>{" "}
         </div>
       </Layout>
