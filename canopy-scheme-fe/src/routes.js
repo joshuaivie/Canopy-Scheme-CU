@@ -1,8 +1,7 @@
-export const AUTH = "/auth";
 export const HOME = "/";
+export const FOGOT_PASSWORD = "/forgot-password";
+export const RESET_PASSWORD = "/reset-password/:token";
 export const ONBOARDING = "/on-boarding";
 
 // Application/ Dashboard Routes
 export const APP = "/app";
-export const ALLOCATION = "/app/allocation";
-export const SOMETHING = "/app/something";
