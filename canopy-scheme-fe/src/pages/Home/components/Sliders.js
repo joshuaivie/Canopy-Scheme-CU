@@ -3,7 +3,8 @@ import { Button } from "react-bootstrap";
 import tentSvg from "assets/svg/tent.svg";
 import familySvg from "assets/svg/family.svg";
 import cardSvg from "assets/svg/debit-card.svg";
-import Contact from "./Contact";
+import messageSvg from "assets/svg/message.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default ({ toggleModal }) => (
   <div id="landing-page">
@@ -46,6 +47,32 @@ export default ({ toggleModal }) => (
         <img src={familySvg} alt="" className="float" />
       </div>
     </div>
-    <Contact />
+    <div className="section" id="contact">
+      <div className="left">
+        <h1>Have questions?</h1>
+        <p>
+          Call&nbsp;
+          <FontAwesomeIcon className="primary-text" icon="phone" />
+          us on &nbsp;
+          <a href="tel:808009090">080-xxx-xxx</a>
+        </p>
+        <p>
+          Or send an email &nbsp;
+          <FontAwesomeIcon className="primary-text" icon="envelope" />
+          to &nbsp;
+          <a href="mailto:someone@example.com?Subject=Canopy%20Scheme">
+            supportcpc@stu.cu.edu.ng
+          </a>
+        </p>
+        <p>
+          You can also click on the message icon&nbsp;
+          <FontAwesomeIcon className="primary-text" icon="comment-alt" />
+          on the bottom right on your sceen to have a chat with the CPC team.
+        </p>
+      </div>
+      <div className="right">
+        <img src={messageSvg} alt="" className="float" />
+      </div>
+    </div>
   </div>
 );

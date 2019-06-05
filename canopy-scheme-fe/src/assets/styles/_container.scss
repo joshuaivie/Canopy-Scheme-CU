@@ -29,20 +29,6 @@
       }
     }
   }
-  #contact-section {
-    .fp-tableCell {
-      .info,
-      .form-container {
-        @include flex(column, center);
-        text-align: left;
-        width: 50%;
-        img {
-          width: 150px;
-          margin: 20px auto;
-        }
-      }
-    }
-  }
 }
 
 .main-container {
@@ -193,23 +179,6 @@
     .dashboard-header {
       .welcome-text {
         font-size: 1rem;
-      }
-    }
-  }
-  #contact-section {
-    .fp-tableCell {
-      .info,
-      .form-container {
-        width: 100% !important;
-        img {
-          display: none;
-        }
-      }
-      .info {
-        justify-content: flex-end !important;
-      }
-      .form-container {
-        justify-content: flex-start !important;
       }
     }
   }
