@@ -17,7 +17,11 @@ import {
   faSignInAlt,
   faMinus,
   faTimes,
-  faPowerOff
+  faPowerOff,
+  faCaretDown,
+  faPhone,
+  faEnvelope,
+  faCommentAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -38,5 +42,9 @@ library.add(
   faMinus,
   faSignInAlt,
   faTimes,
-  faPowerOff
+  faPowerOff,
+  faCaretDown,
+  faPhone,
+  faEnvelope,
+  faCommentAlt
 );
