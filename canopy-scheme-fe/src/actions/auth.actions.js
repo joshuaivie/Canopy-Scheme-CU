@@ -53,6 +53,22 @@ class AuthActions {
       throw resolveRequestError(err);
     }
   }
+
+  static async requestChangePassword(email) {
+    try {
+      await AuthApi.requestChangePassword({ email });
+    } catch (err) {
+      throw resolveRequestError(err);
+    }
+  }
+
+  static async resetPassword(email, token) {
+    try {
+      await AuthApi.resetPassword({ email, token });
+    } catch (err) {
+      throw resolveRequestError(err);
+    }
+  }
 }
 
 export default AuthActions;

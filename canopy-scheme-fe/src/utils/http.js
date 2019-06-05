@@ -35,7 +35,7 @@ export function resolveRequestError(err, showAllAlert = true) {
   const { status, data } = errorHandler(err);
   if (data.errors) throw data.errors;
   if (showAllAlert === true) {
-    errorAlert(data.msg);
+    errorAlert(data.msg || data);
     throw err;
   }
   if (status === 0) errorAlert(data);

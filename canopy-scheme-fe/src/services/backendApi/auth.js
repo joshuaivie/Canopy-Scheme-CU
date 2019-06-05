@@ -40,4 +40,16 @@ export default class AuthApi {
       generateBearer(token)
     );
   };
+  /**
+   * Sends in an email for password reset request.
+   */
+  static requestChangePassword = async ({ email }) => {
+    return HTTP.post(ENDPOINTS.FORGOT_PASSWORD, { email });
+  };
+  /**
+   * Resets a user's password.
+   */
+  static resetPassword = async ({ email, token }) => {
+    return HTTP.post(ENDPOINTS.RESET_PASSWORD, { email, token });
+  };
 }
