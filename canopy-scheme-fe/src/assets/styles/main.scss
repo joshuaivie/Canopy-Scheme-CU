@@ -94,16 +94,16 @@ body {
 }
 
 @media (max-width: $screen-md-min) {
-  .invite-button {
-    margin: auto;
-    width: 80%;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-  }
   .desktop-only {
     display: none;
   }
   .mobile-only {
+    display: block;
+  }
+  .group-container-mobile button {
+    display: none;
+  }
+  .group-container-mobile button:first-of-type {
     display: block;
   }
 }
