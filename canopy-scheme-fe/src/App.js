@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
+import NotFound from "./pages/notFound";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -32,6 +33,7 @@ const App = () => {
         <DefaultLayout exact path={ROUTES.FOGOT_PASSWORD} component={ForgotPassword} />
         <DefaultLayout exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
         <ProtectedRoute path={ROUTES.APP} component={Dashboard} />
+        <DefaultLayout component={NotFound} />
       </Switch>
     </BrowserRouter>
   );

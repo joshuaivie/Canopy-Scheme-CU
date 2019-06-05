@@ -66,7 +66,7 @@ class Login extends React.Component {
           {errorMsg.password ? (
             <p className="form-error-msg">{errorMsg.password}</p>
           ) : null}
-          <Link to="/forgot-password">Forgot password?</Link>
+          <Link to={ROUTES.FOGOT_PASSWORD}>Forgot password?</Link>
           <Button
             variant="primary"
             type="submit"
