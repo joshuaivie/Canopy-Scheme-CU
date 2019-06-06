@@ -21,7 +21,7 @@ export const REMOVE_GROUP_MEMBER = matricNo =>
 export const GROUP = `${APPEND_API}/group`;
 export const GROUP_INVITE = `${GROUP}/invite`;
 export const JOIN_GROUP = ({ groupId, groupToken, inviteeEmail }) =>
-  `${GROUP}/join/${groupId}/${groupToken}/${inviteeEmail}`;
+  `group/join/${groupId}/${groupToken}/${inviteeEmail}`;
 
 // Table
 export const TABLE = `${APPEND_API}/table`;
