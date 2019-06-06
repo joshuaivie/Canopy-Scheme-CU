@@ -49,10 +49,10 @@ export default class AuthApi {
   /**
    * Resets a user's password.
    */
-  static resetPassword = async ({ password, password_confirm, token }) => {
+  static resetPassword = async ({ password, passwordConfirm, token }) => {
     return HTTP.post(`${ENDPOINTS.RESET_PASSWORD}/${token}`, {
       password,
-      password_confirm
+      password_confirm: passwordConfirm
     });
   };
 
