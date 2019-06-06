@@ -13,3 +13,16 @@
   }
 
 }
+
+.form-error-msg {
+  color: red;
+  font-weight: 100;
+}
+
+.password-toggle-icon {
+  float: right;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
