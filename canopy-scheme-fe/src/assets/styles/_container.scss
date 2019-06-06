@@ -136,19 +136,6 @@
     color: #800080;
     font-size: 2rem;
   }
-  .remove-button {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    float: right;
-    border: 0 !important;
-    position: absolute;
-    top: -20px;
-    right: -10px;
-    z-index: 2;
-    box-shadow: 0 0 4px 0 rgba(17, 22, 26, 0.16), 0 2px 4px 0 rgba(17, 22, 26, 0.08),
-      0 4px 8px 0 rgba(17, 22, 26, 0.08);
-  }
   @media (max-width: $screen-md-min) {
     .invite-button {
       width: initial;
@@ -161,10 +148,10 @@
     flex-direction: column;
     justify-content: center;
     margin: 50px 0;
-    button {
+    button.invite-button {
       display: none;
     }
-    button:first-of-type {
+    button.invite-button:first-of-type {
       display: block;
     }
   }
