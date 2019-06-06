@@ -85,7 +85,7 @@ class Login extends React.Component {
           <p className="text-center">
             <Link
               className="primary-text"
-              to={ROUTES.FOGOT_PASSWORD}
+              to={ROUTES.FORGOT_PASSWORD}
               onClick={() => {
                 toggleModal();
               }}

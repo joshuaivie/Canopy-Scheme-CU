@@ -59,4 +59,11 @@ export default class AuthApi {
     const { data } = response;
     return data;
   };
+
+  /**
+   * Verifies a user's email.
+   */
+  static verifyEmail = async ({ emailToken }) => {
+    return HTTP.get(ENDPOINTS.VERIFY_EMAIL(emailToken));
+  };
 }

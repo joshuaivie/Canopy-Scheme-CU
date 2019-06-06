@@ -20,6 +20,15 @@ class GroupActions {
       throw resolveRequestError(err);
     }
   }
+
+  static async joinGroup({ groupId, groupToken, inviteeEmail }) {
+    try {
+      const response = await GroupApi.joinGroup({ groupId, groupToken, inviteeEmail });
+      return response.data;
+    } catch (err) {
+      throw resolveRequestError(err);
+    }
+  }
 }
 
 export default GroupActions;

@@ -31,7 +31,7 @@ function errorHandler(e) {
       window.location.replace("/");
     }, 1500);
   } else if (e.response && (e.response.status === 400 || e.response.status === 403)) {
-    res.status = 400;
+    res.status = e.response.status;
     res.data = e.response.data;
   }
   return res;

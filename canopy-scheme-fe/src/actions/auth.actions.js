@@ -72,6 +72,15 @@ class AuthActions {
       throw resolveRequestError(err);
     }
   }
+
+  static async verifyEmail({ emailToken }) {
+    try {
+      const response = await AuthApi.verifyEmail({ emailToken });
+      return response.data;
+    } catch (err) {
+      throw resolveRequestError(err);
+    }
+  }
 }
 
 export default AuthActions;

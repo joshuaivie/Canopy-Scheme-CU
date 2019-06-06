@@ -41,7 +41,7 @@
   }
 }
 
-#page-not-found {
+.center-large-text-container {
   width: 100%;
   padding: 20px;
   max-width: 600px;
@@ -51,6 +51,10 @@
   h1 {
     color: $purple;
     font-size: 5rem;
+  }
+  h2 {
+    color: $purple;
+    font-size: 2rem;
   }
 }
 .main-container {

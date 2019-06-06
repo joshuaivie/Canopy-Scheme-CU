@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 
 const NotFound = () => {
   return (
-    <div id="page-not-found">
+    <div className="center-large-text-container">
       <h1>Oops !</h1>
       <h4>404 - page not found</h4>
       <p>The page you are looking for might have been removed or does not exist</p>
