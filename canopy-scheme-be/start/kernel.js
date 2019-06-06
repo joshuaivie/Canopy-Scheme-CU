@@ -36,7 +36,8 @@ const namedMiddleware = {
   notInUserGroup: "App/Middleware/NotInUserGroup",
   inviteeNotInUserGroup: "App/Middleware/InviteeNotInUserGroup",
   inUserGroup: "App/Middleware/InUserGroup",
-  isValidGroupInviteLink: "App/Middleware/IsValidGroupInviteLink"
+  isValidGroupInviteLink: "App/Middleware/IsValidGroupInviteLink",
+  VerifyEmail: "App/Middleware/VerifyEmail"
 };
 
 /*

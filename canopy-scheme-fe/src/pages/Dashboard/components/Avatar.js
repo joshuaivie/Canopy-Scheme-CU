@@ -2,6 +2,7 @@ import React from "react";
 import { Image, Dropdown, Button } from "react-bootstrap";
 import { AuthAction } from "actions";
 import { errorAlert } from "utils/notification";
+import { UserStorage } from "storage";
 import avatarImg from "assets/img/portrait.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as ROUTES from "routes";
@@ -14,13 +15,14 @@ class CustomToggle extends React.PureComponent {
   };
 
   render() {
+    const { userInfo } = UserStorage;
     return (
       <React.Fragment>
         <Image
           src={avatarImg}
           className="dropdown-toggle"
           roundedCircle
-          style={{ width: "50px" }}
+          style={{ width: "50px", height: "50px" }}
           onClick={this.handleClick}
         />
         <FontAwesomeIcon icon="caret-down" />

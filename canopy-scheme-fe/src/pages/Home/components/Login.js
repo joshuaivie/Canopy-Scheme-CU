@@ -83,13 +83,7 @@ class Login extends React.Component {
           </Button>
           <br />
           <p className="text-center">
-            <Link
-              className="primary-text"
-              to={ROUTES.FORGOT_PASSWORD}
-              onClick={() => {
-                toggleModal();
-              }}
-            >
+            <Link className="primary-text" to={ROUTES.FORGOT_PASSWORD}>
               Forgot password?
             </Link>
           </p>

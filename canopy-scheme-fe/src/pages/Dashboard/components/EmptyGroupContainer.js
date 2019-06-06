@@ -12,25 +12,18 @@ export default function EmptyGroupContainer({
   newGroupName
 }) {
   return (
-    <Col xs="12" md="12">
-      <Card className="material-card">
-        <Card.Header>
-          <h5>Group</h5>
-        </Card.Header>
-        <Card.Body>
-          <div style={{ textAlign: "center", padding: "50px", lineHeight: "30px" }}>
-            <h5>You currently do not belong to any group</h5>
-            <p>Groups members sit down together during convocation</p>
-            <Button
-              variant="outline-success"
-              onClick={() => toggleModal("showCreateGroupModal")}
-            >
-              Create Group &nbsp;&nbsp;
-              <FontAwesomeIcon icon="user-plus" />
-            </Button>
-          </div>
-        </Card.Body>
-      </Card>
+    <React.Fragment>
+      <div style={{ textAlign: "center", padding: "50px", lineHeight: "30px" }}>
+        <h5>You currently do not belong to any group</h5>
+        <p>Groups members sit down together during convocation</p>
+        <Button
+          variant="outline-success"
+          onClick={() => toggleModal("showCreateGroupModal")}
+        >
+          Create Group &nbsp;&nbsp;
+          <FontAwesomeIcon icon="user-plus" />
+        </Button>
+      </div>
 
       <Modal
         show={showCreateGroupModal}
@@ -71,6 +64,6 @@ export default function EmptyGroupContainer({
           </Form>
         </Modal.Body>
       </Modal>
-    </Col>
+    </React.Fragment>
   );
 }

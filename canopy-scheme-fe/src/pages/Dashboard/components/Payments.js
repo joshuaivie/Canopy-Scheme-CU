@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
+import { Button, Card, Col, Table, Modal, Form, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
 import { UserAction, TableAction } from "actions";
@@ -39,22 +39,24 @@ const RenderPaymentHistory = (transactions, columns) =>
   ));
 
 const DisplayPayments = props => {
+  if (props.isFetching) {
+    return (
+      <tr>
+        <td colSpan={props.columns.length}>
+          <Spinner
+            animation="border"
+            style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
+          />
+        </td>
+      </tr>
+    );
+  }
   return (
-    <Table borderless hover responsive>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Tables</th>
-          <th>Reference</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.transactions.length > 0
-          ? RenderPaymentHistory(props.transactions, props.columns)
-          : RenderEmptyHistory(props.columns)}
-      </tbody>
-    </Table>
+    <React.Fragment>
+      {props.transactions.length > 0
+        ? RenderPaymentHistory(props.transactions, props.columns)
+        : RenderEmptyHistory(props.columns)}
+    </React.Fragment>
   );
 };
 
@@ -74,7 +76,8 @@ class Payments extends React.Component {
       numberOfTables: 1,
       tablePrice: 10000, // naira
       totalPrice: 10000, // naira
-      isLoading: false
+      isLoading: false,
+      isFetching: false
     };
   }
 
@@ -121,7 +124,15 @@ class Payments extends React.Component {
   };
 
   getPaymentHistory = async () => {
-    this.setState({ transactions: await UserAction.getTransactions() });
+    this.setState({ isFetching: true });
+    try {
+      const transactions = await UserAction.getTransactions();
+      this.setState({ transactions });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ isFetching: false });
+    }
   };
 
   paystackCallback = async response => {
@@ -152,7 +163,15 @@ class Payments extends React.Component {
   };
 
   render() {
-    const { transactions, totalPrice, tablePrice, show, numberOfTables } = this.state;
+    const {
+      transactions,
+      totalPrice,
+      tablePrice,
+      show,
+      columns,
+      numberOfTables,
+      isFetching
+    } = this.state;
     const { email } = UserStorage.userInfo;
     let limit = 5;
     transactions.forEach(transaction => {
@@ -175,23 +194,32 @@ class Payments extends React.Component {
           </Card.Header>
 
           <Card.Body>
-            <DisplayPayments
-              transactions={this.state.transactions}
-              columns={this.state.columns}
-            />
-            <div>
-              {limit > 0 ? (
-                <Button
-                  onClick={this.handleOpen}
-                  className="make-payment-button mobile"
-                >
-                  Book Table(s) &nbsp;
-                  <FontAwesomeIcon icon="credit-card" />
-                </Button>
-              ) : (
-                <p className="form-error-msg mobile-only">You have paid for 5 tables</p>
-              )}
-            </div>
+            <Table borderless hover responsive>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Tables</th>
+                  <th>Reference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <DisplayPayments
+                  // {...{isFetching, transactions, columns}} // a shorter syntax
+                  isFetching={isFetching}
+                  transactions={transactions}
+                  columns={columns}
+                />
+              </tbody>
+            </Table>
+            {limit > 0 ? (
+              <Button onClick={this.handleOpen} className="make-payment-button mobile">
+                Book Table(s) &nbsp;
+                <FontAwesomeIcon icon="credit-card" />
+              </Button>
+            ) : (
+              <p className="form-error-msg mobile-only">You have paid for 5 tables</p>
+            )}
           </Card.Body>
         </Card>
 

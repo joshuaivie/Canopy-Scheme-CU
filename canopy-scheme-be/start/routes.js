@@ -64,6 +64,7 @@ Route.group(() => {
     .middleware("isUserGroupOwner");
 })
   .prefix("api")
+  .middleware("VerifyEmail")
   .middleware("auth");
 
 Route.group(() => {

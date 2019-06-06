@@ -16,7 +16,6 @@ class InviteeNotInUserGroup {
       invitee_email: "decode_uri_and_decrypt|normalize_email"
     };
     const { invitee_email } = sanitize(request.params, rules);
-    // request.params.invitee_email = invitee_email;
 
     try {
       const user = await User.query()

@@ -11,6 +11,10 @@ class ForgotPassword extends React.Component {
     errorMsg: {}
   };
 
+  componentDidMount() {
+    this.props.toggleModal(false);
+  }
+
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
