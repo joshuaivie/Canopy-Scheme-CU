@@ -23,6 +23,9 @@ Route.group(() => {
     "password/reset",
     "AuthController.sendResetPasswordLink"
   ).validator("PasswordReset");
+  Route.post("password/reset/:token", "AuthController.resetPassword")
+    .validator("PasswordResetCheckToken")
+    .as("password.reset-token");
 }).prefix("api");
 
 Route.group(() => {
@@ -75,9 +78,6 @@ Route.group(() => {
     .middleware("inviteeNotInUserGroup")
     .middleware("isValidGroupInviteLink")
     .as("group.join");
-  Route.post("password/reset/:token", "AuthController.resetPassword")
-    .validator("PasswordResetCheckToken")
-    .as("password.reset-token");
   Route.get("verification/email/:token", "UserController.verifyEmail").as(
     "email.verify"
   );

@@ -9,7 +9,11 @@ export default ({ children, toggleModal, showAuthModal, history }) => {
       <Header toggleModal={toggleModal} />
       <div id="layoutMain">{children}</div>
       <Footer />
-      <AuthModal show={showAuthModal} toggleModal={toggleModal} history={history} />
+      <AuthModal
+        showAuthModal={showAuthModal}
+        toggleModal={toggleModal}
+        history={history}
+      />
     </div>
   );
 };

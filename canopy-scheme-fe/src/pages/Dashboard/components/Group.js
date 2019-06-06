@@ -191,8 +191,6 @@ class Groups extends React.Component {
   };
 
   getGroupMembers = async ({ showAllAlerts }) => {
-    this.setState({ isFetching: false });
-
     try {
       let { members, owner } = await UserAction.getGroup({ showAllAlerts });
       owner.is_group_owner = true;

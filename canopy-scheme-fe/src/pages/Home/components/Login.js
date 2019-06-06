@@ -41,7 +41,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password, isLoading, errorMsg } = this.state;
-    const { switchForm, toggleModal } = this.props;
+    const { switchForm } = this.props;
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>

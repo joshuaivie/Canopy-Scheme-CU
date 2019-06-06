@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Card, Col, Modal, Spinner } from "react-bootstrap";
+import { Form, Button, Modal, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function EmptyGroupContainer({

@@ -30,7 +30,7 @@ class ResetPassword extends React.Component {
       const response = await AuthAction.resetPassword({
         password,
         passwordConfirm,
-        token
+        passwordToken: token
       });
       successAlert(response.msg);
       const {
