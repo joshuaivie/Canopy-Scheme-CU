@@ -44,20 +44,16 @@ export default class AuthApi {
    * Sends in an email for password reset request.
    */
   static requestChangePassword = async ({ email }) => {
-    const response = await HTTP.post(ENDPOINTS.RESET_PASSWORD, { email });
-    const { data } = response;
-    return data;
+    return HTTP.post(ENDPOINTS.RESET_PASSWORD, { email });
   };
   /**
    * Resets a user's password.
    */
   static resetPassword = async ({ password, password_confirm, token }) => {
-    const response = await HTTP.post(`${ENDPOINTS.RESET_PASSWORD}/${token}`, {
+    return HTTP.post(`${ENDPOINTS.RESET_PASSWORD}/${token}`, {
       password,
       password_confirm
     });
-    const { data } = response;
-    return data;
   };
 
   /**

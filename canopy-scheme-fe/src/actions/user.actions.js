@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable camelcase */
 import { UserApi } from "services/backendApi";
 import { errorAlert } from "utils/notification";
 import { UserStorage } from "storage";
@@ -66,6 +68,25 @@ class UserAction {
   static async removeMember({ matricNo, token = UserStorage.token }) {
     try {
       const response = await UserApi.removeMember({ matricNo, token });
+      return response.data;
+    } catch (err) {
+      resolveRequestError(err); // only displays error when offline.
+    }
+  }
+
+  static async changePassword({
+    old_password,
+    new_password,
+    new_password_confirm,
+    token = UserStorage.token
+  }) {
+    try {
+      const response = await UserApi.changePassword({
+        old_password,
+        new_password,
+        new_password_confirm,
+        token
+      });
       return response.data;
     } catch (err) {
       resolveRequestError(err); // only displays error when offline.

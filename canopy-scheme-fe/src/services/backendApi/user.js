@@ -50,4 +50,24 @@ export default class UserApi {
   static removeMember = async ({ matricNo, token }) => {
     return HTTP.delete(ENDPOINTS.REMOVE_GROUP_MEMBER(matricNo), generateBearer(token));
   };
+  /**
+   * Changes a user's password.
+   */
+  static changePassword = async ({
+    old_password,
+    new_password,
+    new_password_confirm,
+    token
+  }) => {
+    return HTTP.post(
+      ENDPOINTS.CHANGE_PASSWORD,
+      {
+        old_password,
+        new_password,
+        new_password_confirm,
+        token
+      },
+      generateBearer(token)
+    );
+  };
 }
