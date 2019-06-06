@@ -25,4 +25,4 @@ export const JOIN_GROUP = ({ groupId, groupToken, inviteeEmail }) =>
 
 // Table
 export const TABLE = `${APPEND_API}/table`;
-export const TABLE_PURCHASE = `${APPEND_API}/${TABLE}/purchase`;
+export const TABLE_PURCHASE = `${TABLE}/purchase`;
