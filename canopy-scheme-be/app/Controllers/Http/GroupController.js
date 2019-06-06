@@ -30,7 +30,7 @@ class GroupController {
   }
 
   /**
-   * Allow a user to join a user group via a unique URL.commanum
+   * Allow a user to join a user group via a unique URL
    */
   async join({ request, response }) {
     // `invitee` param gets added in the InviteeNotInUserGroup middleware
