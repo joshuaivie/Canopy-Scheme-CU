@@ -41,7 +41,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password, isLoading, errorMsg } = this.state;
-    const { switchForm, toggleModal } = this.props;
+    const { switchForm } = this.props;
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
@@ -83,13 +83,7 @@ class Login extends React.Component {
           </Button>
           <br />
           <p className="text-center">
-            <Link
-              className="primary-text"
-              to={ROUTES.FORGOT_PASSWORD}
-              onClick={() => {
-                toggleModal();
-              }}
-            >
+            <Link className="primary-text" to={ROUTES.FORGOT_PASSWORD}>
               Forgot password?
             </Link>
           </p>

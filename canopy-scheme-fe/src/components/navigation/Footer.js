@@ -2,6 +2,16 @@ import React from "react";
 
 export default () => (
   <section className="footer-container">
-    <h5>Made with ❤ by CPC</h5>
+    <h5>
+      Made with ❤ by{" "}
+      <a
+        style={{ color: "#800080" }}
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://twitter.com/CuDevCommunity"
+      >
+        CDC
+      </a>
+    </h5>
   </section>
 );

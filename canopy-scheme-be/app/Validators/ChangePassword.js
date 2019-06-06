@@ -14,7 +14,7 @@ class ChangePassword extends BaseValidator {
   get messages() {
     return {
       required: "{{ field }} is required.",
-      "new_password.min": "Password must not be less than 8 characters long."
+      min: "Password must not be less than 8 characters long."
     };
   }
 }

@@ -54,17 +54,17 @@ export default class UserApi {
    * Changes a user's password.
    */
   static changePassword = async ({
-    old_password,
-    new_password,
-    new_password_confirm,
+    oldPassword,
+    newPassword,
+    newPasswordConfirm,
     token
   }) => {
     return HTTP.post(
       ENDPOINTS.CHANGE_PASSWORD,
       {
-        old_password,
-        new_password,
-        new_password_confirm,
+        old_password: oldPassword,
+        new_password: newPassword,
+        new_password_confirm: newPasswordConfirm,
         token
       },
       generateBearer(token)

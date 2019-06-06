@@ -75,16 +75,16 @@ class UserAction {
   }
 
   static async changePassword({
-    old_password,
-    new_password,
-    new_password_confirm,
+    oldPassword,
+    newPassword,
+    newPasswordConfirm,
     token = UserStorage.token
   }) {
     try {
       const response = await UserApi.changePassword({
-        old_password,
-        new_password,
-        new_password_confirm,
+        oldPassword,
+        newPassword,
+        newPasswordConfirm,
         token
       });
       return response.data;

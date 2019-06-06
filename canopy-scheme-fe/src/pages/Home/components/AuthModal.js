@@ -14,10 +14,10 @@ class AuthModal extends React.Component {
   };
 
   render() {
-    const { show, toggleModal, history } = this.props;
+    const { showAuthModal, toggleModal, history } = this.props;
     const { form } = this.state;
     return (
-      <Modal show={show} onHide={toggleModal}>
+      <Modal show={showAuthModal} onHide={() => toggleModal()}>
         <Modal.Header closeButton>
           <Modal.Title styl={{ fontSize: "1.5rem" }}>{form} to continue</Modal.Title>
         </Modal.Header>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col } from "react-bootstrap";
+import { Button, Card, Col, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { validateMatricNo } from "utils/validateMatric";
 import { UserStorage } from "storage";
@@ -21,6 +21,7 @@ class Groups extends React.Component {
       inviteeEmail: "",
       inviteeMatricNo: "",
       isLoading: false,
+      isFetching: false,
       newGroupName: "",
       groupMembers: [],
       isGroupOwner: false,
@@ -36,7 +37,7 @@ class Groups extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ isGroupOwner: this.isUserGroupOwner });
+    this.setState({ isGroupOwner: this.isUserGroupOwner, isFetching: true });
     this.getGroupMembers({ showAllAlerts: false });
   }
 
@@ -190,8 +191,6 @@ class Groups extends React.Component {
   };
 
   getGroupMembers = async ({ showAllAlerts }) => {
-    this.setState({ isLoading: true });
-
     try {
       let { members, owner } = await UserAction.getGroup({ showAllAlerts });
       owner.is_group_owner = true;
@@ -207,7 +206,7 @@ class Groups extends React.Component {
     } catch (err) {
       this.setState({ isUserInAnyGroup: false });
     } finally {
-      this.setState({ isLoading: false });
+      this.setState({ isFetching: false });
     }
   };
 
@@ -228,6 +227,7 @@ class Groups extends React.Component {
         isGroupOwner,
         isUserInAnyGroup,
         isLoading,
+        isFetching,
         showRemoveGroupMemberModal,
         showCreateGroupModal,
         showDeleteGroupModal,
@@ -238,9 +238,18 @@ class Groups extends React.Component {
         inviteErrorMsg
       }
     } = this;
+    let body = null;
+    if (isFetching === true) {
+      body = (
+        <Spinner
+          animation="border"
+          style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
+        />
+      );
+    }
 
-    if (isUserInAnyGroup === false) {
-      return (
+    if (!isFetching && isUserInAnyGroup === false) {
+      body = (
         <EmptyGroupContainer
           handleCreateGroup={handleCreateGroup}
           isLoading={isLoading}
@@ -252,39 +261,21 @@ class Groups extends React.Component {
         />
       );
     }
-
-    if (isGroupOwner) {
-      return (
-        <Col xs="12" md="12">
-          <Card className="material-card">
-            <Card.Header>
-              <h5>Group</h5>
-              <Button
-                variant="outline-danger"
-                onClick={() => toggleModal("showDeleteGroupModal")}
-              >
-                Delete
-                <FontAwesomeIcon icon="door-open" />
-              </Button>
-            </Card.Header>
-
-            <Card.Body>
-              <p style={{ textAlign: "center" }}>
-                Invite your friends to share your joy
-              </p>
-              <div className="group-container">
-                <GroupMembersContainer
-                  showRemoveGroupMemberModal={showRemoveGroupMemberModal}
-                  isLoading={isLoading}
-                  handleRemoveMember={handleRemoveMember}
-                  toggleModal={toggleModal}
-                  toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
-                  groupMembers={groupMembers}
-                  isGroupOwner={isGroupOwner}
-                />
-              </div>
-            </Card.Body>
-          </Card>
+    if (!isFetching && isGroupOwner) {
+      body = (
+        <React.Fragment>
+          <p style={{ textAlign: "center" }}>Invite your friends to share your joy</p>
+          <div className="group-container">
+            <GroupMembersContainer
+              showRemoveGroupMemberModal={showRemoveGroupMemberModal}
+              isLoading={isLoading}
+              handleRemoveMember={handleRemoveMember}
+              toggleModal={toggleModal}
+              toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
+              groupMembers={groupMembers}
+              isGroupOwner={isGroupOwner}
+            />
+          </div>
 
           <InviteUserModal
             toggleModal={toggleModal}
@@ -303,54 +294,61 @@ class Groups extends React.Component {
             isLoading={isLoading}
             handleDeleteGroup={handleDeleteGroup}
           />
-        </Col>
+        </React.Fragment>
       );
-    } else {
+    } else if (!isFetching && !isGroupOwner) {
       // Not a group admin, hence render all the members of the group user belongs to.
-
-      return (
-        <Col xs="12" md="12">
-          <Card className="material-card">
-            <Card.Header>
-              <h5>Group</h5>
-
-              {isGroupOwner ? (
-                <div />
-              ) : (
-                <Button
-                  variant="outline-danger"
-                  onClick={() => toggleModal("showLeaveGroupModal")}
-                >
-                  Leave
-                  <FontAwesomeIcon icon="door-open" />
-                </Button>
-              )}
-            </Card.Header>
-
-            <Card.Body className="not-group-admin">
-              <div className="group-container">
-                <GroupMembersContainer
-                  showRemoveGroupMemberModal={showRemoveGroupMemberModal}
-                  isLoading={isLoading}
-                  handleRemoveMember={handleRemoveMember}
-                  toggleModal={toggleModal}
-                  toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
-                  groupMembers={groupMembers}
-                  isGroupOwner={isGroupOwner}
-                />
-              </div>
-            </Card.Body>
-          </Card>
-
+      body = (
+        <React.Fragment>
+          <div className="group-container not-group-admin">
+            <GroupMembersContainer
+              showRemoveGroupMemberModal={showRemoveGroupMemberModal}
+              isLoading={isLoading}
+              handleRemoveMember={handleRemoveMember}
+              toggleModal={toggleModal}
+              toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
+              groupMembers={groupMembers}
+              isGroupOwner={isGroupOwner}
+            />
+          </div>
           <LeaveGroupModal
             isLoading={isLoading}
             toggleModal={toggleModal}
             showLeaveGroupModal={showLeaveGroupModal}
             handleLeaveGroup={handleLeaveGroup}
           />
-        </Col>
+        </React.Fragment>
       );
     }
+
+    return (
+      <Col xs="12" md="12">
+        <Card className="material-card">
+          <Card.Header>
+            <h5>Group</h5>
+            {isGroupOwner ? (
+              <Button
+                variant="outline-danger"
+                onClick={() => toggleModal("showDeleteGroupModal")}
+              >
+                Delete
+                <FontAwesomeIcon icon="door-open" />
+              </Button>
+            ) : null}
+            {isUserInAnyGroup && !isGroupOwner ? (
+              <Button
+                variant="outline-danger"
+                onClick={() => toggleModal("showLeaveGroupModal")}
+              >
+                Leave
+                <FontAwesomeIcon icon="door-open" />
+              </Button>
+            ) : null}
+          </Card.Header>
+          <Card.Body>{body}</Card.Body>
+        </Card>
+      </Col>
+    );
   }
 }
 

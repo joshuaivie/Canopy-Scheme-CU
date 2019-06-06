@@ -16,7 +16,7 @@ export default ({ toggleModal }) => (
         Dashboard
       </Link>
     ) : (
-      <Nav.Link onClick={toggleModal}>
+      <Nav.Link onClick={() => toggleModal()}>
         Login/Register &nbsp;
         <FontAwesomeIcon className="primary-text" icon="sign-in-alt" />
       </Nav.Link>

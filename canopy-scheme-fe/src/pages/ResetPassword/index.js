@@ -8,7 +8,7 @@ import * as ROUTES from "routes";
 class ResetPassword extends React.Component {
   state = {
     password: "",
-    password_confirm: "",
+    passwordConfirm: "",
     isLoading: false,
     errorMsg: {}
   };
@@ -26,11 +26,11 @@ class ResetPassword extends React.Component {
   async requestPassword() {
     try {
       const { token } = this.props.match.params;
-      const { password, password_confirm } = this.state;
+      const { password, passwordConfirm } = this.state;
       const response = await AuthAction.resetPassword({
         password,
-        password_confirm,
-        token
+        passwordConfirm,
+        passwordToken: token
       });
       successAlert(response.msg);
       const {
@@ -42,12 +42,12 @@ class ResetPassword extends React.Component {
     } catch (errorMsg) {
       this.setState({ errorMsg });
     } finally {
-      this.setState({ isLoading: false, password: "", password_confirm: "" });
+      this.setState({ isLoading: false, password: "", passwordConfirm: "" });
     }
   }
 
   render() {
-    const { password, password_confirm, errorMsg, isLoading } = this.state;
+    const { password, passwordConfirm, errorMsg, isLoading } = this.state;
     const { toggleModal, history, showAuthModal } = this.props;
     return (
       <Layout toggleModal={toggleModal} history={history} showAuthModal={showAuthModal}>
@@ -73,8 +73,8 @@ class ResetPassword extends React.Component {
               <Form.Control
                 type="password"
                 placeholder="Confirm your password"
-                name="password_confirm"
-                value={password_confirm}
+                name="passwordConfirm"
+                value={passwordConfirm}
                 onChange={this.handleChange}
                 required
               />

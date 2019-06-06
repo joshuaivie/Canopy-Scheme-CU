@@ -34,27 +34,33 @@ class JoinGroup extends React.Component {
   render() {
     const { successMsg, isLoading } = this.state;
     const { toggleModal, history, showAuthModal } = this.props;
+    let body;
+    if (isLoading) {
+      body = <Spinner animation="border" style={{ height: "6rem", width: "6rem" }} />;
+    } else if (!isLoading && successMsg) {
+      body = (
+        <React.Fragment>
+          <h2>{successMsg}</h2>
+          <p>Go to your dashboard to see your group members</p>
+          <Link to={ROUTES.APP}>
+            <Button>Dashboard</Button>
+          </Link>
+        </React.Fragment>
+      );
+    } else {
+      body = (
+        <React.Fragment>
+          <h2>Error joining group</h2>
+          <p>Could not join group with this invite link</p>
+          <Link to={ROUTES.HOME}>
+            <Button>Go home</Button>
+          </Link>
+        </React.Fragment>
+      );
+    }
     return (
       <Layout toggleModal={toggleModal} history={history} showAuthModal={showAuthModal}>
-        <div className="center-large-text-container">
-          {isLoading ? (
-            <Spinner animation="border" style={{ height: "6rem", width: "6rem" }} />
-          ) : null}
-          {successMsg ? (
-            <React.Fragment>
-              <h2>{successMsg}</h2>
-              <p>Go to your dashboard to see your group members</p>
-              <Link to={ROUTES.APP}>
-                <Button>Dashboard</Button>
-              </Link>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <h2>Error joining group</h2>
-              <p>Could not join group with this invite link</p>
-            </React.Fragment>
-          )}
-        </div>
+        <div className="center-large-text-container">{body}</div>
       </Layout>
     );
   }

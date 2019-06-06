@@ -138,10 +138,9 @@
   }
   @media (max-width: $screen-md-min) {
     .invite-button {
-      width: initial;
       height: initial;
       margin: auto;
-      width: 80%;
+      width: 60%;
       margin-top: 0.5em;
       margin-bottom: 0.5em;
     }
@@ -151,8 +150,10 @@
     button.invite-button {
       display: none;
     }
-    button.invite-button:first-of-type {
+    button.invite-button:first-of-type, button.invite-button:first-of-type:active {
       display: block;
+      color: green;
+      border: 1px dashed green;
     }
   }
 }

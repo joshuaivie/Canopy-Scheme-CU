@@ -50,12 +50,9 @@ class VerifyEmail extends React.Component {
           ) : (
             <React.Fragment>
               <h2>Error verifying your email</h2>
-              <p>
-                Could not verify your email with this verification link, please try the
-                process again
-              </p>
-              <Link to={ROUTES.RESET_PASSWORD}>
-                <Button>Reset password</Button>
+              <p>Could not verify your email with this verification link.</p>
+              <Link to={ROUTES.HOME}>
+                <Button>Go home</Button>
               </Link>
             </React.Fragment>
           )}

@@ -20,7 +20,7 @@ class CustomToggle extends React.PureComponent {
           src={avatarImg}
           className="dropdown-toggle"
           roundedCircle
-          style={{ width: "50px" }}
+          style={{ width: "50px", height: "50px" }}
           onClick={this.handleClick}
         />
         <FontAwesomeIcon icon="caret-down" />

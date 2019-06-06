@@ -8,9 +8,9 @@ class ChangePasswordModal extends React.Component {
 
   get initialState() {
     return {
-      old_password: "",
-      new_password: "",
-      new_password_confirm: "",
+      oldPassword: "",
+      newPassword: "",
+      newPasswordConfirm: "",
       isLoading: false,
       errorMsg: {}
     };
@@ -33,11 +33,11 @@ class ChangePasswordModal extends React.Component {
   async changePassword() {
     try {
       const { toggleModal } = this.props;
-      const { old_password, new_password, new_password_confirm } = this.state;
+      const { oldPassword, newPassword, newPasswordConfirm } = this.state;
       const response = await UserAction.changePassword({
-        old_password,
-        new_password,
-        new_password_confirm
+        oldPassword,
+        newPassword,
+        newPasswordConfirm
       });
       successAlert(response.msg);
       this.resetState();
@@ -49,9 +49,9 @@ class ChangePasswordModal extends React.Component {
   render() {
     const { toggleModal, showChangePasswordModal } = this.props;
     const {
-      old_password,
-      new_password,
-      new_password_confirm,
+      oldPassword,
+      newPassword,
+      newPasswordConfirm,
       errorMsg,
       isLoading
     } = this.state;
@@ -67,8 +67,8 @@ class ChangePasswordModal extends React.Component {
               <Form.Control
                 type="password"
                 placeholder="Your old password"
-                name="old_password"
-                value={old_password}
+                name="oldPassword"
+                value={oldPassword}
                 onChange={this.handleChange}
                 required
               />
@@ -81,8 +81,8 @@ class ChangePasswordModal extends React.Component {
               <Form.Control
                 type="password"
                 placeholder="Your new password"
-                name="new_password"
-                value={new_password}
+                name="newPassword"
+                value={newPassword}
                 onChange={this.handleChange}
                 required
               />
@@ -95,8 +95,8 @@ class ChangePasswordModal extends React.Component {
               <Form.Control
                 type="password"
                 placeholder="Confirm your new password"
-                name="new_password_confirm"
-                value={new_password_confirm}
+                name="newPasswordConfirm"
+                value={newPasswordConfirm}
                 onChange={this.handleChange}
                 required
               />

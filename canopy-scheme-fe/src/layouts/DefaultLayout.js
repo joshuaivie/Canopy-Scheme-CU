@@ -5,7 +5,11 @@ class DefaultLayout extends React.Component {
   state = {
     showAuthModal: false
   };
-  toggleModal = () => {
+  toggleModal = (val = null) => {
+    if (val != null) {
+      this.setState({ showAuthModal: val });
+      return;
+    }
     const { showAuthModal } = this.state;
     this.setState({ showAuthModal: !showAuthModal });
   };

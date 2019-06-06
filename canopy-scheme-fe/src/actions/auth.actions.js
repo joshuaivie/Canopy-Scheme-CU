@@ -66,12 +66,12 @@ class AuthActions {
   }
 
   // eslint-disable-next-line camelcase
-  static async resetPassword({ password, password_confirm, token }) {
+  static async resetPassword({ password, passwordConfirm, passwordToken }) {
     try {
       const response = await AuthApi.resetPassword({
         password,
-        password_confirm,
-        token
+        passwordConfirm,
+        passwordToken
       });
       return response.data;
     } catch (err) {
