@@ -41,7 +41,7 @@
   }
 }
 
-#page-not-found {
+.center-large-text-container {
   width: 100%;
   padding: 20px;
   max-width: 600px;
@@ -51,6 +51,10 @@
   h1 {
     color: $purple;
     font-size: 5rem;
+  }
+  h2 {
+    color: $purple;
+    font-size: 2rem;
   }
 }
 .main-container {
@@ -115,36 +119,22 @@
 .group-container {
   display: flex;
   justify-content: space-around;
-  margin: 50px 0;
+  margin: 25px 0;
   .btn {
     position: relative;
   }
-  .member-card {
+  div {
     border: 1px dashed purple;
   }
 
   .invite-button {
-    width: 130px;
-    height: 130px;
+    width: 180px;
+    height: 180px;
     border-radius: 5%;
     background-color: transparent;
-    margin: 0 15px;
     border: 1px dashed #800080;
     color: #800080;
     font-size: 2rem;
-  }
-  .remove-button {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    float: right;
-    border: 0 !important;
-    position: absolute;
-    top: -20px;
-    right: -10px;
-    z-index: 2;
-    box-shadow: 0 0 4px 0 rgba(17, 22, 26, 0.16), 0 2px 4px 0 rgba(17, 22, 26, 0.08),
-      0 4px 8px 0 rgba(17, 22, 26, 0.08);
   }
   @media (max-width: $screen-md-min) {
     .invite-button {
@@ -158,10 +148,10 @@
     flex-direction: column;
     justify-content: center;
     margin: 50px 0;
-    button {
+    button.invite-button {
       display: none;
     }
-    button:first-of-type {
+    button.invite-button:first-of-type {
       display: block;
     }
   }
@@ -249,6 +239,6 @@
   }
 
   span {
-    color: gray !important;
+    color: green;
   }
 }

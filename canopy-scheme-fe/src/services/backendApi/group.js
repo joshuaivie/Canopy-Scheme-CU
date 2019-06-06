@@ -16,4 +16,11 @@ export default class GroupApi {
   static inviteUsers = async ({ users, token = UserStorage.token }) => {
     return HTTP.post(ENDPOINTS.GROUP_INVITE, { users }, generateBearer(token));
   };
+
+  /**
+   * Join a group.
+   */
+  static joinGroup = async ({ groupId, groupToken, inviteeEmail }) => {
+    return HTTP.get(ENDPOINTS.JOIN_GROUP({ groupId, groupToken, inviteeEmail }));
+  };
 }

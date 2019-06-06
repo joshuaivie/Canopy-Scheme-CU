@@ -2,8 +2,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AuthAction } from "actions";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Spinner } from "react-bootstrap";
 import * as ROUTES from "routes";
+import { successAlert } from "utils/notification";
 
 class Login extends React.Component {
   state = {
@@ -25,8 +26,14 @@ class Login extends React.Component {
 
   async login() {
     try {
-      await AuthAction.login({ ...this.state });
-      window.location.href = ROUTES.APP;
+      const msg = await AuthAction.login({ ...this.state });
+      successAlert(msg);
+      const {
+        history: { push }
+      } = this.props;
+      window.setTimeout(function() {
+        push(ROUTES.APP);
+      }, 2000);
     } catch (errorMsg) {
       this.setState({ isLoading: false, errorMsg });
     }
@@ -34,7 +41,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password, isLoading, errorMsg } = this.state;
-    const { switchForm } = this.props;
+    const { switchForm, toggleModal } = this.props;
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
@@ -66,17 +73,27 @@ class Login extends React.Component {
           {errorMsg.password ? (
             <p className="form-error-msg">{errorMsg.password}</p>
           ) : null}
-          <Link to={ROUTES.FOGOT_PASSWORD}>Forgot password?</Link>
           <Button
             variant="primary"
             type="submit"
             disabled={isLoading}
-            className="btn-center"
+            className="btn-center btn-full-width"
           >
-            Login
+            {isLoading ? <Spinner animation="border" /> : "Login"}
           </Button>
           <br />
-          <p>
+          <p className="text-center">
+            <Link
+              className="primary-text"
+              to={ROUTES.FORGOT_PASSWORD}
+              onClick={() => {
+                toggleModal();
+              }}
+            >
+              Forgot password?
+            </Link>
+          </p>
+          <p className="text-center">
             Don't have an account?{" "}
             <span
               className="primary-text"

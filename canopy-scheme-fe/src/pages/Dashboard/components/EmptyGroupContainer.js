@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Card, Col, Modal } from "react-bootstrap";
+import { Form, Button, Card, Col, Modal, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function EmptyGroupContainer({
@@ -45,7 +45,6 @@ export default function EmptyGroupContainer({
             Groups are mediums to get closer with one another, and they are uniquely
             named.
           </p>
-          <br />
           <Form onSubmit={handleCreateGroup}>
             <Form.Group>
               <Form.Label>Group Name</Form.Label>
@@ -67,7 +66,7 @@ export default function EmptyGroupContainer({
               disabled={isLoading}
               className="btn-center"
             >
-              {isLoading ? "Loading..." : "Create Group"}
+              {isLoading ? <Spinner animation="border" /> : "Create Group"}
             </Button>
           </Form>
         </Modal.Body>

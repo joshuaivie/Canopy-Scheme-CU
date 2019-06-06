@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Spinner, Button, Form } from "react-bootstrap";
 
 export default function InviteUserModal({
   inviteeEmail,
@@ -59,7 +59,7 @@ export default function InviteUserModal({
             className="btn-center"
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Send Invite"}
+            {isLoading ? <Spinner animation="border" /> : "Send Invite"}
           </Button>
         </Form>
       </Modal.Body>

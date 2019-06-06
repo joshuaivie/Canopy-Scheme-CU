@@ -3,13 +3,9 @@ import Layout from "layouts";
 import ReactFullpage from "@fullpage/react-fullpage";
 import * as Routes from "routes";
 import Sliders from "pages/Home/components/Sliders";
-import AuthModal from "pages/Home/components/AuthModal";
 import { isLoggedIn } from "utils/auth";
 
 class Home extends React.Component {
-  state = {
-    showAuthModal: false
-  };
   componentDidMount() {
     const {
       history: { push }
@@ -21,28 +17,26 @@ class Home extends React.Component {
     }
   }
 
-  toggleModal = () => {
-    const { showAuthModal } = this.state;
-    this.setState({ showAuthModal: !showAuthModal });
-  };
-
   render() {
-    const { showAuthModal } = this.state;
+    const { toggleModal, history, showAuthModal } = this.props;
     return (
       <React.Fragment>
-        <Layout toggleModal={this.toggleModal}>
+        <Layout
+          toggleModal={toggleModal}
+          history={history}
+          showAuthModal={showAuthModal}
+        >
           <ReactFullpage
             navigation
             render={({ state, fullpageApi }) => {
               return (
                 <ReactFullpage.Wrapper>
-                  <Sliders toggleModal={this.toggleModal} />
+                  <Sliders toggleModal={toggleModal} />
                 </ReactFullpage.Wrapper>
               );
             }}
           />
         </Layout>
-        <AuthModal show={showAuthModal} toggleModal={this.toggleModal} />
       </React.Fragment>
     );
   }

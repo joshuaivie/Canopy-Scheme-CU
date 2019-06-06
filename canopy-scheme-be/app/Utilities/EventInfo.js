@@ -9,7 +9,7 @@ class EventInfo {
 
   static async unitPrice() {
     const event = await EventInfoModel.first();
-    if (event === null) return 15000;
+    if (event === null) return 10000;
     return event.table_unit_price;
   }
 

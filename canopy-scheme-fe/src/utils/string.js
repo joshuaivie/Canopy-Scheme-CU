@@ -9,3 +9,5 @@ export const generateRandomString = () => {
   }
   return text;
 };
+
+export const shortenString = str => (str.length > 18 ? `${str.substr(0, 15)}...` : str);

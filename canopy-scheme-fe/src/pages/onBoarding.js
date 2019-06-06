@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import { Button } from "react-bootstrap";
-import * as Routes from "routes";
+import * as ROUTES from "routes";
 import browserSvg from "assets/svg/browser.svg";
 import checklistSvg from "assets/svg/checklist.svg";
 import handGestureSvg from "assets/svg/hand-gesture.svg";
@@ -34,7 +34,7 @@ class OnBoarding extends React.Component {
       history: { push }
     } = this.props;
     localStorage.setItem("oldUser", true);
-    push(Routes.HOME);
+    push(ROUTES.HOME);
   };
 
   render() {

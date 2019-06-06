@@ -9,6 +9,7 @@ class AuthActions {
       UserStorage.token = data.token;
       UserStorage.refreshToken = data.refreshToken;
       UserStorage.userInfo = data.user;
+      return data.msg;
     } catch (err) {
       throw resolveRequestError(err);
     }
@@ -34,6 +35,7 @@ class AuthActions {
       UserStorage.token = data.token;
       UserStorage.refreshToken = data.refreshToken;
       UserStorage.userInfo = data.user;
+      return data.msg;
     } catch (err) {
       throw resolveRequestError(err);
     }
@@ -66,6 +68,15 @@ class AuthActions {
   static async resetPassword(password, password_confirm, token) {
     try {
       return await AuthApi.resetPassword({ password, password_confirm, token });
+    } catch (err) {
+      throw resolveRequestError(err);
+    }
+  }
+
+  static async verifyEmail({ emailToken }) {
+    try {
+      const response = await AuthApi.verifyEmail({ emailToken });
+      return response.data;
     } catch (err) {
       throw resolveRequestError(err);
     }

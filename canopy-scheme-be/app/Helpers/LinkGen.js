@@ -9,7 +9,7 @@ class LinkGen {
       token,
       invitee_email: Encryption.encrypt(email)
     });
-    const host = Env.get("APP_URL", "127.0.0.1");
+    const host = Env.get("FRONT_END_URL", "localhost:3000");
     return `${host}${endpoint}`;
   }
 
@@ -17,7 +17,7 @@ class LinkGen {
     const endpoint = Route.url(route, {
       token
     });
-    const host = Env.get("APP_URL", "127.0.0.1");
+    const host = Env.get("FRONT_END_URL", "localhost:3000");
     return `${host}${endpoint}`;
   }
 
@@ -25,7 +25,7 @@ class LinkGen {
     const endpoint = Route.url(route, {
       email_token
     });
-    const host = Env.get("APP_URL", "127.0.0.1");
+    const host = Env.get("FRONT_END_URL", "localhost:3000");
     return `${host}${endpoint}`;
   }
 }

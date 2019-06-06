@@ -1,8 +1,9 @@
 import React from "react";
-import { Container, Form, Button, Col } from "react-bootstrap";
+import { Container, Form, Button, Col, Spinner } from "react-bootstrap";
 import { AuthAction } from "actions";
 import * as ROUTES from "routes";
 import { validateMatricNo } from "utils/validateMatric";
+import { successAlert } from "utils/notification";
 
 class Register extends React.Component {
   state = {
@@ -47,8 +48,14 @@ class Register extends React.Component {
 
   async register() {
     try {
-      await AuthAction.register({ ...this.state });
-      window.location.href = ROUTES.APP;
+      const msg = await AuthAction.register({ ...this.state });
+      successAlert(msg);
+      const {
+        history: { push }
+      } = this.props;
+      window.setTimeout(function() {
+        push(ROUTES.APP);
+      }, 2000);
     } catch (errorMsg) {
       this.setState({ isLoading: false, errorMsg });
     }
@@ -110,7 +117,7 @@ class Register extends React.Component {
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
                   type="email"
-                  placeholder="Enter email"
+                  placeholder="Enter a valid email"
                   name="email"
                   value={email}
                   onChange={this.handleChange}
@@ -135,6 +142,9 @@ class Register extends React.Component {
                   onChange={this.handleChange}
                   required
                 />
+                <Form.Text className="text-muted">
+                  You need to be a graduating student
+                </Form.Text>
                 {errorMsg.matric_no ? (
                   <p className="form-error-msg">{errorMsg.matric_no}</p>
                 ) : null}
@@ -178,12 +188,12 @@ class Register extends React.Component {
             variant="primary"
             type="submit"
             disabled={isLoading}
-            className="btn-center"
+            className="btn-center btn-full-width"
           >
-            Register
+            {isLoading ? <Spinner animation="border" /> : "Register"}
           </Button>
           <br />
-          <p>
+          <p className="text-center">
             Have an account?{" "}
             <span
               className="primary-text"

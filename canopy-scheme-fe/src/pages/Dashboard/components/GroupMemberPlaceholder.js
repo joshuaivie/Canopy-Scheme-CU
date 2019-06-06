@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const FACE_EMOJIS = ["😍", "😏", "💕"];
+const FACE_EMOJIS = ["😍", "😏"];
 
 export default function GroupMemberPlaceholder({ enabled, toggleModal }) {
   if (enabled) {
