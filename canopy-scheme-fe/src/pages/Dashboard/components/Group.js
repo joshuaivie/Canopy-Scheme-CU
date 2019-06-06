@@ -283,17 +283,6 @@ class Groups extends React.Component {
                   isGroupOwner={isGroupOwner}
                 />
               </div>
-              <div className="group-container-mobile">
-                <GroupMembersContainer
-                  showRemoveGroupMemberModal={showRemoveGroupMemberModal}
-                  isLoading={isLoading}
-                  handleRemoveMember={handleRemoveMember}
-                  toggleModal={toggleModal}
-                  toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
-                  groupMembers={groupMembers}
-                  isGroupOwner={isGroupOwner}
-                />
-              </div>
             </Card.Body>
           </Card>
 
@@ -340,17 +329,6 @@ class Groups extends React.Component {
 
             <Card.Body className="not-group-admin">
               <div className="group-container">
-                <GroupMembersContainer
-                  showRemoveGroupMemberModal={showRemoveGroupMemberModal}
-                  isLoading={isLoading}
-                  handleRemoveMember={handleRemoveMember}
-                  toggleModal={toggleModal}
-                  toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
-                  groupMembers={groupMembers}
-                  isGroupOwner={isGroupOwner}
-                />
-              </div>
-              <div className="group-container-mobile">
                 <GroupMembersContainer
                   showRemoveGroupMemberModal={showRemoveGroupMemberModal}
                   isLoading={isLoading}

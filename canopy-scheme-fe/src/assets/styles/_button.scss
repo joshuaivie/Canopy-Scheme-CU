@@ -29,17 +29,6 @@ button,
   color: $gold;
 }
 
-.remove-button {
-  width: 50px;
-  float: right;
-  border: 0 !important;
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  z-index: 2;
-  box-shadow: 6px 6px 8px 0 rgba(69, 91, 99, 0.1);
-}
-
 .payment-button {
   width: 100% !important;
   margin-top: 15px !important;
@@ -58,4 +47,9 @@ button,
       display: block;
     }
   }
+}
+
+.btn-center {
+  margin: auto;
+  display: block;
 }

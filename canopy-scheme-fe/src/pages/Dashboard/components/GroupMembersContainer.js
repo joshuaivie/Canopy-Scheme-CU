@@ -25,7 +25,7 @@ export default function GroupMembersContainer({
                 {groupMember.is_group_owner ? "(Owner)" : ""}
               </Card.Title>
               <Card.Text>{groupMember.matric_no}</Card.Text>
-              {!groupMember.is_group_owner ? (
+              {!groupMember.is_group_owner && isGroupOwner ? (
                 <Button
                   className="remove-button"
                   onClick={() => toggleRemoveGroupMemberModal(groupMember.matric_no)}
@@ -35,7 +35,7 @@ export default function GroupMembersContainer({
               ) : null}
             </Card>
 
-            {!groupMember.is_group_owner ? (
+            {!groupMember.is_group_owner && isGroupOwner ? (
               <RemoveGroupMemberModal
                 isLoading={isLoading}
                 handleRemoveMember={handleRemoveMember}

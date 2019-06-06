@@ -119,24 +119,13 @@
   .btn {
     position: relative;
   }
-
   .member-card {
     border: 1px dashed purple;
   }
 
-  @media (max-width: $screen-md-min) {
-    display: none;
-    .invite-button {
-      margin: auto;
-      width: 80%;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-    }
-  }
-
   .invite-button {
-    width: 130px !important;
-    height: 130px !important;
+    width: 130px;
+    height: 130px;
     border-radius: 5%;
     background-color: transparent;
     margin: 0 15px;
@@ -144,7 +133,6 @@
     color: #800080;
     font-size: 2rem;
   }
-
   .remove-button {
     height: 40px;
     width: 40px;
@@ -158,15 +146,24 @@
     box-shadow: 0 0 4px 0 rgba(17, 22, 26, 0.16), 0 2px 4px 0 rgba(17, 22, 26, 0.08),
       0 4px 8px 0 rgba(17, 22, 26, 0.08);
   }
-}
-
-.group-container-mobile {
-  display: none;
   @media (max-width: $screen-md-min) {
-    display: flex;
+    .invite-button {
+      width: initial;
+      height: initial;
+      margin: auto;
+      width: 80%;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
     flex-direction: column;
     justify-content: center;
     margin: 50px 0;
+    button {
+      display: none;
+    }
+    button:first-of-type {
+      display: block;
+    }
   }
 }
 

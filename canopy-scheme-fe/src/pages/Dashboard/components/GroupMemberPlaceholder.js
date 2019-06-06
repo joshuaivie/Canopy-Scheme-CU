@@ -16,7 +16,7 @@ export default function GroupMemberPlaceholder({ enabled, toggleModal }) {
     );
   }
   return (
-    <Button size="lg" className="invite-button">
+    <Button size="lg" className="invite-button" disabled>
       <span>{FACE_EMOJIS[Math.floor(Math.random() * FACE_EMOJIS.length)]}</span>
     </Button>
   );

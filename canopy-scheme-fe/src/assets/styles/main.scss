@@ -29,26 +29,8 @@ body {
   color: $black;
 }
 
-.password-toggle-icon {
-  float: right;
-  margin-left: -25px;
-  margin-top: -25px;
-  position: relative;
-  z-index: 2;
-}
-
 .float {
   animation: float 3s ease-out infinite;
-}
-
-.form-error-msg {
-  color: red;
-  font-weight: 100;
-}
-
-.btn-center {
-  margin: auto;
-  display: block;
 }
 
 @keyframes float {
@@ -65,12 +47,6 @@ body {
     display: none;
   }
   .mobile-only {
-    display: block;
-  }
-  .group-container-mobile button {
-    display: none;
-  }
-  .group-container-mobile button:first-of-type {
     display: block;
   }
 }
