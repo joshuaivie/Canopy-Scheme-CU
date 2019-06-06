@@ -42,11 +42,22 @@ class Avatar extends React.PureComponent {
   };
 
   render() {
+    const { toggleChangePasswordModal } = this.props;
     return (
       <Dropdown>
         <Dropdown.Toggle as={CustomToggle} />
         <Dropdown.Menu alignRight>
-          <Dropdown.Item onClick={this.logout}>
+          <Dropdown.Item>
+            <Button
+              onClick={() => toggleChangePasswordModal()}
+              variant="link"
+              className="primary-text"
+            >
+              Change Password &nbsp;{" "}
+              <FontAwesomeIcon className="primary-text" icon="lock" />
+            </Button>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <Button onClick={this.logout} variant="link" className="primary-text">
               Logout &nbsp;{" "}
               <FontAwesomeIcon className="primary-text" icon="power-off" />

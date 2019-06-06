@@ -21,7 +21,8 @@ import {
   faCaretDown,
   faPhone,
   faEnvelope,
-  faCommentAlt
+  faCommentAlt,
+  faLock
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -46,5 +47,6 @@ library.add(
   faCaretDown,
   faPhone,
   faEnvelope,
-  faCommentAlt
+  faCommentAlt,
+  faLock
 );

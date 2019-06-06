@@ -56,18 +56,24 @@ class AuthActions {
     }
   }
 
-  static async requestChangePassword(email) {
+  static async requestChangePassword({ email }) {
     try {
-      return await AuthApi.requestChangePassword({ email });
+      const response = await AuthApi.requestChangePassword({ email });
+      return response.data;
     } catch (err) {
       throw resolveRequestError(err);
     }
   }
 
   // eslint-disable-next-line camelcase
-  static async resetPassword(password, password_confirm, token) {
+  static async resetPassword({ password, password_confirm, token }) {
     try {
-      return await AuthApi.resetPassword({ password, password_confirm, token });
+      const response = await AuthApi.resetPassword({
+        password,
+        password_confirm,
+        token
+      });
+      return response.data;
     } catch (err) {
       throw resolveRequestError(err);
     }

@@ -24,7 +24,7 @@ class ForgotPassword extends React.Component {
   async requestChangePassword() {
     try {
       const { email } = this.state;
-      const response = await AuthAction.requestChangePassword(email);
+      const response = await AuthAction.requestChangePassword({ email });
       successAlert(response.msg);
       this.setState({ isLoading: false, email: "" });
     } catch (errorMsg) {

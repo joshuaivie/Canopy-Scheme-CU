@@ -26,3 +26,6 @@ export const JOIN_GROUP = ({ groupId, groupToken, inviteeEmail }) =>
 // Table
 export const TABLE = `${APPEND_API}/table`;
 export const TABLE_PURCHASE = `${TABLE}/purchase`;
+
+// Change password
+export const CHANGE_PASSWORD = `${APPEND_API}/password/change`;

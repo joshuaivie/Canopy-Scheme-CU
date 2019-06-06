@@ -27,11 +27,11 @@ class ResetPassword extends React.Component {
     try {
       const { token } = this.props.match.params;
       const { password, password_confirm } = this.state;
-      const response = await AuthAction.resetPassword(
+      const response = await AuthAction.resetPassword({
         password,
         password_confirm,
         token
-      );
+      });
       successAlert(response.msg);
       const {
         history: { push }
