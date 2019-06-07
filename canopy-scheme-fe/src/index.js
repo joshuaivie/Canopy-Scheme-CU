@@ -7,4 +7,4 @@ import * as serviceWorker from "./serviceWorker";
 Sentry.init({ dsn: process.env.REACT_APP_SENTRY_KEY });
 // eslint-disable-next-line no-undef
 ReactDOM.render(<App />, document.getElementById("root"));
-serviceWorker.unregister();
+serviceWorker.register();
