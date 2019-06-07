@@ -2,9 +2,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AuthAction } from "actions";
-import { Form, Button, Container, Spinner } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import * as ROUTES from "routes";
 import { successAlert } from "utils/notification";
+import BtnLoadingSpinner from "components/BtnLoadingSpinner";
 
 class Login extends React.Component {
   state = {
@@ -74,7 +75,7 @@ class Login extends React.Component {
             disabled={isLoading}
             className="btn-center btn-full-width"
           >
-            {isLoading ? <Spinner animation="border" /> : "Login"}
+            {isLoading ? <BtnLoadingSpinner /> : "Login"}
           </Button>
           <br />
           <p className="text-center">

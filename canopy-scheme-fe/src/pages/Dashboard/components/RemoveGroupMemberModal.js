@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, Button, Spinner } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
+import BtnLoadingSpinner from "components/BtnLoadingSpinner";
 
 export default function RemoveGroupMemberModal({
   matricNo,
@@ -42,7 +43,7 @@ export default function RemoveGroupMemberModal({
           disabled={isLoading}
           onClick={() => handleRemoveMember(matricNo)}
         >
-          {isLoading ? <Spinner animation="border" /> : "Remove"}
+          {isLoading ? <BtnLoadingSpinner /> : "Remove"}
         </Button>
       </Modal.Footer>
     </Modal>

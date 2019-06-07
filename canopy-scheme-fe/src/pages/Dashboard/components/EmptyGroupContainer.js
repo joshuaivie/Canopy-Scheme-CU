@@ -1,6 +1,7 @@
 import React from "react";
-import { Form, Button, Modal, Spinner } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BtnLoadingSpinner from "components/BtnLoadingSpinner";
 
 export default function EmptyGroupContainer({
   toggleModal,
@@ -13,7 +14,7 @@ export default function EmptyGroupContainer({
 }) {
   return (
     <React.Fragment>
-      <div style={{ textAlign: "center", padding: "50px", lineHeight: "30px" }}>
+      <div style={{ textAlign: "center", padding: "40px", lineHeight: "30px" }}>
         <h5>You currently do not belong to any group</h5>
         <p>Groups members sit down together during convocation</p>
         <Button
@@ -59,7 +60,7 @@ export default function EmptyGroupContainer({
               disabled={isLoading}
               className="btn-center"
             >
-              {isLoading ? <Spinner animation="border" /> : "Create Group"}
+              {isLoading ? <BtnLoadingSpinner /> : "Create Group"}
             </Button>
           </Form>
         </Modal.Body>

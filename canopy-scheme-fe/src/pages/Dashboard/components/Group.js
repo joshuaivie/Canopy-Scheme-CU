@@ -22,6 +22,7 @@ class Groups extends React.Component {
       inviteeMatricNo: "",
       isLoading: false,
       isFetching: false,
+      errorFetching: false,
       newGroupName: "",
       groupMembers: [],
       isGroupOwner: false,
@@ -37,7 +38,9 @@ class Groups extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ isGroupOwner: this.isUserGroupOwner, isFetching: true });
+    this.setState({
+      isGroupOwner: this.isUserGroupOwner
+    });
     this.getGroupMembers({ showAllAlerts: false });
   }
 
@@ -191,6 +194,7 @@ class Groups extends React.Component {
   };
 
   getGroupMembers = async ({ showAllAlerts }) => {
+    this.setState({ errorFetching: false, isFetching: true });
     try {
       let { members, owner } = await UserAction.getGroup({ showAllAlerts });
       owner.is_group_owner = true;
@@ -204,7 +208,9 @@ class Groups extends React.Component {
       this.populateGroupMembers([owner, ...members]);
       this.setState({ isUserInAnyGroup: true, showRemoveGroupMemberModal });
     } catch (err) {
-      this.setState({ isUserInAnyGroup: false });
+      let errorFetching = false;
+      if (err.request && err.request.status === 0) errorFetching = true;
+      this.setState({ isUserInAnyGroup: false, errorFetching });
     } finally {
       this.setState({ isFetching: false });
     }
@@ -228,6 +234,7 @@ class Groups extends React.Component {
         isUserInAnyGroup,
         isLoading,
         isFetching,
+        errorFetching,
         showRemoveGroupMemberModal,
         showCreateGroupModal,
         showDeleteGroupModal,
@@ -246,78 +253,86 @@ class Groups extends React.Component {
           style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
         />
       );
-    }
-
-    if (!isFetching && isUserInAnyGroup === false) {
+    } else if (errorFetching === true) {
       body = (
-        <EmptyGroupContainer
-          handleCreateGroup={handleCreateGroup}
-          isLoading={isLoading}
-          createGroupErrorMsg={createGroupErrorMsg}
-          showCreateGroupModal={showCreateGroupModal}
-          newGroupName={newGroupName}
-          handleChange={handleChange}
-          toggleModal={toggleModal}
+        <FontAwesomeIcon
+          onClick={() => this.getGroupMembers({ showAllAlerts: false })}
+          icon="redo"
+          style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
         />
       );
-    } else if (!isFetching && isGroupOwner) {
-      body = (
-        <React.Fragment>
-          <p style={{ textAlign: "center" }}>Invite your friends to share your joy</p>
-          <div className="group-container">
-            <GroupMembersContainer
-              showRemoveGroupMemberModal={showRemoveGroupMemberModal}
-              isLoading={isLoading}
-              handleRemoveMember={handleRemoveMember}
-              toggleModal={toggleModal}
-              toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
-              groupMembers={groupMembers}
-              isGroupOwner={isGroupOwner}
-            />
-          </div>
-
-          <InviteUserModal
-            toggleModal={toggleModal}
-            handleInviteUser={handleInviteUser}
-            showInviteUserModal={showInviteUserModal}
-            inviteErrorMsg={inviteErrorMsg}
+    } else {
+      if (!isGroupOwner && isUserInAnyGroup === false) {
+        body = (
+          <EmptyGroupContainer
+            handleCreateGroup={handleCreateGroup}
+            isLoading={isLoading}
+            createGroupErrorMsg={createGroupErrorMsg}
+            showCreateGroupModal={showCreateGroupModal}
+            newGroupName={newGroupName}
             handleChange={handleChange}
-            isLoading={isLoading}
-            inviteeEmail={inviteeEmail}
-            inviteeMatricNo={inviteeMatricNo}
+            toggleModal={toggleModal}
           />
+        );
+      } else if (isGroupOwner) {
+        body = (
+          <React.Fragment>
+            <p style={{ textAlign: "center" }}>Invite your friends to share your joy</p>
+            <div className="group-container">
+              <GroupMembersContainer
+                showRemoveGroupMemberModal={showRemoveGroupMemberModal}
+                isLoading={isLoading}
+                handleRemoveMember={handleRemoveMember}
+                toggleModal={toggleModal}
+                toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
+                groupMembers={groupMembers}
+                isGroupOwner={isGroupOwner}
+              />
+            </div>
 
-          <DeleteGroupModal
-            showDeleteGroupModal={showDeleteGroupModal}
-            toggleModal={toggleModal}
-            isLoading={isLoading}
-            handleDeleteGroup={handleDeleteGroup}
-          />
-        </React.Fragment>
-      );
-    } else if (!isFetching && !isGroupOwner && isUserInAnyGroup === true) {
-      // Not a group admin, hence render all the members of the group user belongs to.
-      body = (
-        <React.Fragment>
-          <div className="group-container not-group-admin">
-            <GroupMembersContainer
-              showRemoveGroupMemberModal={showRemoveGroupMemberModal}
-              isLoading={isLoading}
-              handleRemoveMember={handleRemoveMember}
+            <InviteUserModal
               toggleModal={toggleModal}
-              toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
-              groupMembers={groupMembers}
-              isGroupOwner={isGroupOwner}
+              handleInviteUser={handleInviteUser}
+              showInviteUserModal={showInviteUserModal}
+              inviteErrorMsg={inviteErrorMsg}
+              handleChange={handleChange}
+              isLoading={isLoading}
+              inviteeEmail={inviteeEmail}
+              inviteeMatricNo={inviteeMatricNo}
             />
-          </div>
-          <LeaveGroupModal
-            isLoading={isLoading}
-            toggleModal={toggleModal}
-            showLeaveGroupModal={showLeaveGroupModal}
-            handleLeaveGroup={handleLeaveGroup}
-          />
-        </React.Fragment>
-      );
+
+            <DeleteGroupModal
+              showDeleteGroupModal={showDeleteGroupModal}
+              toggleModal={toggleModal}
+              isLoading={isLoading}
+              handleDeleteGroup={handleDeleteGroup}
+            />
+          </React.Fragment>
+        );
+      } else if (isUserInAnyGroup === true) {
+        // Not a group admin, hence render all the members of the group user belongs to.
+        body = (
+          <React.Fragment>
+            <div className="group-container not-group-admin">
+              <GroupMembersContainer
+                showRemoveGroupMemberModal={showRemoveGroupMemberModal}
+                isLoading={isLoading}
+                handleRemoveMember={handleRemoveMember}
+                toggleModal={toggleModal}
+                toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
+                groupMembers={groupMembers}
+                isGroupOwner={isGroupOwner}
+              />
+            </div>
+            <LeaveGroupModal
+              isLoading={isLoading}
+              toggleModal={toggleModal}
+              showLeaveGroupModal={showLeaveGroupModal}
+              handleLeaveGroup={handleLeaveGroup}
+            />
+          </React.Fragment>
+        );
+      }
     }
 
     return (
@@ -327,6 +342,7 @@ class Groups extends React.Component {
             <h5>Group</h5>
             {isGroupOwner ? (
               <Button
+                disabled={errorFetching}
                 variant="outline-danger"
                 onClick={() => toggleModal("showDeleteGroupModal")}
               >
@@ -336,6 +352,7 @@ class Groups extends React.Component {
             ) : null}
             {isUserInAnyGroup && !isGroupOwner ? (
               <Button
+                disabled={errorFetching}
                 variant="outline-danger"
                 onClick={() => toggleModal("showLeaveGroupModal")}
               >

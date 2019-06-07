@@ -38,13 +38,31 @@ const RenderPaymentHistory = (transactions, columns) =>
     </tr>
   ));
 
-const DisplayPayments = props => {
-  if (props.isFetching) {
+const DisplayPayments = ({
+  columns,
+  transactions,
+  isFetching,
+  errorFetching,
+  getPaymentHistory
+}) => {
+  if (isFetching) {
     return (
       <tr>
-        <td colSpan={props.columns.length}>
+        <td colSpan={columns.length}>
           <Spinner
             animation="border"
+            style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
+          />
+        </td>
+      </tr>
+    );
+  } else if (errorFetching) {
+    return (
+      <tr>
+        <td colSpan={columns.length}>
+          <FontAwesomeIcon
+            onClick={() => getPaymentHistory()}
+            icon="redo"
             style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
           />
         </td>
@@ -53,9 +71,9 @@ const DisplayPayments = props => {
   }
   return (
     <React.Fragment>
-      {props.transactions.length > 0
-        ? RenderPaymentHistory(props.transactions, props.columns)
-        : RenderEmptyHistory(props.columns)}
+      {transactions.length > 0
+        ? RenderPaymentHistory(transactions, columns)
+        : RenderEmptyHistory(columns)}
     </React.Fragment>
   );
 };
@@ -76,8 +94,8 @@ class Payments extends React.Component {
       numberOfTables: 1,
       tablePrice: 10000, // naira
       totalPrice: 10000, // naira
-      isLoading: false,
-      isFetching: false
+      isFetching: false,
+      errorFetching: false
     };
   }
 
@@ -124,12 +142,12 @@ class Payments extends React.Component {
   };
 
   getPaymentHistory = async () => {
-    this.setState({ isFetching: true });
+    this.setState({ isFetching: true, errorFetching: false });
     try {
       const transactions = await UserAction.getTransactions();
       this.setState({ transactions });
     } catch (err) {
-      console.log(err);
+      this.setState({ errorFetching: true });
     } finally {
       this.setState({ isFetching: false });
     }
@@ -170,7 +188,8 @@ class Payments extends React.Component {
       show,
       columns,
       numberOfTables,
-      isFetching
+      isFetching,
+      errorFetching
     } = this.state;
     const { email } = UserStorage.userInfo;
     let limit = 5;
@@ -184,7 +203,11 @@ class Payments extends React.Component {
           <Card.Header>
             <h5>Payments</h5>
             {limit > 0 ? (
-              <Button onClick={this.handleOpen} className="make-payment-button">
+              <Button
+                onClick={this.handleOpen}
+                className="make-payment-button"
+                disabled={errorFetching}
+              >
                 Book Table(s) &nbsp;
                 <FontAwesomeIcon icon="credit-card" />
               </Button>
@@ -207,13 +230,19 @@ class Payments extends React.Component {
                 <DisplayPayments
                   // {...{isFetching, transactions, columns}} // a shorter syntax
                   isFetching={isFetching}
+                  errorFetching={errorFetching}
                   transactions={transactions}
                   columns={columns}
+                  getPaymentHistory={this.getPaymentHistory}
                 />
               </tbody>
             </Table>
             {limit > 0 ? (
-              <Button onClick={this.handleOpen} className="make-payment-button mobile">
+              <Button
+                onClick={this.handleOpen}
+                className="make-payment-button mobile"
+                disabled={errorFetching}
+              >
                 Book Table(s) &nbsp;
                 <FontAwesomeIcon icon="credit-card" />
               </Button>
