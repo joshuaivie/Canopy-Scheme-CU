@@ -19,6 +19,7 @@ import {
   faTimes,
   faPowerOff,
   faCaretDown,
+  faRedo,
   faPhone,
   faEnvelope,
   faCommentAlt,
@@ -47,6 +48,7 @@ library.add(
   faCaretDown,
   faPhone,
   faEnvelope,
+  faRedo,
   faCommentAlt,
   faLock
 );

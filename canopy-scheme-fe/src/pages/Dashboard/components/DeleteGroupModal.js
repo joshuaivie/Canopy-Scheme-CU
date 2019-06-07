@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, Button, Spinner } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
+import BtnLoadingSpinner from "components/BtnLoadingSpinner";
 
 export default function DeleteGroupModal({
   showDeleteGroupModal,
@@ -40,7 +41,7 @@ export default function DeleteGroupModal({
           disabled={isLoading}
           onClick={handleDeleteGroup}
         >
-          {isLoading ? <Spinner animation="border" /> : "Delete"}
+          {isLoading ? <BtnLoadingSpinner /> : "Delete"}
         </Button>
       </Modal.Footer>
     </Modal>

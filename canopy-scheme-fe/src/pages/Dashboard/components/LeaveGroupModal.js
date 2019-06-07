@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, Button, Spinner } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
+import BtnLoadingSpinner from "components/BtnLoadingSpinner";
 
 export default function LeaveGroupModal({
   isLoading,
@@ -35,7 +36,7 @@ export default function LeaveGroupModal({
           disabled={isLoading}
           onClick={handleLeaveGroup}
         >
-          {isLoading ? <Spinner animation="border" /> : "Leave Group"}
+          {isLoading ? <BtnLoadingSpinner /> : "Leave Group"}
         </Button>
       </Modal.Footer>
     </Modal>

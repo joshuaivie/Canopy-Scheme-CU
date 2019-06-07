@@ -78,14 +78,20 @@
 .dashboard {
   background-color: rgba(128, 0, 128, 0.027);
   padding-top: 5vh;
+  @media (max-width: $screen-md-min) {
+    padding-top: 0;
+  }
   .dashboard-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: 20px;
+    padding: 20px 0 0;
     max-width: 1048px;
     margin: auto;
+    @media (max-width: $screen-md-min) {
+      padding: 10px 20px;
+    }
     .welcome-text {
       line-height: 3;
     }

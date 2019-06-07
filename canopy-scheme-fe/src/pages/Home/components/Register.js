@@ -1,9 +1,10 @@
 import React from "react";
-import { Container, Form, Button, Col, Spinner } from "react-bootstrap";
+import { Container, Form, Button, Col } from "react-bootstrap";
 import { AuthAction } from "actions";
 import * as ROUTES from "routes";
 import { validateMatricNo } from "utils/validateMatric";
 import { successAlert } from "utils/notification";
+import BtnLoadingSpinner from "components/BtnLoadingSpinner";
 
 class Register extends React.Component {
   state = {
@@ -185,7 +186,7 @@ class Register extends React.Component {
             disabled={isLoading}
             className="btn-center btn-full-width"
           >
-            {isLoading ? <Spinner animation="border" /> : "Register"}
+            {isLoading ? <BtnLoadingSpinner /> : "Register"}
           </Button>
           <br />
           <p className="text-center">

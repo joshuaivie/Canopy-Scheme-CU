@@ -1,8 +1,9 @@
 import React from "react";
-import { Form, Button, Spinner } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { AuthAction } from "actions";
 import Layout from "layouts";
 import { successAlert } from "utils/notification";
+import BtnLoadingSpinner from "components/BtnLoadingSpinner";
 
 class ForgotPassword extends React.Component {
   state = {
@@ -62,7 +63,7 @@ class ForgotPassword extends React.Component {
               ) : null}
             </Form.Group>
             <Button variant="primary" type="submit" disabled={isLoading}>
-              {isLoading ? <Spinner animation="border" /> : "Reset Password"}
+              {isLoading ? <BtnLoadingSpinner /> : "Reset Password"}
             </Button>
           </Form>{" "}
         </div>

@@ -1,7 +1,8 @@
 import React from "react";
 import { successAlert } from "utils/notification";
 import { UserAction } from "actions";
-import { Modal, Spinner, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
+import BtnLoadingSpinner from "components/BtnLoadingSpinner";
 
 class ChangePasswordModal extends React.Component {
   state = this.initialState;
@@ -110,7 +111,7 @@ class ChangePasswordModal extends React.Component {
               className="btn-center"
               disabled={isLoading}
             >
-              {isLoading ? <Spinner animation="border" /> : "Change Password"}
+              {isLoading ? <BtnLoadingSpinner /> : "Change Password"}
             </Button>
           </Form>
         </Modal.Body>

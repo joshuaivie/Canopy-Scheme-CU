@@ -49,7 +49,10 @@ export function resolveRequestError(err, showAllAlert = true) {
     errorAlert(data.msg || data);
     throw err;
   }
-  if (status === 0) errorAlert(data);
+  if (status === 0) {
+    errorAlert(data);
+    throw err;
+  }
 }
 
 export default HTTP;
