@@ -260,8 +260,7 @@ class Groups extends React.Component {
           toggleModal={toggleModal}
         />
       );
-    }
-    if (!isFetching && isGroupOwner) {
+    } else if (!isFetching && isGroupOwner) {
       body = (
         <React.Fragment>
           <p style={{ textAlign: "center" }}>Invite your friends to share your joy</p>
