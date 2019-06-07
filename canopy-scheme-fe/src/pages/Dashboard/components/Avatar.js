@@ -47,18 +47,14 @@ class Avatar extends React.PureComponent {
       <Dropdown>
         <Dropdown.Toggle as={CustomToggle} />
         <Dropdown.Menu alignRight>
-          <Dropdown.Item>
-            <Button
-              onClick={() => toggleChangePasswordModal()}
-              variant="link"
-              className="primary-text"
-            >
+          <Dropdown.Item onClick={() => toggleChangePasswordModal()}>
+            <Button variant="link" className="primary-text">
               Change Password &nbsp;{" "}
               <FontAwesomeIcon className="primary-text" icon="lock" />
             </Button>
           </Dropdown.Item>
-          <Dropdown.Item>
-            <Button onClick={this.logout} variant="link" className="primary-text">
+          <Dropdown.Item onClick={this.logout}>
+            <Button variant="link" className="primary-text">
               Logout &nbsp;{" "}
               <FontAwesomeIcon className="primary-text" icon="power-off" />
             </Button>

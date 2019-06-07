@@ -43,7 +43,7 @@ class UserAction {
       const response = await UserApi.getGroup({ token });
       return response.data.group;
     } catch (err) {
-      throw resolveRequestError(err, showAllAlerts);
+      resolveRequestError(err, showAllAlerts); // only displays error when offline.
     }
   }
 

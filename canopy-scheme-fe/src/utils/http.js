@@ -39,7 +39,7 @@ function errorHandler(e) {
 
 export function resolveRequestError(err, showAllAlert = true) {
   const { status, data } = errorHandler(err);
-  if (status === 403 && !data.emailVerified) {
+  if (data.emailNotVerified) {
     errorAlert(data.msg);
     UserStorage.updateUserInfo({ email_verified: true });
     return;

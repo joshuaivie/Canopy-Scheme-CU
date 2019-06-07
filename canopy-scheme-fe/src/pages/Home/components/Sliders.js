@@ -40,6 +40,7 @@ export default ({ toggleModal }) => (
           <li>Create a group link invite your friends</li>
           <li>Your group would be allocated around one another</li>
           <li>Maximum group size is 5</li>
+          <li>Special requests can be made for specific needs</li>
         </ol>
         <Button onClick={() => toggleModal()}>Create a group</Button>
       </div>
@@ -53,13 +54,13 @@ export default ({ toggleModal }) => (
         <p>
           Call&nbsp;
           <FontAwesomeIcon className="primary-text" icon="phone" />
-          us on &nbsp;
+          &nbsp; us on &nbsp;
           <a href="tel:808009090">080-xxx-xxx</a>
         </p>
         <p>
           Or send an email &nbsp;
           <FontAwesomeIcon className="primary-text" icon="envelope" />
-          to &nbsp;
+          &nbsp; to &nbsp;
           <a href="mailto:someone@example.com?Subject=Canopy%20Scheme">
             supportcpc@stu.cu.edu.ng
           </a>

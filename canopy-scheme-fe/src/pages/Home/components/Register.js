@@ -50,12 +50,7 @@ class Register extends React.Component {
     try {
       const msg = await AuthAction.register({ ...this.state });
       successAlert(msg);
-      const {
-        history: { push }
-      } = this.props;
-      window.setTimeout(function() {
-        push(ROUTES.APP);
-      }, 2000);
+      this.props.history.push(ROUTES.APP);
     } catch (errorMsg) {
       this.setState({ isLoading: false, errorMsg });
     }

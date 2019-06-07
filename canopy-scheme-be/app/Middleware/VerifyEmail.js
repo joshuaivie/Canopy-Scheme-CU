@@ -12,7 +12,7 @@ class VerifyEmail {
   async handle({ auth, response }, next) {
     if (!auth.user.email_verified) {
       return response.forbidden({
-        emailVerified: false,
+        emailNotVerified: true,
         msg: "Your email is not verified, you cannot perform this action"
       });
     }

@@ -76,8 +76,8 @@ class OnBoarding extends React.Component {
               <img src={browserSvg} className="float" alt="onboarding" width="150" />
               <h3>Flexible</h3>
               <p>
-                The platform provides you with all your needs for making a reservation
-                from making an order to contacting us from support.{" "}
+                The platform provides you with all your needs right from making a
+                reservation from making a reservation to contacting us for support.{" "}
               </p>
             </div>
             <div className="item" key={3}>

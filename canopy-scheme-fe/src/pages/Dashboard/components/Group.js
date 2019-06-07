@@ -295,7 +295,7 @@ class Groups extends React.Component {
           />
         </React.Fragment>
       );
-    } else if (!isFetching && !isGroupOwner) {
+    } else if (!isFetching && !isGroupOwner && isUserInAnyGroup === true) {
       // Not a group admin, hence render all the members of the group user belongs to.
       body = (
         <React.Fragment>

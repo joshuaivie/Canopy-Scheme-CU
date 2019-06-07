@@ -10,12 +10,17 @@ button,
   background-color: $purple;
   border: 1px solid $purple;
   &:hover {
-    background-color: darken($purple, 10);
-    border: 1px solid darken($purple, 10);
+    background-color: darken($purple, 10) !important;
+    border: 1px solid darken($purple, 10) !important;
   }
   &:focus {
-    background-color: #800080 !important;
+    background-color: darken($purple, 10) !important;
     color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(128, 0, 128, 0.164) !important;
+  }
+  &:disabled {
+    background-color: rgba(128, 0, 128, 0.315) !important;
+    border: none !important;
   }
 }
 
@@ -27,6 +32,12 @@ button,
 .btn-link {
   cursor: pointer;
   color: $gold;
+  &:hover {
+    background-color: #f4f4f4 !important;
+  }
+  &:focus {
+    background-color: #f4f4f4 !important;
+  }
 }
 
 .payment-button {
@@ -50,7 +61,7 @@ button,
 }
 
 button.btn-full-width {
-  width: 100%
+  width: 100%;
 }
 
 .btn-center {

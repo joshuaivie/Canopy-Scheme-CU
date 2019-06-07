@@ -39,7 +39,8 @@
 }
 ol > li {
   counter-increment: step-counter;
-  margin: $number-bg-size 0 1em;
+  margin: $number-bg-size;
+  padding: 0;
   padding-left: $number-size + 15px;
   position: relative;
   // Optional

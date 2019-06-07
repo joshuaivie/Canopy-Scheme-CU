@@ -86,6 +86,9 @@
     padding: 20px;
     max-width: 1048px;
     margin: auto;
+    .welcome-text {
+      line-height: 3;
+    }
     .dropdown-toggle {
       border: 2px solid#f4f4f4;
       background-color: #ffffff;
@@ -118,7 +121,8 @@
 
 .group-container {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: center;
   margin: 25px 0;
   .btn {
     position: relative;
@@ -126,15 +130,27 @@
   div {
     border: 1px dashed purple;
   }
+  div,
+  button {
+    margin: 0.2em;
+  }
 
   .invite-button {
     width: 180px;
     height: 180px;
     border-radius: 5%;
     background-color: transparent;
-    border: 1px dashed #800080;
-    color: #800080;
+    border: 1px dashed $purple;
+    color: $purple;
     font-size: 2rem;
+    &:hover {
+      color: #ffffff;
+      background-color: $purple;
+    }
+    &:focus {
+      background-color: transparent !important;
+      color: $purple !important;
+    }
   }
   @media (max-width: $screen-md-min) {
     .invite-button {
@@ -144,16 +160,32 @@
       margin-top: 0.5em;
       margin-bottom: 0.5em;
     }
+    flex-wrap: nowrap;
     flex-direction: column;
     justify-content: center;
     margin: 50px 0;
+    div,
+    button {
+      margin: 0.3em auto;
+    }
     button.invite-button {
       display: none;
-    }
-    button.invite-button:first-of-type, button.invite-button:first-of-type:active {
-      display: block;
-      color: green;
-      border: 1px dashed green;
+      &:first-of-type,
+      &:first-of-type:active {
+        display: block;
+        color: green !important;
+        border: 1px dashed green !important;
+        box-shadow: none;
+      }
+      &:first-of-type:hover {
+        color: #ffffff !important;
+        background-color: #008000 !important;
+      }
+      &:first-of-type:focus {
+        background-color: transparent !important;
+        color: #008000 !important;
+        box-shadow: none !important;
+      }
     }
   }
 }
