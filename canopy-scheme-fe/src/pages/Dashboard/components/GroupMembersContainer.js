@@ -38,7 +38,7 @@ export default function GroupMembersContainer({
               </Button>
             )}
             {groupMember.is_group_owner && (
-              <div className="group-owner bg-success">
+              <div className="group-owner bg-success" title="Group Owner">
                 <FontAwesomeIcon icon="user-circle" />
               </div>
             )}

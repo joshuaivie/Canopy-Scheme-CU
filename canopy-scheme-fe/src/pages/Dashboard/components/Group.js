@@ -10,6 +10,7 @@ import EmptyGroupContainer from "./EmptyGroupContainer";
 import DeleteGroupModal from "./DeleteGroupModal";
 import InviteUserModal from "./InviteUserModal";
 import LeaveGroupModal from "./LeaveGroupModal";
+import GroupHelpModal from "./GroupHelpModal";
 
 const MAX_NO_OF_GROUP_MEMBERS = 5;
 
@@ -24,6 +25,7 @@ class Groups extends React.Component {
       isFetching: false,
       errorFetching: false,
       newGroupName: "",
+      groupName: "",
       groupMembers: [],
       isGroupOwner: false,
       isUserInAnyGroup: false,
@@ -31,6 +33,7 @@ class Groups extends React.Component {
       showLeaveGroupModal: false,
       showDeleteGroupModal: false,
       showCreateGroupModal: false,
+      showHelpModal: false,
       showRemoveGroupMemberModal: {},
       inviteErrorMsg: {},
       createGroupErrorMsg: {}
@@ -196,8 +199,9 @@ class Groups extends React.Component {
   getGroupMembers = async ({ showAllAlerts }) => {
     this.setState({ errorFetching: false, isFetching: true });
     try {
-      let { members, owner } = await UserAction.getGroup({ showAllAlerts });
+      let { members, owner, name } = await UserAction.getGroup({ showAllAlerts });
       owner.is_group_owner = true;
+      this.setState({ groupName: name });
       const showRemoveGroupMemberModal = {};
       members = members.map(m => {
         let user = m.user;
@@ -229,6 +233,7 @@ class Groups extends React.Component {
       state: {
         inviteeEmail,
         inviteeMatricNo,
+        groupName,
         groupMembers,
         isGroupOwner,
         isUserInAnyGroup,
@@ -240,6 +245,7 @@ class Groups extends React.Component {
         showDeleteGroupModal,
         showLeaveGroupModal,
         showInviteUserModal,
+        showHelpModal,
         newGroupName,
         createGroupErrorMsg,
         inviteErrorMsg
@@ -339,7 +345,13 @@ class Groups extends React.Component {
       <Col xs="12" md="12">
         <Card className="material-card">
           <Card.Header>
-            <h5>Group</h5>
+            <h5>
+              {groupName !== "" ? groupName : "Group"}{" "}
+              <FontAwesomeIcon
+                icon="question-circle"
+                onClick={() => toggleModal("showHelpModal")}
+              />
+            </h5>
             {isGroupOwner ? (
               <Button
                 disabled={errorFetching}
@@ -363,6 +375,7 @@ class Groups extends React.Component {
           </Card.Header>
           <Card.Body>{body}</Card.Body>
         </Card>
+        <GroupHelpModal showHelpModal={showHelpModal} toggleModal={toggleModal} />
       </Col>
     );
   }

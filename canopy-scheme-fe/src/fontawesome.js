@@ -8,6 +8,7 @@ import {
   faMoneyBillWaveAlt,
   faTable,
   faCreditCard,
+  faQuestionCircle,
   faDoorOpen,
   faUserPlus,
   faCheckCircle,
@@ -48,6 +49,7 @@ library.add(
   faCaretDown,
   faPhone,
   faEnvelope,
+  faQuestionCircle,
   faRedo,
   faCommentAlt,
   faLock

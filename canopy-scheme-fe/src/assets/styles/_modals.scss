@@ -1,5 +1,5 @@
 .modal {
-  background:  rgba(128, 0, 128, 0.116);
+  background: rgba(128, 0, 128, 0.116);
   border: none;
   .modal-content {
     border: none;
@@ -9,7 +9,7 @@
         text-align: center;
         width: 100%;
         font-size: 20px;
-        font-family: 'Nexa Bold';
+        font-family: "Nexa Bold";
         color: $purple;
         span {
           color: darkgray;
@@ -30,5 +30,26 @@
     .modal-body {
       padding: 0 1rem 1rem;
     }
+  }
+}
+
+.group-help-modal {
+  display: flex;
+  flex-direction: column;
+
+  * {
+    line-height: 2em;
+  }
+
+  span {
+    color: $purple;
+    font-size: 1.5rem;
+    margin: 0.2rem;
+  }
+
+  p {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }

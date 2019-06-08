@@ -68,3 +68,10 @@ button.btn-full-width {
   margin: auto;
   display: block;
 }
+
+.group-help-modal-button {
+  margin: auto;
+  @media (max-width: $screen-md-min) {
+    margin: 0;
+  }
+}
