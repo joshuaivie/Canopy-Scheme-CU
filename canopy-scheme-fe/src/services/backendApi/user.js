@@ -64,10 +64,16 @@ export default class UserApi {
       {
         old_password: oldPassword,
         new_password: newPassword,
-        new_password_confirm: newPasswordConfirm,
-        token
+        new_password_confirm: newPasswordConfirm
       },
       generateBearer(token)
     );
+  };
+
+  /**
+   * Resend email verification link
+   */
+  static resendEmailVerificationLink = async ({ token }) => {
+    return HTTP.get(ENDPOINTS.RESEND_EMAIL_VERIFICATION, generateBearer(token));
   };
 }

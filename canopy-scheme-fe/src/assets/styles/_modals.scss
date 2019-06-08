@@ -38,13 +38,11 @@
   flex-direction: column;
 
   * {
-    line-height: 2em;
+    line-height: 1.6em;
   }
 
   span {
     color: $purple;
-    font-size: 1.5rem;
-    margin: 0.2rem;
   }
 
   p {

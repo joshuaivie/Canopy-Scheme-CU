@@ -44,6 +44,8 @@ class Groups extends React.Component {
     this.setState({
       isGroupOwner: this.isUserGroupOwner
     });
+    // don't fetch if user's email is not verified
+    // if (!UserStorage.userInfo.email_verified)
     this.getGroupMembers({ showAllAlerts: false });
   }
 
@@ -149,6 +151,7 @@ class Groups extends React.Component {
       this.populateGroupMembers([UserStorage.userInfo]);
       this.setState({
         newGroupName: "",
+        groupName: name,
         isUserInAnyGroup: true,
         showCreateGroupModal: false,
         createGroupErrorMsg: {}
@@ -349,7 +352,7 @@ class Groups extends React.Component {
               {groupName !== "" ? groupName : "Group"}{" "}
               <FontAwesomeIcon
                 icon="question-circle"
-                onClick={() => toggleModal("showHelpModal")}
+                onMouseEnter={() => toggleModal("showHelpModal")}
               />
             </h5>
             {isGroupOwner ? (

@@ -61,8 +61,8 @@ export default ({ toggleModal }) => (
           Or send an email &nbsp;
           <FontAwesomeIcon className="primary-text" icon="envelope" />
           &nbsp; to &nbsp;
-          <a href="mailto:someone@example.com?Subject=Canopy%20Scheme">
-            supportcpc@stu.cu.edu.ng
+          <a href="mailto:supportcpc@covenantuniversity.edu.ng?Subject=Canopy%20Scheme">
+            supportcpc@covenantuniversity.edu.ng
           </a>
         </p>
         <p>

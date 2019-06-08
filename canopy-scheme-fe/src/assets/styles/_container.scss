@@ -74,7 +74,6 @@
   width: 100%;
   text-align: center;
 }
-
 .dashboard {
   background-color: rgba(128, 0, 128, 0.027);
   padding-top: 5vh;
@@ -104,7 +103,7 @@
 
 @media (min-width: $screen-xl-min) {
   .dashboard {
-    height: 100vh;
+    height: -webkit-fill-available;
   }
 }
 
@@ -120,6 +119,11 @@
 }
 
 .not-group-admin {
+  @media (max-width: $screen-md-min) {
+    .invite-button {
+      display: none !important;
+    }
+  }
   .remove-button {
     display: none;
   }

@@ -23,27 +23,28 @@ Route.group(() => {
     "password/reset",
     "AuthController.sendResetPasswordLink"
   ).validator("PasswordReset");
-  Route.post("password/reset/:token", "AuthController.resetPassword")
+  Route.post("password/reset/:email_token", "AuthController.resetPassword")
     .validator("PasswordResetCheckToken")
     .as("password.reset-token");
+  Route.get(
+    "group/join/:group_id/:token/:invitee_email/:expiring_date",
+    "GroupController.join"
+  )
+    .middleware("inviteeNotInUserGroup")
+    .middleware("isValidGroupInviteLink")
+    .as("group.join");
+  Route.get("verification/email/:token", "UserController.verifyEmail").as(
+    "email.verify"
+  );
 }).prefix("api");
 
 Route.group(() => {
-  Route.post("password/change", "UserController.changePassword").validator(
-    "ChangePassword"
-  );
-  Route.post("token/refresh", "AuthController.refreshToken").validator(
-    "RequestToken"
-  );
-  Route.post("logout", "AuthController.signout").validator("RequestToken");
-
   // Payment
   Route.post("table/purchase", "PaymentController.purchaseTable").validator(
     "PayForTable"
   );
 
   // User
-  Route.get("me", "UserController.profile");
   Route.get("me/transactions", "UserController.transactions");
   Route.get("me/reservations", "UserController.reservations");
   Route.get("me/group", "UserController.getGroup").middleware("inUserGroup");
@@ -71,14 +72,18 @@ Route.group(() => {
   .middleware("auth");
 
 Route.group(() => {
+  Route.get("me", "UserController.profile");
   Route.get(
-    "group/join/:group_id/:token/:invitee_email",
-    "GroupController.join"
-  )
-    .middleware("inviteeNotInUserGroup")
-    .middleware("isValidGroupInviteLink")
-    .as("group.join");
-  Route.get("verification/email/:token", "UserController.verifyEmail").as(
-    "email.verify"
+    "verification/email/resend",
+    "UserController.resendEmailVerificationLink"
   );
-});
+  Route.post("password/change", "UserController.changePassword").validator(
+    "ChangePassword"
+  );
+  Route.post("token/refresh", "AuthController.refreshToken").validator(
+    "RequestToken"
+  );
+  Route.post("logout", "AuthController.logout").validator("RequestToken");
+})
+  .prefix("api")
+  .middleware("auth");

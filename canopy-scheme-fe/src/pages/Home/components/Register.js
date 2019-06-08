@@ -110,20 +110,20 @@ class Register extends React.Component {
           <Form.Row>
             <Col xs={12} md={6}>
               <Form.Group>
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>Phone number</Form.Label>
                 <Form.Control
-                  type="email"
-                  placeholder="Enter a valid email"
-                  name="email"
-                  value={email}
+                  type="text"
+                  placeholder="e.g +2348000000000"
+                  name="telephoneNo"
+                  value={telephoneNo}
                   onChange={this.handleChange}
                   required
                 />
                 <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
+                  We'll need it for contacting you
                 </Form.Text>
-                {errorMsg.email ? (
-                  <p className="form-error-msg">{errorMsg.email}</p>
+                {errorMsg.telephone_no ? (
+                  <p className="form-error-msg">{errorMsg.telephone_no}</p>
                 ) : null}
               </Form.Group>
             </Col>
@@ -138,32 +138,27 @@ class Register extends React.Component {
                   onChange={this.handleChange}
                   required
                 />
-                <Form.Text className="text-muted">
-                  You need to be a graduating student
-                </Form.Text>
+                <Form.Text className="text-muted">Must be in final year</Form.Text>
                 {errorMsg.matric_no ? (
                   <p className="form-error-msg">{errorMsg.matric_no}</p>
                 ) : null}
               </Form.Group>
             </Col>
           </Form.Row>
-
           <Form.Group>
-            <Form.Label>Phone number</Form.Label>
+            <Form.Label>Email address</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="e.g +2348000000000"
-              name="telephoneNo"
-              value={telephoneNo}
+              type="email"
+              placeholder="Enter a valid email"
+              name="email"
+              value={email}
               onChange={this.handleChange}
               required
             />
             <Form.Text className="text-muted">
-              We'll need it for contacting you
+              We'll never share your email with anyone else.
             </Form.Text>
-            {errorMsg.telephone_no ? (
-              <p className="form-error-msg">{errorMsg.telephone_no}</p>
-            ) : null}
+            {errorMsg.email ? <p className="form-error-msg">{errorMsg.email}</p> : null}
           </Form.Group>
 
           <Form.Group>

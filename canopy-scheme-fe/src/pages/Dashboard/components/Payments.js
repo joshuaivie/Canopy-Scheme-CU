@@ -100,6 +100,8 @@ class Payments extends React.Component {
   }
 
   componentDidMount() {
+    // don't fetch if user's email is not verified
+    // if (!UserStorage.userInfo.email_verified)
     this.getPaymentHistory();
   }
 

@@ -1,7 +1,7 @@
 const Kue = use("Kue");
 const { sanitize } = use("Validator");
 const User = use("App/Models/User");
-const UserGroup = use("App/Models/UserGroup");
+const UserGroupMember = use("App/Models/UserGroupMember");
 const Link = use("App/Helpers/LinkGen");
 const GroupInviteJob = use("App/Jobs/GroupInvite");
 
@@ -25,12 +25,6 @@ class GroupInvite {
           );
         }
 
-        // if user already in group, don't send mails
-        const alreadyInGroup = group.basicMembersInfo.find(
-          groupMember => groupMember["user"]["email"] == user.email
-        );
-        if (alreadyInGroup) throw new Error("User already in the group");
-
         if (unique.has(email)) throw new Error("Duplicate user");
         else unique.add(email);
 
@@ -40,13 +34,30 @@ class GroupInvite {
           .first();
         if (invitee === null)
           throw new Error("User with this email/matric number doesn't exist.");
+
+        // if user already in a group, don't invite
+        const userInAnyGroup = await UserGroupMember.findBy(
+          "user_id",
+          invitee.id
+        );
+        if (userInAnyGroup) throw new Error("User already in a group");
+
+        // check if invitee has paid for at least a table.
+        const transactions = await invitee.transactions().fetch();
+        if (transactions.rows.length < 1)
+          throw new Error(
+            `${
+              invitee.firstname
+            } has not paid for a table yet. You can only invite when he/she has paid`
+          );
+
         const data = {
           route: "group.join",
           groupId: group.id,
           email,
           token: group.token
         };
-        const inviteUrl = Link.createGroupInviteLink(data);
+        const inviteUrl = await Link.createGroupInviteLink(data);
 
         // Dispatch mailing of invite link to invitee email.
         GroupInvite._dispatchMailing({

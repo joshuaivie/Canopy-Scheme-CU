@@ -18,6 +18,12 @@ class EventInfo {
     if (event === null) return 4;
     return event.maximum_group_members;
   }
+
+  static async noOfHoursInviteLinkIsValid() {
+    const event = await EventInfoModel.first();
+    if (event === null) return 12;
+    return event.invite_link_hours_valid;
+  }
 }
 
 module.exports = EventInfo;

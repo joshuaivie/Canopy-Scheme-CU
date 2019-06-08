@@ -41,14 +41,14 @@ class GroupController {
         user_id: invitee.id,
         user_group_id: group_id
       });
-      return response.ok({ msg: "Sucessfully joined group" });
+      return response.ok({ msg: "Successfully joined group." });
     } catch (err) {
       return response.internalServerError({ msg: err.message });
     }
   }
 
   /**
-   * Create a user group if only the user hasn't aleady created
+   * Create a user group if only the user hasn't already created
    * a group or belongs to any group.
    */
   async create({ request, response, auth }) {
@@ -56,7 +56,7 @@ class GroupController {
 
     try {
       const trx = await Database.beginTransaction();
-      const token = randomString({ length: 16, type: "base64" });
+      const token = randomString({ length: 16, type: "url-safe" });
       await UserGroup.create({ name, user_id: auth.user.id, token }, trx);
       auth.user.is_group_owner = true;
       await auth.user.save(trx);

@@ -14,7 +14,7 @@ class NotInUserGroup {
       return response.forbidden({ msg: "You already created a group" });
     const groupCount = await auth.user.group().first();
     if (groupCount !== null)
-      return response.forbidden({ msg: "You aleady belong to a group." });
+      return response.forbidden({ msg: "You already belong to a group." });
     await next();
   }
 }
