@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Form, Button, Col } from "react-bootstrap";
+import { Container, Form, Button, Col, InputGroup } from "react-bootstrap";
 import { AuthAction } from "actions";
 import * as ROUTES from "routes";
 import { validateMatricNo } from "utils/validateMatric";
@@ -14,6 +14,7 @@ class Register extends React.Component {
     password: "",
     matricNo: "",
     telephoneNo: "",
+    passwordShow: "password",
     errorMsg: {},
     isLoading: false
   };
@@ -33,19 +34,15 @@ class Register extends React.Component {
     }
   };
 
-  // handlePasswordToggle = () => {
-  // 	var input = document.getElementById("password");
-  // 	var eyeIcon = document.getElementById("eyeIcon");
-  // 	if (input.type === "password") {
-  // 		input.type = "text";
-  // 		eyeIcon.classList.remove("fa-eye-slash");
-  // 		eyeIcon.classList.add("fa-eye");
-  // 	} else {
-  // 		input.type = "password";
-  // 		eyeIcon.classList.remove("fa-eye");
-  // 		eyeIcon.classList.add("fa-eye-slash");
-  // 	}
-  // };
+  toggleShowPassword = () => {
+    let { passwordShow } = this.state;
+    if (passwordShow === "password") {
+      passwordShow = "text";
+    } else {
+      passwordShow = "password";
+    }
+    this.setState({ passwordShow });
+  };
 
   async register() {
     try {
@@ -64,6 +61,7 @@ class Register extends React.Component {
       password,
       firstname,
       lastname,
+      passwordShow,
       telephoneNo,
       errorMsg,
       isLoading
@@ -163,18 +161,30 @@ class Register extends React.Component {
 
           <Form.Group>
             <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={password}
-              onChange={this.handleChange}
-              required
-            />
+            <InputGroup className="mb-3">
+              <Form.Control
+                placeholder="Password"
+                aria-label="Password"
+                name="password"
+                type={passwordShow}
+                value={password}
+                onChange={this.handleChange}
+                required
+              />
+              <InputGroup.Append>
+                <InputGroup.Text
+                  id="basic-addon2"
+                  onClick={() => this.toggleShowPassword()}
+                  style={{ cursor: "pointer" }}
+                >
+                  {passwordShow == "password" ? "Show" : "Hide"}
+                </InputGroup.Text>
+              </InputGroup.Append>
+            </InputGroup>
+            {errorMsg.password ? (
+              <p className="form-error-msg">{errorMsg.password}</p>
+            ) : null}
           </Form.Group>
-          {errorMsg.password ? (
-            <p className="form-error-msg">{errorMsg.password}</p>
-          ) : null}
           <Button
             variant="primary"
             type="submit"
