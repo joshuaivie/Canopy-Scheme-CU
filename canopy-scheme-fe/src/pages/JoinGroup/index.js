@@ -18,15 +18,17 @@ class JoinGroup extends React.Component {
   async joinGroup() {
     this.setState({ isLoading: true });
     try {
-      const { group_id, token, invitee_email } = this.props.match.params;
+      const { group_id, token, invitee_email, expiring_date } = this.props.match.params;
       const response = await GroupAction.joinGroup({
         groupId: group_id,
         groupToken: token,
-        inviteeEmail: invitee_email
+        inviteeEmail: invitee_email,
+        expiringDate: expiring_date
       });
-      this.setState({ isLoading: false, successMsg: response.msg });
-    } catch (errorMsg) {
-      console.log(errorMsg);
+      this.setState({ successMsg: response.msg });
+    } catch (err) {
+      console.log(err);
+    } finally {
       this.setState({ isLoading: false });
     }
   }

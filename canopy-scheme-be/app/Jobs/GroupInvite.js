@@ -23,7 +23,7 @@ class GroupInvite {
         .to(invitee.email, `${invitee.firstname} ${invitee.lastname}`)
         .from(
           "no-reply@the14thset.covenantuniversity.edu.ng",
-          "The14thset Canopy Scheme Team"
+          "The 14th Set Canopy Scheme Team"
         )
         .subject(
           `${inviter.firstname} ${

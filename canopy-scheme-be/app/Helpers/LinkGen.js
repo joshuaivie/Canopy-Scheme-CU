@@ -1,30 +1,43 @@
 const Route = use("Route");
 const Encryption = use("Encryption");
 const Env = use("Env");
+const { createTimestamp } = use("App/Helpers/DateHelper");
+const EventInfo = use("App/Utilities/EventInfo");
 
 class LinkGen {
-  static createGroupInviteLink({ route, groupId, email, token }) {
-    const endpoint = Route.url(route, {
+  static async createGroupInviteLink({ route, groupId, email, token }) {
+    let now = new Date();
+    now.setHours(
+      now.getHours() + (await EventInfo.noOfHoursInviteLinkIsValid())
+    );
+    let endpoint = Route.url(route, {
       group_id: Encryption.encrypt(groupId),
       token,
-      invitee_email: Encryption.encrypt(email)
+      invitee_email: Encryption.encrypt(email),
+      expiring_date: Encryption.encrypt(createTimestamp(now))
     });
+    // remove "/api" so frontend can use it
+    endpoint = endpoint.split("/api")[1];
     const host = Env.get("FRONT_END_URL", "http://localhost:3000");
     return `${host}${endpoint}`;
   }
 
   static createEmailVerifyLink({ route, token }) {
-    const endpoint = Route.url(route, {
+    let endpoint = Route.url(route, {
       token
     });
+    // remove "/api" so frontend can use it
+    endpoint = endpoint.split("/api")[1];
     const host = Env.get("FRONT_END_URL", "http://localhost:3000");
     return `${host}${endpoint}`;
   }
 
   static createPasswordLink({ route, email_token }) {
-    const endpoint = Route.url(route, {
+    let endpoint = Route.url(route, {
       email_token
     });
+    // remove "/api" so frontend can use it
+    endpoint = endpoint.split("/api")[1];
     const host = Env.get("FRONT_END_URL", "http://localhost:3000");
     return `${host}${endpoint}`;
   }

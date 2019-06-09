@@ -22,7 +22,7 @@ class PasswordResetEmail {
         .to(user.email, `${user.firstname} ${user.lastname}`)
         .from(
           "no-reply@the14thset.covenantuniversity.edu.ng",
-          "The14thset Canopy Scheme Team"
+          "The 14th Set Canopy Scheme Team"
         )
         .subject("Password Reset");
     });

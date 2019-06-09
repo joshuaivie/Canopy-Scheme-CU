@@ -4,6 +4,10 @@ const Database = use("Database");
 const User = use("App/Models/User");
 const UserGroupMember = use("App/Models/UserGroupMember");
 const EmailVerification = use("App/Models/EmailVerification");
+const randomString = require("crypto-random-string");
+const Kue = use("Kue");
+const SignupEmailJob = use("App/Jobs/SignupEmail");
+const Link = use("App/Helpers/LinkGen");
 const Hash = use("Hash");
 
 class UserController {
@@ -188,6 +192,47 @@ class UserController {
     user.password = data["new_password"];
     await user.save();
     return response.ok({ msg: "Password updated." });
+  }
+
+  /**
+   * Resend email verification link.
+   */
+  async resendEmailVerificationLink({ response, auth }) {
+    const user = auth.user;
+    if (user.email_verified)
+      return response.badRequest({ msg: "Your email is already verified" });
+
+    try {
+      let emailVerification = await EmailVerification.query()
+        .where("email", user.email)
+        .first();
+      if (!emailVerification) {
+        emailVerification = await EmailVerification.create({
+          email: user.email,
+          token: randomString({ length: 32, type: "url-safe" })
+        });
+      }
+      const email_verify_link = Link.createEmailVerifyLink({
+        route: "email.verify",
+        token: emailVerification.token
+      });
+
+      Kue.dispatch(
+        SignupEmailJob.key,
+        { user, email_verify_link },
+        {
+          priority: "normal",
+          attempts: 3,
+          remove: true,
+          jobFn: () => {}
+        }
+      );
+      return response.ok({ msg: "Email verification link sent successfully." });
+    } catch (err) {
+      return response.badRequest({
+        msg: "Error sending email verification link, please try again later"
+      });
+    }
   }
 }
 

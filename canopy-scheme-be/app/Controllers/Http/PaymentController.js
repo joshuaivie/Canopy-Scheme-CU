@@ -41,7 +41,7 @@ class PaymentController {
         amount: koboToNaira(transaction.amount),
         total_table: totalTable
       });
-      return response.ok({ msg: "Transaction successfull" });
+      return response.ok({ msg: "Transaction successful" });
     } catch (err) {
       if (err.code === "ER_DUP_ENTRY")
         return response.conflict({ msg: "Invalid Payment." });

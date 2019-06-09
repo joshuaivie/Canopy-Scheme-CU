@@ -23,9 +23,10 @@ class VerifyEmail extends React.Component {
       const response = await AuthAction.verifyEmail({
         emailToken: token
       });
-      this.setState({ isLoading: false, successMsg: response.msg });
-    } catch (errorMsg) {
-      console.log(errorMsg);
+      this.setState({ successMsg: response.msg });
+    } catch (err) {
+      console.log(err);
+    } finally {
       this.setState({ isLoading: false });
     }
   }

@@ -49,7 +49,12 @@ class AuthController {
       const data = await auth
         .withRefreshToken()
         .attempt(details.email, details.password);
-      return response.ok({ msg: "Registration successfull.", ...data, user });
+      return response.ok({
+        msg:
+          "Registration successful. Email verification link has been sent to your email.",
+        ...data,
+        user
+      });
     } catch (err) {
       return response.badRequest({ msg: err.message });
     }
@@ -71,20 +76,17 @@ class AuthController {
   }
 
   /**
-   * Signout a user.
+   * Logout a user.
    */
-  async signout({ request, response }) {
+  async logout({ request, response }) {
     const { refresh_token } = request.only(["refresh_token"]);
 
     try {
       const decrypted = Encryption.decrypt(refresh_token);
-      const refreshToken = await Token.findBy("token", decrypted);
-      if (!refreshToken)
-        return response.unauthorized({
-          msg: "Sorry, you are not currently logged in."
-        });
+      await Token.query()
+        .where("token", decrypted)
+        .delete();
 
-      await refreshToken.delete();
       return response.ok({ msg: "Logout successful." });
     } catch (err) {
       return response.badRequest({ msg: err.message });
@@ -143,7 +145,7 @@ class AuthController {
   }
 
   async resetPassword({ request, params, response }) {
-    const { token } = params;
+    const { email_token } = params;
     const { password, password_confirm } = request.only([
       "password",
       "password_confirm"
@@ -151,7 +153,7 @@ class AuthController {
 
     try {
       const passwordReset = await PasswordReset.query()
-        .where("email_token", token)
+        .where("email_token", email_token)
         .first();
 
       if (!passwordReset) {

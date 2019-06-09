@@ -92,6 +92,17 @@ class UserAction {
       resolveRequestError(err); // only displays error when offline.
     }
   }
+
+  static async resendEmailVerificationLink() {
+    try {
+      const response = await UserApi.resendEmailVerificationLink({
+        token: UserStorage.token
+      });
+      return response.data;
+    } catch (err) {
+      resolveRequestError(err); // only displays error when offline.
+    }
+  }
 }
 
 export default UserAction;

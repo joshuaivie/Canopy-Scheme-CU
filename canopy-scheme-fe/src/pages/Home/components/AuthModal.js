@@ -23,7 +23,11 @@ class AuthModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           {form === "Login" && (
-            <LoginComponent switchForm={this.switchForm} history={history} />
+            <LoginComponent
+              switchForm={this.switchForm}
+              history={history}
+              toggleModal={toggleModal}
+            />
           )}
           {form === "Register" && (
             <RegisterComponent switchForm={this.switchForm} history={history} />

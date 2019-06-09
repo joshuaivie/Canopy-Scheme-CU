@@ -28,6 +28,7 @@ class Home extends React.Component {
         >
           <ReactFullpage
             navigation
+            scrollBar
             render={({ state, fullpageApi }) => {
               return (
                 <ReactFullpage.Wrapper>

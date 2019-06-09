@@ -5,6 +5,7 @@
 const { sanitize } = use("Validator");
 const UserGroup = use("App/Models/UserGroup");
 const EventInfo = use("App/Utilities/EventInfo");
+const { createTimestamp } = use("App/Helpers/DateHelper");
 
 class IsValidGroupInviteLink {
   /**
@@ -14,11 +15,22 @@ class IsValidGroupInviteLink {
    */
   async handle({ request, response }, next) {
     // Update param.group_id with decrypted group_id. Validators do not support params validation currently.
-    const payload = { group_id: request.params.group_id };
+    const payload = {
+      group_id: request.params.group_id,
+      expiring_date: request.params.expiring_date
+    };
     request.params.group_id = sanitize(payload, {
       group_id: "decode_uri_and_decrypt"
     }).group_id;
-    const { token, group_id } = request.params;
+    request.params.expiring_date = sanitize(payload, {
+      expiring_date: "decode_uri_and_decrypt"
+    }).expiring_date;
+    const { token, group_id, expiring_date } = request.params;
+
+    const now = new Date();
+    if (expiring_date < createTimestamp(now)) {
+      return response.forbidden({ msg: "Group invitation link has expired." });
+    }
 
     try {
       const group = await UserGroup.findOrFail(group_id);

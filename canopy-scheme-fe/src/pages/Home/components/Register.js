@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Form, Button, Col } from "react-bootstrap";
+import { Container, Form, Button, Col, InputGroup } from "react-bootstrap";
 import { AuthAction } from "actions";
 import * as ROUTES from "routes";
 import { validateMatricNo } from "utils/validateMatric";
@@ -14,6 +14,7 @@ class Register extends React.Component {
     password: "",
     matricNo: "",
     telephoneNo: "",
+    passwordShow: "password",
     errorMsg: {},
     isLoading: false
   };
@@ -33,19 +34,15 @@ class Register extends React.Component {
     }
   };
 
-  // handlePasswordToggle = () => {
-  // 	var input = document.getElementById("password");
-  // 	var eyeIcon = document.getElementById("eyeIcon");
-  // 	if (input.type === "password") {
-  // 		input.type = "text";
-  // 		eyeIcon.classList.remove("fa-eye-slash");
-  // 		eyeIcon.classList.add("fa-eye");
-  // 	} else {
-  // 		input.type = "password";
-  // 		eyeIcon.classList.remove("fa-eye");
-  // 		eyeIcon.classList.add("fa-eye-slash");
-  // 	}
-  // };
+  toggleShowPassword = () => {
+    let { passwordShow } = this.state;
+    if (passwordShow === "password") {
+      passwordShow = "text";
+    } else {
+      passwordShow = "password";
+    }
+    this.setState({ passwordShow });
+  };
 
   async register() {
     try {
@@ -64,6 +61,7 @@ class Register extends React.Component {
       password,
       firstname,
       lastname,
+      passwordShow,
       telephoneNo,
       errorMsg,
       isLoading
@@ -110,20 +108,20 @@ class Register extends React.Component {
           <Form.Row>
             <Col xs={12} md={6}>
               <Form.Group>
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>Phone number</Form.Label>
                 <Form.Control
-                  type="email"
-                  placeholder="Enter a valid email"
-                  name="email"
-                  value={email}
+                  type="text"
+                  placeholder="e.g +2348000000000"
+                  name="telephoneNo"
+                  value={telephoneNo}
                   onChange={this.handleChange}
                   required
                 />
                 <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
+                  We'll need it for contacting you
                 </Form.Text>
-                {errorMsg.email ? (
-                  <p className="form-error-msg">{errorMsg.email}</p>
+                {errorMsg.telephone_no ? (
+                  <p className="form-error-msg">{errorMsg.telephone_no}</p>
                 ) : null}
               </Form.Group>
             </Col>
@@ -138,48 +136,55 @@ class Register extends React.Component {
                   onChange={this.handleChange}
                   required
                 />
-                <Form.Text className="text-muted">
-                  You need to be a graduating student
-                </Form.Text>
+                <Form.Text className="text-muted">Must be in final year</Form.Text>
                 {errorMsg.matric_no ? (
                   <p className="form-error-msg">{errorMsg.matric_no}</p>
                 ) : null}
               </Form.Group>
             </Col>
           </Form.Row>
-
           <Form.Group>
-            <Form.Label>Phone number</Form.Label>
+            <Form.Label>Email address</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="e.g +2348000000000"
-              name="telephoneNo"
-              value={telephoneNo}
+              type="email"
+              placeholder="Enter a valid email"
+              name="email"
+              value={email}
               onChange={this.handleChange}
               required
             />
             <Form.Text className="text-muted">
-              We'll need it for contacting you
+              We'll never share your email with anyone else.
             </Form.Text>
-            {errorMsg.telephone_no ? (
-              <p className="form-error-msg">{errorMsg.telephone_no}</p>
-            ) : null}
+            {errorMsg.email ? <p className="form-error-msg">{errorMsg.email}</p> : null}
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={password}
-              onChange={this.handleChange}
-              required
-            />
+            <InputGroup className="mb-3">
+              <Form.Control
+                placeholder="Password"
+                aria-label="Password"
+                name="password"
+                type={passwordShow}
+                value={password}
+                onChange={this.handleChange}
+                required
+              />
+              <InputGroup.Append>
+                <InputGroup.Text
+                  id="basic-addon2"
+                  onClick={() => this.toggleShowPassword()}
+                  style={{ cursor: "pointer" }}
+                >
+                  {passwordShow == "password" ? "Show" : "Hide"}
+                </InputGroup.Text>
+              </InputGroup.Append>
+            </InputGroup>
+            {errorMsg.password ? (
+              <p className="form-error-msg">{errorMsg.password}</p>
+            ) : null}
           </Form.Group>
-          {errorMsg.password ? (
-            <p className="form-error-msg">{errorMsg.password}</p>
-          ) : null}
           <Button
             variant="primary"
             type="submit"
