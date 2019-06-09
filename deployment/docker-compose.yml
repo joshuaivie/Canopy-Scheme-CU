@@ -1,0 +1,54 @@
+version: "3"
+services:
+  traefik:
+    image: traefik
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.toml:/etc/traefik/traefik.toml:ro
+      - ./traefik/acme:/etc/traefik/acme
+      - ./traefik/.htpasswd:/etc/traefik/.htpasswd
+  fe:
+    build: ../canopy-scheme-fe
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:the14thset.covenantuniversity.edu.ng"
+  be:
+    build: ../canopy-scheme-be
+    env_file:
+      - ../canopy-scheme-be/.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:the14thset.covenantuniversity.edu.ng;PathPrefix:/api"
+    expose:
+      - "${PORT}"
+    depends_on:
+      - db
+      - cache
+  db:
+    image: "mysql:5.7.26"
+    command: --disable-partition-engine-check
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+  cache:
+    image: "redis:4.0.9-alpine"
+    command: redis-server --port ${REDIS_PORT} --requirepass ${REDIS_PASSWORD}
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - redis-data:/data
+volumes:
+  mysql-data:
+  redis-data:
