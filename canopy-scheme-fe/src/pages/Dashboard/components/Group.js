@@ -11,6 +11,7 @@ import DeleteGroupModal from "./DeleteGroupModal";
 import InviteUserModal from "./InviteUserModal";
 import LeaveGroupModal from "./LeaveGroupModal";
 import GroupHelpModal from "./GroupHelpModal";
+import FeatureLock from "components/FeatureLock";
 
 const MAX_NO_OF_GROUP_MEMBERS = 5;
 
@@ -41,12 +42,17 @@ class Groups extends React.Component {
   }
 
   componentDidMount() {
+    const {
+      userInfo: { email_verified }
+    } = UserStorage;
+
     this.setState({
       isGroupOwner: this.isUserGroupOwner
     });
-    // don't fetch if user's email is not verified
-    // if (!UserStorage.userInfo.email_verified)
-    this.getGroupMembers({ showAllAlerts: false });
+
+    if (email_verified) {
+      this.getGroupMembers({ showAllAlerts: false });
+    }
   }
 
   toggleRemoveGroupMemberModal = matricNo => {
@@ -225,6 +231,9 @@ class Groups extends React.Component {
 
   render() {
     const {
+      userInfo: { email_verified }
+    } = UserStorage;
+    const {
       handleDeleteGroup,
       handleCreateGroup,
       handleRemoveMember,
@@ -255,7 +264,9 @@ class Groups extends React.Component {
       }
     } = this;
     let body = null;
-    if (isFetching === true) {
+    if (!email_verified) {
+      body = <FeatureLock />;
+    } else if (isFetching === true) {
       body = (
         <Spinner
           animation="border"
@@ -352,29 +363,37 @@ class Groups extends React.Component {
               {groupName !== "" ? groupName : "Group"}{" "}
               <FontAwesomeIcon
                 icon="question-circle"
-                onMouseEnter={() => toggleModal("showHelpModal")}
+                title="Know more about groups"
+                style={{
+                  cursor: "pointer"
+                }}
+                onClick={() => toggleModal("showHelpModal")}
               />
             </h5>
-            {isGroupOwner ? (
-              <Button
-                disabled={errorFetching}
-                variant="outline-danger"
-                onClick={() => toggleModal("showDeleteGroupModal")}
-              >
-                Delete
-                <FontAwesomeIcon icon="door-open" />
-              </Button>
-            ) : null}
-            {isUserInAnyGroup && !isGroupOwner ? (
-              <Button
-                disabled={errorFetching}
-                variant="outline-danger"
-                onClick={() => toggleModal("showLeaveGroupModal")}
-              >
-                Leave
-                <FontAwesomeIcon icon="door-open" />
-              </Button>
-            ) : null}
+            {email_verified && (
+              <React.Fragment>
+                {isGroupOwner && (
+                  <Button
+                    disabled={errorFetching}
+                    variant="outline-danger"
+                    onClick={() => toggleModal("showDeleteGroupModal")}
+                  >
+                    Delete
+                    <FontAwesomeIcon icon="door-open" />
+                  </Button>
+                )}
+                {isUserInAnyGroup && !isGroupOwner && (
+                  <Button
+                    disabled={errorFetching}
+                    variant="outline-danger"
+                    onClick={() => toggleModal("showLeaveGroupModal")}
+                  >
+                    Leave
+                    <FontAwesomeIcon icon="door-open" />
+                  </Button>
+                )}
+              </React.Fragment>
+            )}
           </Card.Header>
           <Card.Body>{body}</Card.Body>
         </Card>

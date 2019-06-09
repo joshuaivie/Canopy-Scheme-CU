@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Card, Col, Table, Modal, Form, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
+import FeatureLock from "components/FeatureLock";
 import { UserAction, TableAction } from "actions";
 import { generateRandomString } from "utils/string";
 import { nairaToKobo } from "utils/money";
@@ -100,9 +101,12 @@ class Payments extends React.Component {
   }
 
   componentDidMount() {
-    // don't fetch if user's email is not verified
-    // if (!UserStorage.userInfo.email_verified)
-    this.getPaymentHistory();
+    const {
+      userInfo: { email_verified }
+    } = UserStorage;
+    if (email_verified) {
+      this.getPaymentHistory();
+    }
   }
 
   handleClose = () => {
@@ -193,7 +197,9 @@ class Payments extends React.Component {
       isFetching,
       errorFetching
     } = this.state;
-    const { email } = UserStorage.userInfo;
+    const {
+      userInfo: { email, email_verified }
+    } = UserStorage;
     let limit = 5;
     transactions.forEach(transaction => {
       limit -= transaction.total_table;
@@ -204,125 +210,141 @@ class Payments extends React.Component {
         <Card className="material-card">
           <Card.Header>
             <h5>Payments</h5>
-            {limit > 0 ? (
-              <Button
-                onClick={this.handleOpen}
-                className="make-payment-button"
-                disabled={errorFetching}
-              >
-                Book Table(s) &nbsp;
-                <FontAwesomeIcon icon="credit-card" />
-              </Button>
-            ) : (
-              <p className="form-error-msg desktop-only">You have paid for 5 tables</p>
+            {email_verified && (
+              <React.Fragment>
+                {limit > 0 ? (
+                  <Button
+                    onClick={this.handleOpen}
+                    className="make-payment-button"
+                    disabled={errorFetching}
+                  >
+                    Book Table(s) &nbsp;
+                    <FontAwesomeIcon icon="credit-card" />
+                  </Button>
+                ) : (
+                  <p className="form-error-msg desktop-only">
+                    You have paid for 5 tables
+                  </p>
+                )}
+              </React.Fragment>
             )}
           </Card.Header>
 
           <Card.Body>
-            <Table borderless hover responsive>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Amount</th>
-                  <th>Tables</th>
-                  <th>Reference</th>
-                </tr>
-              </thead>
-              <tbody>
-                <DisplayPayments
-                  // {...{isFetching, transactions, columns}} // a shorter syntax
-                  isFetching={isFetching}
-                  errorFetching={errorFetching}
-                  transactions={transactions}
-                  columns={columns}
-                  getPaymentHistory={this.getPaymentHistory}
-                />
-              </tbody>
-            </Table>
-            {limit > 0 ? (
-              <Button
-                onClick={this.handleOpen}
-                className="make-payment-button mobile"
-                disabled={errorFetching}
-              >
-                Book Table(s) &nbsp;
-                <FontAwesomeIcon icon="credit-card" />
-              </Button>
+            {email_verified ? (
+              <React.Fragment>
+                <Table borderless hover responsive>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Amount</th>
+                      <th>Tables</th>
+                      <th>Reference</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <DisplayPayments
+                      // {...{isFetching, transactions, columns}} // a shorter syntax
+                      isFetching={isFetching}
+                      errorFetching={errorFetching}
+                      transactions={transactions}
+                      columns={columns}
+                      getPaymentHistory={this.getPaymentHistory}
+                    />
+                  </tbody>
+                </Table>
+                {limit > 0 ? (
+                  <Button
+                    onClick={this.handleOpen}
+                    className="make-payment-button mobile"
+                    disabled={errorFetching}
+                  >
+                    Book Table(s) &nbsp;
+                    <FontAwesomeIcon icon="credit-card" />
+                  </Button>
+                ) : (
+                  <p className="form-error-msg mobile-only">
+                    You have paid for 5 tables
+                  </p>
+                )}
+              </React.Fragment>
             ) : (
-              <p className="form-error-msg mobile-only">You have paid for 5 tables</p>
+              <FeatureLock />
             )}
           </Card.Body>
         </Card>
 
         {/* payment modal */}
-        <Modal show={show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Pay for Tables</Modal.Title>
-          </Modal.Header>
+        {email_verified && (
+          <Modal show={show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Pay for Tables</Modal.Title>
+            </Modal.Header>
 
-          <Modal.Body>
-            <Form
-              onSubmit={event => {
-                event.preventDefault();
-              }}
-            >
-              {/* Where table selection happen 😃 */}
-              <div className="payment-container">
-                <div className="display-table">
-                  <p>Tables</p>
-                  <div className="table-button">
-                    <button onClick={this.decreaseTableNumber}>
-                      <FontAwesomeIcon icon="minus" />
-                    </button>
-                    <p style={{ color: "white" }}>{numberOfTables}</p>
-                    <button onClick={this.increaseTableNumber}>
-                      <FontAwesomeIcon icon="plus" />
-                    </button>
+            <Modal.Body>
+              <Form
+                onSubmit={event => {
+                  event.preventDefault();
+                }}
+              >
+                {/* Where table selection happen 😃 */}
+                <div className="payment-container">
+                  <div className="display-table">
+                    <p>Tables</p>
+                    <div className="table-button">
+                      <button onClick={this.decreaseTableNumber}>
+                        <FontAwesomeIcon icon="minus" />
+                      </button>
+                      <p style={{ color: "white" }}>{numberOfTables}</p>
+                      <button onClick={this.increaseTableNumber}>
+                        <FontAwesomeIcon icon="plus" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="display-price">
+                    <p>Total cost</p>
+                    <h4>₦{commaNumber(numberOfTables * tablePrice)}</h4>
                   </div>
                 </div>
-                <div className="display-price">
-                  <p>Total cost</p>
-                  <h4>₦{commaNumber(numberOfTables * tablePrice)}</h4>
+
+                {/* Where payments breakdown is displayed */}
+                <div className="payment-breakdown-container">
+                  <p>
+                    Number of Tables <span>{numberOfTables}</span>
+                  </p>
+                  <p>
+                    Number of Chairs <span>{numberOfTables * 8}</span>
+                  </p>
+                  <p>
+                    Decoration{" "}
+                    <span>
+                      <FontAwesomeIcon icon="check-circle" />
+                    </span>
+                  </p>
+                  <p>
+                    Security{" "}
+                    <span>
+                      <FontAwesomeIcon icon="check-circle" />
+                    </span>
+                  </p>
                 </div>
-              </div>
 
-              {/* Where payments breakdown is displayed */}
-              <div className="payment-breakdown-container">
-                <p>
-                  Number of Tables <span>{numberOfTables}</span>
-                </p>
-                <p>
-                  Number of Chairs <span>{numberOfTables * 8}</span>
-                </p>
-                <p>
-                  Decoration{" "}
-                  <span>
-                    <FontAwesomeIcon icon="check-circle" />
-                  </span>
-                </p>
-                <p>
-                  Security{" "}
-                  <span>
-                    <FontAwesomeIcon icon="check-circle" />
-                  </span>
-                </p>
-              </div>
-
-              {/* Paystack Button */}
-              <PaystackButton
-                text="Pay"
-                tag="button"
-                email={email}
-                amount={nairaToKobo(totalPrice)} // Paystack works with kobo
-                close={this.paystackClose}
-                class="btn btn-primary btn-center payment-button"
-                callback={this.paystackCallback}
-                reference={generateRandomString()}
-                paystackkey={PAYSTACK_PUBLIC_KEY}
-              />
-            </Form>
-          </Modal.Body>
-        </Modal>
+                {/* Paystack Button */}
+                <PaystackButton
+                  text="Pay"
+                  tag="button"
+                  email={email}
+                  amount={nairaToKobo(totalPrice)} // Paystack works with kobo
+                  close={this.paystackClose}
+                  class="btn btn-primary btn-center payment-button"
+                  callback={this.paystackCallback}
+                  reference={generateRandomString()}
+                  paystackkey={PAYSTACK_PUBLIC_KEY}
+                />
+              </Form>
+            </Modal.Body>
+          </Modal>
+        )}
       </Col>
     );
   }

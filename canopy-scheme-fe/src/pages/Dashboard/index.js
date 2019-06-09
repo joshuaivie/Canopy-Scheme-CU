@@ -3,12 +3,37 @@ import { Container, Row } from "react-bootstrap";
 import Groups from "pages/Dashboard/components/Group";
 import Payments from "pages/Dashboard/components/Payments";
 import { UserStorage } from "storage";
+import { UserAction } from "actions";
+import { successAlert } from "utils/notification";
 import Avatar from "./components/Avatar";
 import ChangePasswordModal from "./components/ChangePasswordModal";
 
+export const ResendVerificationEmailContext = React.createContext({
+  verificationEmailSent: false,
+  resendVerificationEmailIsLoading: false,
+  resendEmailVerificationLink: () => {}
+});
+
 class Dashboard extends React.Component {
   state = {
-    showChangePasswordModal: false
+    showChangePasswordModal: false,
+    verificationEmailSent: false,
+    resendVerificationEmailIsLoading: false
+  };
+
+  resendEmailVerificationLink = async () => {
+    this.setState({ isLoading: true });
+    try {
+      const { msg } = await UserAction.resendEmailVerificationLink();
+      successAlert(msg);
+      this.setState({
+        verificationEmailSent: true,
+        resendVerificationEmailIsLoading: false
+      });
+    } catch (err) {
+      this.setState({ resendVerificationEmailIsLoading: false });
+      console.log(err);
+    }
   };
 
   toggleModal = modal => {
@@ -19,7 +44,14 @@ class Dashboard extends React.Component {
   render() {
     const { userInfo } = UserStorage;
     const { history } = this.props;
-    const { showChangePasswordModal } = this.state;
+    const {
+      showChangePasswordModal,
+      verificationEmailSent,
+      resendVerificationEmailIsLoading
+    } = this.state;
+
+    const { resendEmailVerificationLink } = this;
+
     return (
       <div className="dashboard">
         <div className="dashboard-header">
@@ -35,8 +67,16 @@ class Dashboard extends React.Component {
         </div>
         <Container>
           <Row>
-            <Payments />
-            <Groups />
+            <ResendVerificationEmailContext.Provider
+              value={{
+                verificationEmailSent,
+                resendVerificationEmailIsLoading,
+                resendEmailVerificationLink
+              }}
+            >
+              <Payments />
+              <Groups />
+            </ResendVerificationEmailContext.Provider>
           </Row>
         </Container>
         <ChangePasswordModal

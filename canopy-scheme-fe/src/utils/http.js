@@ -41,7 +41,7 @@ export function resolveRequestError(err, showAllAlert = true) {
   const { status, data } = errorHandler(err);
   if (data.emailNotVerified) {
     errorAlert(data.msg);
-    UserStorage.updateUserInfo({ email_verified: true });
+    UserStorage.updateUserInfo({ email_verified: false });
     return;
   }
   if (data.errors) throw data.errors;

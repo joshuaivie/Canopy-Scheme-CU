@@ -1,11 +1,10 @@
 import React from "react";
 import { Image, Dropdown, Button } from "react-bootstrap";
-import { AuthAction, UserAction } from "actions";
-import { errorAlert, successAlert } from "utils/notification";
+import { AuthAction } from "actions";
+import { errorAlert } from "utils/notification";
 import avatarImg from "assets/img/portrait.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as ROUTES from "routes";
-import { UserStorage } from "storage";
 
 class CustomToggle extends React.PureComponent {
   handleClick = e => {
@@ -42,18 +41,8 @@ class Avatar extends React.PureComponent {
     }
   };
 
-  resendEmailVerificationLink = async () => {
-    try {
-      const { msg } = await UserAction.resendEmailVerificationLink();
-      successAlert(msg);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   render() {
     const { toggleChangePasswordModal } = this.props;
-    const { userInfo } = UserStorage;
     return (
       <Dropdown>
         <Dropdown.Toggle as={CustomToggle} />
@@ -64,13 +53,6 @@ class Avatar extends React.PureComponent {
               <FontAwesomeIcon className="primary-text" icon="lock" />
             </Button>
           </Dropdown.Item>
-          {!userInfo.email_verified && (
-            <Dropdown.Item onClick={() => this.resendEmailVerificationLink({})}>
-              <Button variant="link" className="primary-text">
-                Resend email verification link &nbsp;{" "}
-              </Button>
-            </Dropdown.Item>
-          )}
           <Dropdown.Item onClick={this.logout}>
             <Button variant="link" className="primary-text">
               Logout &nbsp;{" "}

@@ -177,7 +177,7 @@ class Register extends React.Component {
                   onClick={() => this.toggleShowPassword()}
                   style={{ cursor: "pointer" }}
                 >
-                  {passwordShow == "password" ? "Show" : "Hide"}
+                  {passwordShow === "password" ? "Show" : "Hide"}
                 </InputGroup.Text>
               </InputGroup.Append>
             </InputGroup>
