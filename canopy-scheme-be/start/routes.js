@@ -74,7 +74,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get("me", "UserController.profile");
   Route.get(
-    "verification/email/resend",
+    "verification/resend/email",
     "UserController.resendEmailVerificationLink"
   );
   Route.post("password/change", "UserController.changePassword").validator(

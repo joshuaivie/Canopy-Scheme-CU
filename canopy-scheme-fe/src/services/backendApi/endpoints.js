@@ -13,7 +13,7 @@ export const USER_RESERVATIONS = `${USER}/reservations`;
 export const USER_GROUP = `${USER}/group`;
 export const USER_GROUP_LEAVE = `${USER}/group/leave`;
 export const VERIFY_EMAIL = emailToken => `/verification/email/${emailToken}`;
-export const RESEND_EMAIL_VERIFICATION = `/verification/email/resend`;
+export const RESEND_EMAIL_VERIFICATION = "/verification/resend/email";
 export const REMOVE_GROUP_MEMBER = matricNo =>
   `${USER}/group/member/${matricNo}/remove`;
 
