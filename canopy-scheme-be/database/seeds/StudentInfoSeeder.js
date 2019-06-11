@@ -17,18 +17,12 @@ class StudentInfoSeeder {
     const fs = require("fs");
     const path = require("path");
     const StudentInfo = use("App/Models/StudentInfo");
-    await fs.readFile(
+    let content = fs.readFileSync(
       path.resolve(__dirname, "studentInfo.json"),
-      "UTF-8",
-      (err, data) => {
-        if (err) {
-          console.log(err);
-          throw err;
-        }
-        data = JSON.parse(data);
-        StudentInfo.createMany(data);
-      }
+      "utf8"
     );
+    content = JSON.parse(content);
+    await StudentInfo.createMany(content);
   }
 }
 
