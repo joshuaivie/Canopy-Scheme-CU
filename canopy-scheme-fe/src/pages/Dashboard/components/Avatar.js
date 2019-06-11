@@ -49,14 +49,14 @@ class Avatar extends React.PureComponent {
         <Dropdown.Menu alignRight>
           <Dropdown.Item onClick={() => toggleChangePasswordModal()}>
             <Button variant="link" className="primary-text">
-              Change Password &nbsp;{" "}
               <FontAwesomeIcon className="primary-text" icon="lock" />
+              &nbsp; Change Password
             </Button>
           </Dropdown.Item>
           <Dropdown.Item onClick={this.logout}>
             <Button variant="link" className="primary-text">
-              Logout &nbsp;{" "}
               <FontAwesomeIcon className="primary-text" icon="power-off" />
+              &nbsp; Logout
             </Button>
           </Dropdown.Item>
         </Dropdown.Menu>

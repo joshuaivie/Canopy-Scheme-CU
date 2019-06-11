@@ -378,8 +378,8 @@ class Groups extends React.Component {
                     variant="outline-danger"
                     onClick={() => toggleModal("showDeleteGroupModal")}
                   >
-                    Delete
                     <FontAwesomeIcon icon="door-open" />
+                    &nbsp; Delete
                   </Button>
                 )}
                 {isUserInAnyGroup && !isGroupOwner && (

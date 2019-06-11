@@ -218,8 +218,7 @@ class Payments extends React.Component {
                     className="make-payment-button"
                     disabled={errorFetching}
                   >
-                    Book Table(s) &nbsp;
-                    <FontAwesomeIcon icon="credit-card" />
+                    <FontAwesomeIcon icon="credit-card" /> &nbsp; Book Table(s)
                   </Button>
                 ) : (
                   <p className="form-error-msg desktop-only">
