@@ -40,7 +40,11 @@ Route.group(() => {
     "group/join/:group_id/:token/:invitee_email/:expiring_date",
     "GroupController.join"
   )
-    .middleware(["inviteeNotInUserGroup", "isValidGroupInviteLink"])
+    .middleware([
+      "hasVerifiedPayment",
+      "inviteeNotInUserGroup",
+      "isValidGroupInviteLink"
+    ])
     .as("group.join");
 }).prefix("api");
 
@@ -62,29 +66,35 @@ Route.group(() => {
   Route.get("me/reservations", "UserController.reservations");
 
   // User Group
-  Route.get("me/group", "UserController.getGroup").middleware("inUserGroup");
-  Route.delete("me/group", "UserController.deleteGroup").middleware(
-    "isUserGroupOwner"
-  );
-  Route.delete("me/group/leave", "UserController.leaveGroup").middleware(
+  Route.get("me/group", "UserController.getGroup").middleware([
+    "hasVerifiedPayment",
     "inUserGroup"
-  );
+  ]);
+  Route.delete("me/group", "UserController.deleteGroup").middleware([
+    "hasVerifiedPayment",
+    "isUserGroupOwner"
+  ]);
+  Route.delete("me/group/leave", "UserController.leaveGroup").middleware([
+    "hasVerifiedPayment",
+    "inUserGroup"
+  ]);
   Route.delete(
     "me/group/member/:matric_no/remove",
     "UserController.removeGroupMember"
-  );
+  ).middleware(["hasVerifiedPayment", "inUserGroup"]);
 
   // Group
   Route.post("group", "GroupController.create")
     .validator("CreateGroup")
+    .middleware("hasVerifiedPayment")
     .middleware("notInUserGroup");
   Route.post("group/invite", "GroupController.invite")
     .validator("InviteUsersToGroup")
+    .middleware("hasVerifiedPayment")
     .middleware("isUserGroupOwner");
 })
   .prefix("api")
-  .middleware("verifyEmail")
-  .middleware("auth:user");
+  .middleware(["auth:user", "verifyEmail"]);
 
 Route.group(() => {
   Route.get("me", "UserController.profile");

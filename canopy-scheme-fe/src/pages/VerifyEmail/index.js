@@ -1,9 +1,10 @@
 import React from "react";
-import { Spinner, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthAction } from "actions";
 import Layout from "layouts";
 import * as ROUTES from "routes";
+import { LoadingSpinner } from "components/spinners";
 
 class VerifyEmail extends React.Component {
   state = {
@@ -37,9 +38,7 @@ class VerifyEmail extends React.Component {
     return (
       <Layout toggleModal={toggleModal} history={history} showAuthModal={showAuthModal}>
         <div className="center-large-text-container">
-          {isLoading ? (
-            <Spinner animation="border" style={{ height: "6rem", width: "6rem" }} />
-          ) : null}
+          {isLoading ? <LoadingSpinner /> : null}
           {successMsg ? (
             <React.Fragment>
               <h2>{successMsg}</h2>

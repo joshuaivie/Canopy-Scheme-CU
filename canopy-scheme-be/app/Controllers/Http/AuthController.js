@@ -67,8 +67,7 @@ class AuthController {
       return response.ok({
         msg:
           "Registration successful. Email verification link has been sent to your email.",
-        ...data,
-        user
+        ...data
       });
     } catch (err) {
       return response.badRequest({ msg: err.message });
@@ -91,8 +90,11 @@ class AuthController {
         .authenticator(authenticator)
         .withRefreshToken()
         .attempt(email, password);
-      const user = await Model.findBy("email", email);
-      return response.ok({ msg: "Login successful.", ...data, user });
+      return response.ok({
+        msg: "Login successful.",
+        ...data,
+        isAdmin: authenticator == "admin"
+      });
     } catch (err) {
       return response.badRequest({ msg: "Invalid email or password." });
     }

@@ -3,7 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import { AuthAction } from "actions";
 import Layout from "layouts";
 import { successAlert } from "utils/notification";
-import BtnLoadingSpinner from "components/BtnLoadingSpinner";
+import { BtnLoadingSpinner } from "components/spinners";
+import { NetworkAvailabilityContext } from "utils/http";
 
 class ForgotPassword extends React.Component {
   state = {
@@ -11,6 +12,7 @@ class ForgotPassword extends React.Component {
     isLoading: false,
     errorMsg: {}
   };
+  static contextType = NetworkAvailabilityContext;
 
   componentDidMount() {
     this.props.toggleModal(false);
@@ -62,7 +64,11 @@ class ForgotPassword extends React.Component {
                 <p className="form-error-msg">{errorMsg.email}</p>
               ) : null}
             </Form.Group>
-            <Button variant="primary" type="submit" disabled={isLoading}>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={isLoading || !this.context.online}
+            >
               {isLoading ? <BtnLoadingSpinner /> : "Reset Password"}
             </Button>
           </Form>{" "}

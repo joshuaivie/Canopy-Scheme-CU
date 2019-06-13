@@ -24,7 +24,8 @@ import {
   faPhone,
   faEnvelope,
   faCommentAlt,
-  faLock
+  faLock,
+  faEdit
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -52,5 +53,6 @@ library.add(
   faQuestionCircle,
   faRedo,
   faCommentAlt,
-  faLock
+  faLock,
+  faEdit
 );

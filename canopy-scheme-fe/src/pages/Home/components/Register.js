@@ -4,7 +4,8 @@ import { AuthAction } from "actions";
 import * as ROUTES from "routes";
 import { validateMatricNo } from "utils/validateMatric";
 import { successAlert } from "utils/notification";
-import BtnLoadingSpinner from "components/BtnLoadingSpinner";
+import { BtnLoadingSpinner } from "components/spinners";
+import { NetworkAvailabilityContext } from "utils/http";
 
 class Register extends React.Component {
   state = {
@@ -18,6 +19,7 @@ class Register extends React.Component {
     errorMsg: {},
     isLoading: false
   };
+  static contextType = NetworkAvailabilityContext;
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -188,7 +190,7 @@ class Register extends React.Component {
           <Button
             variant="primary"
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || !this.context.online}
             className="btn-center btn-full-width"
           >
             {isLoading ? <BtnLoadingSpinner /> : "Register"}

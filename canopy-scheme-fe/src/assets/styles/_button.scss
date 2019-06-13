@@ -1,6 +1,6 @@
 button,
 .btn {
-  font-family: "Nexa Bold";
+  font-family: "Google sans Bold";
   &:hover {
     text-decoration: none !important;
   }
@@ -31,7 +31,7 @@ button,
 
 .btn-link {
   cursor: pointer;
-  color: $gold;
+  color: $purple;
   &:hover {
     background-color: #f4f4f4 !important;
   }

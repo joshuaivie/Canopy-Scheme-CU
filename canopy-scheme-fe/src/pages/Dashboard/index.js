@@ -7,6 +7,9 @@ import { UserAction } from "actions";
 import { successAlert } from "utils/notification";
 import Avatar from "./components/Avatar";
 import ChangePasswordModal from "./components/ChangePasswordModal";
+import { Redirect } from "react-router-dom";
+import * as ROUTES from "routes";
+import { LoadingSpinner, RetryBtn } from "components/spinners";
 
 export const ResendVerificationEmailContext = React.createContext({
   verificationEmailSent: false,
@@ -18,8 +21,26 @@ class Dashboard extends React.Component {
   state = {
     showChangePasswordModal: false,
     verificationEmailSent: false,
-    resendVerificationEmailIsLoading: false
+    resendVerificationEmailIsLoading: false,
+    isFetching: true,
+    errorFetching: false
   };
+
+  componentDidMount() {
+    if (UserStorage.userInfo) this.getProfile();
+  }
+
+  async getProfile() {
+    this.setState({ isFetching: true, errorFetching: false });
+    try {
+      await UserAction.getProfile();
+    } catch (err) {
+      console.log(err);
+      this.setState({ errorFetching: true });
+    } finally {
+      this.setState({ isFetching: false });
+    }
+  }
 
   resendEmailVerificationLink = async () => {
     this.setState({ isLoading: true });
@@ -42,7 +63,23 @@ class Dashboard extends React.Component {
   };
 
   render() {
+    const { isFetching, errorFetching } = this.state;
+    if (isFetching) {
+      return <LoadingSpinner width="6rem" height="6rem" />;
+    } else if (errorFetching) {
+      return <RetryBtn retryEvent={this.getProfile} width="6rem" height="6rem" />;
+    }
     const { userInfo } = UserStorage;
+    if (!userInfo) {
+      return (
+        <Redirect
+          to={{
+            pathname: ROUTES.ADMIN,
+            state: { from: this.props.location, isRedirect: true }
+          }}
+        />
+      );
+    }
     const { history } = this.props;
     const {
       showChangePasswordModal,
@@ -66,18 +103,16 @@ class Dashboard extends React.Component {
           />
         </div>
         <Container>
-          <Row>
-            <ResendVerificationEmailContext.Provider
-              value={{
-                verificationEmailSent,
-                resendVerificationEmailIsLoading,
-                resendEmailVerificationLink
-              }}
-            >
-              <Payments />
-              <Groups />
-            </ResendVerificationEmailContext.Provider>
-          </Row>
+          <ResendVerificationEmailContext.Provider
+            value={{
+              verificationEmailSent,
+              resendVerificationEmailIsLoading,
+              resendEmailVerificationLink
+            }}
+          >
+            <Payments />
+            <Groups />
+          </ResendVerificationEmailContext.Provider>
         </Container>
         <ChangePasswordModal
           toggleModal={() => this.toggleModal("showChangePasswordModal")}

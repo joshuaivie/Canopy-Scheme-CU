@@ -3,13 +3,14 @@ import { AuthApi } from "services/backendApi";
 import { resolveRequestError } from "utils/http";
 
 class AuthActions {
-  static async login({ email, password }) {
+  static async login({ email, password, isAdmin }) {
     try {
-      const { data } = await AuthApi.login({ email, password });
+      const { data } = await AuthApi.login({ email, password, isAdmin });
       UserStorage.token = data.token;
       UserStorage.refreshToken = data.refreshToken;
-      UserStorage.userInfo = data.user;
-      return data.msg;
+      if (!isAdmin) UserStorage.userInfo = { is_admin: false };
+      const { msg } = data;
+      return { msg };
     } catch (err) {
       throw resolveRequestError(err);
     }
@@ -34,7 +35,6 @@ class AuthActions {
       });
       UserStorage.token = data.token;
       UserStorage.refreshToken = data.refreshToken;
-      UserStorage.userInfo = data.user;
       return data.msg;
     } catch (err) {
       throw resolveRequestError(err);
@@ -42,12 +42,12 @@ class AuthActions {
   }
 
   static async logout(
-    email = UserStorage.userInfo.email,
+    email = UserStorage.userInfo ? UserStorage.userInfo.email : null,
     refreshToken = UserStorage.refreshToken,
     token = UserStorage.token
   ) {
     try {
-      await AuthApi.logout({ email, refreshToken, token });
+      if (UserStorage.userInfo) await AuthApi.logout({ email, refreshToken, token });
       UserStorage.unsetToken();
       UserStorage.unsetUserInfo();
       UserStorage.unsetRefreshToken();

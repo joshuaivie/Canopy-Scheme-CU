@@ -16,8 +16,12 @@ class UserController {
    */
   async profile({ response, auth }) {
     try {
-      return response.ok({ profile: await auth.user });
+      const { user } = auth;
+      user["paid_for_table"] = await user.hasVerifiedPayment();
+      user["is_admin"] = false;
+      return response.ok({ profile: user });
     } catch (err) {
+      console.log(err);
       return response.internalServerError({ msg: err.message });
     }
   }
@@ -27,8 +31,11 @@ class UserController {
    */
   async transactions({ response, auth }) {
     try {
+      // return response.ok({
+      //   transactions: await auth.user.transactions().fetch()
+      // });
       return response.ok({
-        transactions: await auth.user.transactions().fetch()
+        transactions: await auth.user.offlineTransactions().fetch()
       });
     } catch (err) {
       return response.internalServerError({ msg: err.message });

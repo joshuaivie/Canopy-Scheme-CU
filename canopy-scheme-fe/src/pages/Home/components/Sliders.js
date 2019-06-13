@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import tentSvg from "assets/svg/tent.svg";
 import familySvg from "assets/svg/family.svg";
-import cardSvg from "assets/svg/debit-card.svg";
 import messageSvg from "assets/svg/message.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,16 +19,6 @@ export default ({ toggleModal }) => (
       </div>
       <div className="right">
         <img src={tentSvg} alt="" className="float" />
-      </div>
-    </div>
-    <div className="section" id="payment">
-      <div className="left">
-        <h1>Easy Payment</h1>
-        <p>Pay conviniently with your card or with bank transfers.</p>
-        <Button onClick={() => toggleModal()}>Make a reservation</Button>
-      </div>
-      <div className="right">
-        <img src={cardSvg} alt="" className="float" />
       </div>
     </div>
     <div className="section" id="groups">

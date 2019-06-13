@@ -4,7 +4,8 @@ import { AuthAction } from "actions";
 import Layout from "layouts";
 import { successAlert } from "utils/notification";
 import * as ROUTES from "routes";
-import BtnLoadingSpinner from "components/BtnLoadingSpinner";
+import { BtnLoadingSpinner } from "components/spinners";
+import { NetworkAvailabilityContext } from "utils/http";
 
 class ResetPassword extends React.Component {
   state = {
@@ -13,6 +14,7 @@ class ResetPassword extends React.Component {
     isLoading: false,
     errorMsg: {}
   };
+  static contextType = NetworkAvailabilityContext;
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -83,7 +85,11 @@ class ResetPassword extends React.Component {
                 <p className="form-error-msg">{errorMsg.password_confirm}</p>
               ) : null}
             </Form.Group>
-            <Button variant="primary" type="submit" disabled={isLoading}>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={isLoading || !this.context.online}
+            >
               {isLoading ? <BtnLoadingSpinner /> : "Reset Password"}
             </Button>
           </Form>{" "}

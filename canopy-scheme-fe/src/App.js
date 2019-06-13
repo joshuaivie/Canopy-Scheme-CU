@@ -13,6 +13,7 @@ import ResetPassword from "./pages/ResetPassword";
 import JoinGroup from "./pages/JoinGroup";
 import VerifyEmail from "./pages/VerifyEmail";
 import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/notFound";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -37,6 +38,7 @@ const App = () => {
         <DefaultLayout exact path={ROUTES.VERIFY_EMAIL} component={VerifyEmail} />
         <DefaultLayout exact path={ROUTES.JOIN_GROUP} component={JoinGroup} />
         <ProtectedRoute path={ROUTES.APP} component={Dashboard} />
+        <ProtectedRoute path={ROUTES.ADMIN} component={AdminDashboard} />
         <DefaultLayout component={NotFound} />
       </Switch>
     </BrowserRouter>

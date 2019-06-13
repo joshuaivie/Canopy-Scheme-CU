@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 import { UserApi } from "services/backendApi";
-import { errorAlert } from "utils/notification";
 import { UserStorage } from "storage";
 import { resolveRequestError } from "utils/http";
 
@@ -19,11 +18,10 @@ class UserAction {
 
   static async getProfile({ token } = UserStorage) {
     try {
-      const response = await UserApi.getProfile({ token });
-      return response.data.user;
+      const { data } = await UserApi.getProfile({ token });
+      UserStorage.userInfo = data.profile;
     } catch (err) {
-      errorAlert(err.msg);
-      throw err;
+      resolveRequestError(err, false); // only displays error when offline.
     }
   }
 

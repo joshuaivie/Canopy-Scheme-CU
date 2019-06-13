@@ -1,17 +1,14 @@
 import React from "react";
-import { Button, Card, Col, Table, Modal, Form, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PaystackButton from "react-paystack";
 import FeatureLock from "components/FeatureLock";
 import { UserAction, TableAction } from "actions";
-import { generateRandomString } from "utils/string";
-import { nairaToKobo } from "utils/money";
 import { UserStorage } from "storage";
 import { errorAlert } from "utils/notification";
-import { createTimeStamp } from "utils/createTimeStamp";
+// import { createTimeStamp } from "utils/createTimeStamp";
+import { LoadingSpinner, RetryBtn } from "components/spinners";
 
 const commaNumber = require("comma-number");
-const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
 const RenderEmptyHistory = columns => (
   <tr>
@@ -50,10 +47,7 @@ const DisplayPayments = ({
     return (
       <tr>
         <td colSpan={columns.length}>
-          <Spinner
-            animation="border"
-            style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
-          />
+          <LoadingSpinner />
         </td>
       </tr>
     );
@@ -61,11 +55,7 @@ const DisplayPayments = ({
     return (
       <tr>
         <td colSpan={columns.length}>
-          <FontAwesomeIcon
-            onClick={() => getPaymentHistory()}
-            icon="redo"
-            style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
-          />
+          <RetryBtn retryEvent={getPaymentHistory} />
         </td>
       </tr>
     );
@@ -85,10 +75,12 @@ class Payments extends React.Component {
 
     this.state = {
       columns: [
-        { name: "date", dataName: "created_at" },
-        { name: "amount", dataName: "amount" },
-        { name: "tables", dataName: "total_table" },
-        { name: "Reference", dataName: "paystack_ref" }
+        { name: "Date", dataName: "created_at" },
+        { name: "Reference", dataName: "reference" },
+        { name: "Amount", dataName: "amount" },
+        { name: "Status", dataName: "status" },
+        { name: "Tables", dataName: "total_tables" },
+        { name: "", dataName: "" }
       ],
       transactions: [],
       show: false,
@@ -122,7 +114,7 @@ class Payments extends React.Component {
     let { numberOfTables, tablePrice, transactions } = this.state;
     let limit = 5;
     transactions.forEach(transaction => {
-      limit -= transaction.total_table;
+      limit -= transaction.total_tables;
     });
     if (numberOfTables >= limit) {
       errorAlert(`You can only pay for ${limit} more table(s)`);
@@ -159,31 +151,10 @@ class Payments extends React.Component {
     }
   };
 
-  paystackCallback = async response => {
-    const { trxref } = response;
-    const { numberOfTables, totalPrice } = this.state;
-    try {
-      await TableAction.pay({
-        amount: totalPrice,
-        totalTables: numberOfTables,
-        paystackRef: trxref
-      });
-    } catch (err) {
-      console.log(err);
-    } finally {
-      let { transactions } = this.state;
-      transactions.push({
-        amount: totalPrice,
-        created_at: createTimeStamp(),
-        total_table: numberOfTables,
-        paystack_ref: trxref
-      });
-      this.setState({ show: false, transactions });
-    }
-  };
-
-  paystackClose = () => {
-    this.setState({ show: false });
+  addTransactiontoTable = transaction => {
+    let { transactions } = this.state;
+    transactions.push(transaction);
+    this.setState({ transactions });
   };
 
   render() {
@@ -198,11 +169,11 @@ class Payments extends React.Component {
       errorFetching
     } = this.state;
     const {
-      userInfo: { email, email_verified }
+      userInfo: { email_verified }
     } = UserStorage;
     let limit = 5;
     transactions.forEach(transaction => {
-      limit -= transaction.total_table;
+      limit -= transaction.total_tables;
     });
 
     return (
@@ -210,7 +181,7 @@ class Payments extends React.Component {
         <Card className="material-card">
           <Card.Header>
             <h5>Payments</h5>
-            {email_verified && (
+            {email_verified ? (
               <React.Fragment>
                 {limit > 0 ? (
                   <Button
@@ -226,7 +197,7 @@ class Payments extends React.Component {
                   </p>
                 )}
               </React.Fragment>
-            )}
+            ) : null}
           </Card.Header>
 
           <Card.Body>
@@ -236,9 +207,10 @@ class Payments extends React.Component {
                   <thead>
                     <tr>
                       <th>Date</th>
-                      <th>Amount</th>
-                      <th>Tables</th>
                       <th>Reference</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Tables</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -258,8 +230,8 @@ class Payments extends React.Component {
                     className="make-payment-button mobile"
                     disabled={errorFetching}
                   >
-                    Book Table(s) &nbsp;
                     <FontAwesomeIcon icon="credit-card" />
+                    &nbsp;Book Table(s)
                   </Button>
                 ) : (
                   <p className="form-error-msg mobile-only">
@@ -274,7 +246,7 @@ class Payments extends React.Component {
         </Card>
 
         {/* payment modal */}
-        {email_verified && (
+        {email_verified ? (
           <Modal show={show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Pay for Tables</Modal.Title>
@@ -327,23 +299,10 @@ class Payments extends React.Component {
                     </span>
                   </p>
                 </div>
-
-                {/* Paystack Button */}
-                <PaystackButton
-                  text="Pay"
-                  tag="button"
-                  email={email}
-                  amount={nairaToKobo(totalPrice)} // Paystack works with kobo
-                  close={this.paystackClose}
-                  class="btn btn-primary btn-center payment-button"
-                  callback={this.paystackCallback}
-                  reference={generateRandomString()}
-                  paystackkey={PAYSTACK_PUBLIC_KEY}
-                />
               </Form>
             </Modal.Body>
           </Modal>
-        )}
+        ) : null}
       </Col>
     );
   }

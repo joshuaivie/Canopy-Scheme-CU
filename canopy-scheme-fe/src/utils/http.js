@@ -1,6 +1,8 @@
 import axios from "axios";
 import { UserStorage } from "storage";
 import { errorAlert } from "utils/notification";
+import { toast } from "react-toastify";
+import React from "react";
 
 const HTTP = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -56,3 +58,19 @@ export function resolveRequestError(err, showAllAlert = true) {
 }
 
 export default HTTP;
+
+export const networkAvailability = componentInstance => {
+  window.addEventListener("offline", e => {
+    toast.error("You are offline", { autoClose: false });
+    componentInstance.setState({ online: false });
+  });
+  window.addEventListener("online", e => {
+    toast.dismiss();
+    toast.info("You are back online", { autoClose: 3000 });
+    componentInstance.setState({ online: true });
+  });
+};
+
+export const NetworkAvailabilityContext = React.createContext({
+  online: true
+});

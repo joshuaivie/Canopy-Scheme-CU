@@ -1,6 +1,7 @@
 // Authentication
-export const REGISTER = "/register";
-export const LOGIN = "/login";
+export const REGISTER = "/auth/user/register";
+export const USER_LOGIN = "/auth/user/login";
+export const ADMIN_LOGIN = "/auth/admin/login";
 export const LOGOUT = "/logout";
 
 // RESET PASSWORD
@@ -29,3 +30,9 @@ export const TABLE_PURCHASE = `${TABLE}/purchase`;
 
 // Change password
 export const CHANGE_PASSWORD = "/password/change";
+
+// Admin
+const TRANSACTIONS = "/transactions";
+export const ADMIN_GET_TRANSACTIONS = (page, limit) =>
+  `${TRANSACTIONS}/offline/page/${page}/limit/${limit}`;
+export const UPDATE_TRANSACTION = reference => `${TRANSACTIONS}/offline/${reference}`;

@@ -1,7 +1,7 @@
 import GroupAction from "./group.actions";
-import PaymentAction from "./payment.actions";
 import UserAction from "./user.actions";
 import AuthAction from "./auth.actions";
-import TableAction from "./payment.actions";
+import TableAction from "./table.actions";
+import AdminAction from "./admin.actions";
 
-export { GroupAction, AuthAction, PaymentAction, UserAction, TableAction };
+export { GroupAction, AuthAction, UserAction, TableAction, AdminAction };

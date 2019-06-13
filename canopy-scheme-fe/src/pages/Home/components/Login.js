@@ -5,18 +5,25 @@ import { AuthAction } from "actions";
 import { Form, Button, Container } from "react-bootstrap";
 import * as ROUTES from "routes";
 import { successAlert } from "utils/notification";
-import BtnLoadingSpinner from "components/BtnLoadingSpinner";
+import { BtnLoadingSpinner } from "components/spinners";
+import { NetworkAvailabilityContext } from "utils/http";
 
 class Login extends React.Component {
   state = {
     email: "",
     password: "",
+    isAdmin: false,
     isLoading: false,
     errorMsg: {}
   };
+  static contextType = NetworkAvailabilityContext;
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+  toggleIsAdmin = () => {
+    const { isAdmin } = this.state;
+    this.setState({ isAdmin: !isAdmin });
   };
 
   handleSubmit = event => {
@@ -27,9 +34,13 @@ class Login extends React.Component {
 
   async login() {
     try {
-      const msg = await AuthAction.login({ ...this.state });
+      const { msg } = await AuthAction.login({ ...this.state });
       successAlert(msg);
-      this.props.history.push(ROUTES.APP);
+      if (this.state.isAdmin) {
+        this.props.history.push(ROUTES.ADMIN);
+      } else {
+        this.props.history.push(ROUTES.APP);
+      }
     } catch (errorMsg) {
       this.setState({ isLoading: false, errorMsg });
     }
@@ -69,10 +80,17 @@ class Login extends React.Component {
           {errorMsg.password ? (
             <p className="form-error-msg">{errorMsg.password}</p>
           ) : null}
+          <Form.Group>
+            <Form.Check
+              type="checkbox"
+              label="Login as admin"
+              onClick={() => this.toggleIsAdmin()}
+            />
+          </Form.Group>
           <Button
             variant="primary"
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || !this.context.online}
             className="btn-center btn-full-width"
           >
             {isLoading ? <BtnLoadingSpinner /> : "Login"}

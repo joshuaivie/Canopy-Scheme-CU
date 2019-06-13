@@ -10,13 +10,13 @@ class OfflinePaymentController {
 
     try {
       return response.ok({
-        transactions: await OfflineTransaction.query()
+        paginated_data: await OfflineTransaction.query()
           .with(["user"])
           .orderBy(["status", "updated_at"])
-          .forPage(page, limit)
-          .fetch()
+          .paginate(page, limit)
       });
     } catch (err) {
+      console.log(err);
       return response.internalServerError({ msg: err.msg });
     }
   }

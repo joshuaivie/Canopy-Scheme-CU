@@ -7,3 +7,5 @@ export const JOIN_GROUP = "/group/join/:group_id/:token/:invitee_email/:expiring
 export const ONBOARDING = "/on-boarding";
 // Application/ Dashboard Routes
 export const APP = "/app";
+
+export const ADMIN = "/canopy-scheme-admin";
