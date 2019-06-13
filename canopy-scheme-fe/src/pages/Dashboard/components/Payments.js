@@ -9,8 +9,8 @@ import { nairaToKobo } from "utils/money";
 import { UserStorage } from "storage";
 import { errorAlert } from "utils/notification";
 import { createTimeStamp } from "utils/createTimeStamp";
+import commaNumber from "comma-number";
 
-const commaNumber = require("comma-number");
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
 const RenderEmptyHistory = columns => (
@@ -85,10 +85,11 @@ class Payments extends React.Component {
 
     this.state = {
       columns: [
-        { name: "date", dataName: "created_at" },
-        { name: "amount", dataName: "amount" },
-        { name: "tables", dataName: "total_table" },
-        { name: "Reference", dataName: "paystack_ref" }
+        { name: "Date", dataName: "updated_at" },
+        { name: "Mode", dataName: "mode" },
+        { name: "Amount", dataName: "amount" },
+        { name: "Tables", dataName: "total_table" },
+        { name: "Reference", dataName: "reference" }
       ],
       transactions: [],
       show: false,
@@ -147,11 +148,37 @@ class Payments extends React.Component {
     });
   };
 
+  mergeAllTransactionTypes = transactions => {
+    let newTransactions = [];
+
+    transactions.offline.forEach(transactionsList => {
+      newTransactions.push({ mode: "Bank", ...transactionsList });
+    });
+
+    transactions.online.forEach(transactionsList => {
+      const {
+        paystack_ref: reference,
+        amount,
+        updated_at,
+        total_table
+      } = transactionsList;
+      newTransactions.push({
+        mode: "Online",
+        reference,
+        amount,
+        updated_at,
+        total_table
+      });
+    });
+
+    return newTransactions;
+  };
+
   getPaymentHistory = async () => {
     this.setState({ isFetching: true, errorFetching: false });
     try {
       const transactions = await UserAction.getTransactions();
-      this.setState({ transactions });
+      this.setState({ transactions: this.mergeAllTransactionTypes(transactions) });
     } catch (err) {
       this.setState({ errorFetching: true });
     } finally {
@@ -173,6 +200,7 @@ class Payments extends React.Component {
     } finally {
       let { transactions } = this.state;
       transactions.push({
+        mode: "Online",
         amount: totalPrice,
         created_at: createTimeStamp(),
         total_table: numberOfTables,
@@ -235,10 +263,9 @@ class Payments extends React.Component {
                 <Table borderless hover responsive>
                   <thead>
                     <tr>
-                      <th>Date</th>
-                      <th>Amount</th>
-                      <th>Tables</th>
-                      <th>Reference</th>
+                      {columns.map(title => (
+                        <th>{title.name}</th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
@@ -348,4 +375,5 @@ class Payments extends React.Component {
     );
   }
 }
+
 export default Payments;

@@ -28,7 +28,10 @@ class UserController {
   async transactions({ response, auth }) {
     try {
       return response.ok({
-        transactions: await auth.user.transactions().fetch()
+        transactions: {
+          offline: await auth.user.offlineTransactions().fetch(),
+          online: await auth.user.onlineTransactions().fetch()
+        }
       });
     } catch (err) {
       return response.internalServerError({ msg: err.message });
