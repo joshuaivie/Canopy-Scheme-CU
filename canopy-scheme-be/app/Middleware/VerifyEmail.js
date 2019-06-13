@@ -10,7 +10,9 @@ class VerifyEmail {
    * @param {Function} next
    */
   async handle({ auth, response }, next) {
-    if (!auth.user.email_verified) {
+    const { email_verified } = auth.user;
+
+    if (email_verified != true) {
       return response.forbidden({
         emailNotVerified: true,
         msg: "Your email is not verified, you cannot perform this action"

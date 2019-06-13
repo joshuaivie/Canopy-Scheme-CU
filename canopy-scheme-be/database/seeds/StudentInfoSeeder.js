@@ -11,18 +11,16 @@
 */
 
 /** @type {import('@adonisjs/lucid/src/Factory')} */
+const fs = require("fs");
+const Helpers = use("Helpers");
+const StudentInfo = use("App/Models/StudentInfo");
 
 class StudentInfoSeeder {
   async run() {
-    const fs = require("fs");
-    const path = require("path");
-    const StudentInfo = use("App/Models/StudentInfo");
-    let content = fs.readFileSync(
-      path.resolve(__dirname, "studentInfo.json"),
-      "utf8"
+    const data = JSON.parse(
+      fs.readFileSync(`${Helpers.appRoot()}/storage/studentInfo.json`, "utf8")
     );
-    content = JSON.parse(content);
-    await StudentInfo.createMany(content);
+    await StudentInfo.createMany(data);
   }
 }
 

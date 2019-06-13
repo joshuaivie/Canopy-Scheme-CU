@@ -90,5 +90,45 @@ module.exports = {
     scheme: "api",
     uid: "email",
     password: "password"
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | User
+  |--------------------------------------------------------------------------
+  |
+  | The user authenticator works by passing a jwt token on each HTTP request
+  | via HTTP `Authorization` header.
+  |
+  */
+  user: {
+    serializer: "lucid",
+    model: "App/Models/User",
+    scheme: "jwt",
+    uid: "email",
+    password: "password",
+    options: {
+      secret: Env.get("APP_KEY")
+    }
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Admin
+  |--------------------------------------------------------------------------
+  |
+  | The admin authenticator works by passing a jwt token on each HTTP request
+  | via HTTP `Authorization` header.
+  |
+  */
+  admin: {
+    serializer: "lucid",
+    model: "App/Models/Admin",
+    scheme: "jwt",
+    uid: "email",
+    password: "password",
+    options: {
+      secret: Env.get("APP_KEY")
+    }
   }
 };

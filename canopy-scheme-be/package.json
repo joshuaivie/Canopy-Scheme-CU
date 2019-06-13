@@ -34,7 +34,9 @@
     "mysql": "^2.17.1",
     "path": "^0.12.7",
     "paystack-api": "^2.0.1",
-    "pg": "^7.11.0"
+    "pg": "^7.11.0",
+    "winston": "^3.2.1",
+    "winston-sql-transport": "github:TNkemdilim/winston-sql-transport#fe8acad4"
   },
   "autoload": {
     "App": "./app"

@@ -2,6 +2,7 @@
 
 const Encryption = use("Encryption");
 const User = use("App/Models/User");
+const Admin = use("App/Models/Admin");
 const Token = use("App/Models/Token");
 const PasswordReset = use("App/Models/PasswordReset");
 const randomString = require("crypto-random-string");
@@ -10,6 +11,20 @@ const SignupEmailJob = use("App/Jobs/SignupEmail");
 const EmailVerification = use("App/Models/EmailVerification");
 const Link = use("App/Helpers/LinkGen");
 const PasswordResetJob = use("App/Jobs/PasswordResetEmail");
+const LOGIN_AUTH_SERVICES = {
+  admin: Admin,
+  user: User
+};
+
+const resolveAuthenticator = (authenticator, supportedServices = {}) => {
+  if (authenticator.toLowerCase() in supportedServices != true) {
+    return { error: true };
+  }
+  return {
+    authenticator: authenticator.toLowerCase(),
+    model: supportedServices[authenticator]
+  };
+};
 
 class AuthController {
   /**
@@ -64,11 +79,19 @@ class AuthController {
    * Login a given user.
    */
   async login({ request, response, auth }) {
+    const { model: Model, authenticator, error } = resolveAuthenticator(
+      request.params.authenticator,
+      LOGIN_AUTH_SERVICES
+    );
+    if (error == true) return response.notFound();
     const { email, password } = request.only(["email", "password"]);
 
     try {
-      const data = await auth.withRefreshToken().attempt(email, password);
-      const user = await User.findBy("email", email);
+      const data = await auth
+        .authenticator(authenticator)
+        .withRefreshToken()
+        .attempt(email, password);
+      const user = await Model.findBy("email", email);
       return response.ok({ msg: "Login successful.", ...data, user });
     } catch (err) {
       return response.badRequest({ msg: "Invalid email or password." });
@@ -98,9 +121,15 @@ class AuthController {
    */
   async refreshToken({ request, response, auth }) {
     const { refresh_token } = request.only(["refresh_token"]);
+    const { authenticator, error } = resolveAuthenticator(
+      request.params.authenticator,
+      ["user", "admin"]
+    );
+    if (error === true) return response.notFound();
 
     try {
       return await auth
+        .authenticator(authenticator)
         .newRefreshToken()
         .generateForRefreshToken(refresh_token);
     } catch (err) {

@@ -2,7 +2,7 @@
 
 const BaseValidator = use("App/Validators/BaseValidator");
 
-class Login extends BaseValidator {
+class LoginUser extends BaseValidator {
   get rules() {
     return {
       email: "required|email",
@@ -22,4 +22,4 @@ class Login extends BaseValidator {
   }
 }
 
-module.exports = Login;
+module.exports = LoginUser;

@@ -17,12 +17,22 @@
 const Route = use("Route");
 
 Route.group(() => {
-  Route.post("login", "AuthController.login").validator("Login");
-  Route.post("register", "AuthController.register").validator("Register");
+  // Authentication
+  Route.post("auth/:authenticator/login", "AuthController.login").validator(
+    "Login"
+  );
+  Route.post("auth/user/register", "AuthController.register").validator(
+    "Register"
+  );
+
+  // Reset and Verification
   Route.post(
     "password/reset",
     "AuthController.sendResetPasswordLink"
   ).validator("PasswordReset");
+  Route.get("verification/email/:token", "UserController.verifyEmail").as(
+    "email.verify"
+  );
   Route.post("password/reset/:email_token", "AuthController.resetPassword")
     .validator("PasswordResetCheckToken")
     .as("password.reset-token");
@@ -30,23 +40,28 @@ Route.group(() => {
     "group/join/:group_id/:token/:invitee_email/:expiring_date",
     "GroupController.join"
   )
-    .middleware("inviteeNotInUserGroup")
-    .middleware("isValidGroupInviteLink")
+    .middleware(["inviteeNotInUserGroup", "isValidGroupInviteLink"])
     .as("group.join");
-  Route.get("verification/email/:token", "UserController.verifyEmail").as(
-    "email.verify"
-  );
 }).prefix("api");
 
 Route.group(() => {
   // Payment
-  Route.post("table/purchase", "PaymentController.purchaseTable").validator(
-    "PayForTable"
-  );
+  Route.post(
+    "table/purchase/online",
+    "OnlinePaymentController.purchaseTable"
+  ).validator("PayForTableOnline");
+  Route.post(
+    "table/purchase/offline",
+    "OfflinePaymentController.purchaseTable"
+  ).validator("PayForTableOffline");
 
-  // User
+  // User Transactions
   Route.get("me/transactions", "UserController.transactions");
+
+  // User Reservations
   Route.get("me/reservations", "UserController.reservations");
+
+  // User Group
   Route.get("me/group", "UserController.getGroup").middleware("inUserGroup");
   Route.delete("me/group", "UserController.deleteGroup").middleware(
     "isUserGroupOwner"
@@ -68,8 +83,8 @@ Route.group(() => {
     .middleware("isUserGroupOwner");
 })
   .prefix("api")
-  .middleware("VerifyEmail")
-  .middleware("auth");
+  .middleware("verifyEmail")
+  .middleware("auth:user");
 
 Route.group(() => {
   Route.get("me", "UserController.profile");
@@ -80,10 +95,32 @@ Route.group(() => {
   Route.post("password/change", "UserController.changePassword").validator(
     "ChangePassword"
   );
-  Route.post("token/refresh", "AuthController.refreshToken").validator(
-    "RequestToken"
-  );
+  Route.post(
+    "token/:authenticator/refresh",
+    "AuthController.refreshToken"
+  ).validator("RequestToken");
+  Route.post(
+    "token/:authenticator/refresh",
+    "AuthController.refreshToken"
+  ).validator("RequestToken");
   Route.post("logout", "AuthController.logout").validator("RequestToken");
 })
   .prefix("api")
   .middleware("auth");
+
+Route.group(() => {
+  Route.get(
+    "transactions/offline/page/:page/limit/:limit",
+    "OfflinePaymentController.getAll"
+  );
+  Route.get(
+    "transactions/online/page/:page/limit/:limit",
+    "OnlinePaymentController.getAll"
+  );
+  Route.put(
+    "transactions/offline/:reference",
+    "OfflinePaymentController.update"
+  ).validator("UpdateOfflineTransaction");
+})
+  .prefix("api")
+  .middleware("auth:admin");

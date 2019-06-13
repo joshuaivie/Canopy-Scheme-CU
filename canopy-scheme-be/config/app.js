@@ -2,6 +2,8 @@
 
 /** @type {import('@adonisjs/framework/src/Env')} */
 const Env = use("Env");
+const Config = use("Config");
+const DEFAULT_DB_CONNECTION = Config.get("database.connection");
 
 module.exports = {
   /*
@@ -219,6 +221,15 @@ module.exports = {
       name: "adonis-app",
       filename: "adonis.log",
       level: "info"
+    },
+
+    database: {
+      driver: "mysql",
+      name: "adonis-app",
+      level: "info",
+      tableName: "canopy_logs_default",
+      client: DEFAULT_DB_CONNECTION,
+      connection: Config.get(`database.${DEFAULT_DB_CONNECTION}.connection`)
     }
   },
 

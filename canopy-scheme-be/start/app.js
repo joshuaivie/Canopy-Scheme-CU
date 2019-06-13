@@ -23,7 +23,8 @@ const providers = [
   "adonis-sentry/providers/Sentry",
   "adonis-kue/providers/KueProvider",
   "@adonisjs/redis/providers/RedisProvider",
-  path.join(__dirname, "..", "providers", "PaystackProvider")
+  path.join(__dirname, "..", "providers", "PaystackProvider"),
+  path.join(__dirname, "..", "providers", "MysqlLoggerProvider")
 ];
 
 /*

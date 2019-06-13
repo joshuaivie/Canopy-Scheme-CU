@@ -39,8 +39,19 @@ class User extends Model {
     return this.hasMany("App/Models/Token");
   }
 
-  transactions() {
-    return this.hasMany("App/Models/Transaction");
+  async transactions() {
+    return {
+      offline: await this.offlineTransactions(),
+      online: await this.onlineTransactions()
+    };
+  }
+
+  onlineTransactions() {
+    return this.hasMany("App/Models/OnlineTransaction");
+  }
+
+  offlineTransactions() {
+    return this.hasMany("App/Models/OfflineTransaction");
   }
 
   reservations() {

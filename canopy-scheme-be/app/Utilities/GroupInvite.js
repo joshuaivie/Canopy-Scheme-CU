@@ -44,7 +44,10 @@ class GroupInvite {
 
         // check if invitee has paid for at least a table.
         const transactions = await invitee.transactions().fetch();
-        if (transactions.rows.length < 1)
+        if (
+          transactions.offline.rows.length < 1 &&
+          transactions.online.rows.length < 1
+        )
           throw new Error(
             `${
               invitee.firstname
