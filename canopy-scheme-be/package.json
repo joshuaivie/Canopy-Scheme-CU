@@ -36,7 +36,7 @@
     "paystack-api": "^2.0.1",
     "pg": "^7.11.0",
     "winston": "^3.2.1",
-    "winston-sql-transport": "github:TNkemdilim/winston-sql-transport#fe8acad4"
+    "winston-sql-transport": "^1.0.0"
   },
   "autoload": {
     "App": "./app"
