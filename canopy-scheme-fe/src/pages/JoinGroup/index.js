@@ -39,7 +39,7 @@ class JoinGroup extends React.Component {
     const { toggleModal, history, showAuthModal } = this.props;
     let body;
     if (isLoading) {
-      body = <LoadingSpinner />;
+      body = <LoadingSpinner height="6rem" width="6rem" />;
     } else if (!isLoading && successMsg) {
       body = (
         <React.Fragment>
