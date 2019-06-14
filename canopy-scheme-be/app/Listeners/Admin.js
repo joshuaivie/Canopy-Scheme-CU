@@ -3,7 +3,6 @@
 const Logger = use("Logger");
 const OfflinePaymentUpdateJob = use("App/Jobs/OfflinePaymentUpdate");
 const JobQueue = use("App/Helpers/JobQueue");
-const User = use("App/Models/User");
 const Env = use("Env");
 const Admin = (exports = module.exports = {});
 

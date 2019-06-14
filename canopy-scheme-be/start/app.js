@@ -78,7 +78,8 @@ const commands = [];
 const jobs = [
   "App/Jobs/SignupEmail",
   "App/Jobs/GroupInvite",
-  "App/Jobs/PasswordResetEmail"
+  "App/Jobs/PasswordResetEmail",
+  "App/Jobs/OfflinePaymentUpdate"
 ];
 
 module.exports = { providers, aceProviders, aliases, commands, jobs };

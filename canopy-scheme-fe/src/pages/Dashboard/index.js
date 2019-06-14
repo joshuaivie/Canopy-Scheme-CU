@@ -30,7 +30,7 @@ class Dashboard extends React.Component {
     if (UserStorage.userInfo) this.getProfile();
   }
 
-  async getProfile() {
+  getProfile = async () => {
     this.setState({ isFetching: true, errorFetching: false });
     try {
       await UserAction.getProfile();
@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
     } finally {
       this.setState({ isFetching: false });
     }
-  }
+  };
 
   resendEmailVerificationLink = async () => {
     this.setState({ isLoading: true });
@@ -65,9 +65,31 @@ class Dashboard extends React.Component {
   render() {
     const { isFetching, errorFetching } = this.state;
     if (isFetching) {
-      return <LoadingSpinner width="6rem" height="6rem" />;
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "100vh"
+          }}
+        >
+          <LoadingSpinner width="6rem" height="6rem" />;
+        </div>
+      );
     } else if (errorFetching) {
-      return <RetryBtn retryEvent={this.getProfile} width="6rem" height="6rem" />;
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "100vh"
+          }}
+        >
+          <RetryBtn retryEvent={this.getProfile} width="6rem" height="6rem" />
+        </div>
+      );
     } else {
       const { userInfo } = UserStorage;
       if (!userInfo) {

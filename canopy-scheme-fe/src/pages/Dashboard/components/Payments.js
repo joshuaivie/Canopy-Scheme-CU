@@ -7,13 +7,14 @@ import { UserStorage } from "storage";
 import { errorAlert } from "utils/notification";
 // import { createTimeStamp } from "utils/createTimeStamp";
 import { LoadingSpinner, RetryBtn } from "components/spinners";
+import statuses from "data/statuses.json";
 
 const commaNumber = require("comma-number");
 
-const RenderEmptyHistory = columns => (
+const RenderEmptyHistory = () => (
   <tr>
     <td
-      colSpan={columns.length}
+      colSpan={5}
       style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
     >
       You have not made any Purchase yet!
@@ -21,23 +22,24 @@ const RenderEmptyHistory = columns => (
   </tr>
 );
 
-const RenderPaymentHistory = (transactions, columns) =>
+const RenderPaymentHistory = transactions =>
   transactions.map((row, index) => (
     <tr key={`row_${index}`}>
-      {columns.map(column =>
-        column.dataName === "amount" ? (
-          <td key={`data_${column.dataName}`}>
-            ₦{commaNumber(parseInt(row[column.dataName]))}
-          </td>
-        ) : (
-          <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
-        )
-      )}
+      <td>{row.created_at}</td>
+      <td>{row.reference}</td>
+      <td>₦{commaNumber(parseInt(row.amount))}</td>
+      <td
+        style={{
+          color: statuses[row.status]
+        }}
+      >
+        {row.status}
+      </td>
+      <td>{row.total_tables}</td>
     </tr>
   ));
 
 const DisplayPayments = ({
-  columns,
   transactions,
   isFetching,
   errorFetching,
@@ -46,7 +48,7 @@ const DisplayPayments = ({
   if (isFetching) {
     return (
       <tr>
-        <td colSpan={columns.length}>
+        <td colSpan={5}>
           <LoadingSpinner />
         </td>
       </tr>
@@ -54,7 +56,7 @@ const DisplayPayments = ({
   } else if (errorFetching) {
     return (
       <tr>
-        <td colSpan={columns.length}>
+        <td colSpan={5}>
           <RetryBtn retryEvent={getPaymentHistory} />
         </td>
       </tr>
@@ -63,8 +65,8 @@ const DisplayPayments = ({
   return (
     <React.Fragment>
       {transactions.length > 0
-        ? RenderPaymentHistory(transactions, columns)
-        : RenderEmptyHistory(columns)}
+        ? RenderPaymentHistory(transactions)
+        : RenderEmptyHistory()}
     </React.Fragment>
   );
 };

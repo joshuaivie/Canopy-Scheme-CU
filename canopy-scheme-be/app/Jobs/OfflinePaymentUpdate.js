@@ -15,8 +15,6 @@ class OfflinePaymentUpdate {
 
   async handle(data) {
     const { status, reference, user } = data;
-    const payment_accepted = status === "accepted";
-    data["payment_accepted"] = payment_accepted;
 
     await Mail.send("emails.offline-payment-update", data, message => {
       message
