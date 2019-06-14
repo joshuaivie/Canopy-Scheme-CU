@@ -1,5 +1,5 @@
 .navbar {
-  padding-top: 20px;
+  padding: 30px 5%;
   @include flex(row, space-between);
   .navbar-brand {
     padding: 0 !important;
@@ -15,5 +15,11 @@
     margin: 0;
     font-family: "Google sans Bold";
     color: rgb(20, 20, 20);
+  }
+}
+
+@media (max-width: 720px) {
+  .navbar {
+    padding: 10px 5%;
   }
 }

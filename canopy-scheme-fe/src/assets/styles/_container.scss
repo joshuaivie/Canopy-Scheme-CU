@@ -14,8 +14,9 @@
     margin-left: 0;
   }
   .section {
-    width: 90vw;
+    width: 100vw;
     margin: auto;
+    padding: 0 5%;
     .fp-tableCell {
       @include flex(row, center);
       .left,

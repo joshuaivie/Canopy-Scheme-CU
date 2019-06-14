@@ -44,14 +44,14 @@ export default ({ toggleModal }) => (
           Call&nbsp;
           <FontAwesomeIcon className="primary-text" icon="phone" />
           &nbsp; us on &nbsp;
-          <a href="tel:808009090">080-xxx-xxx</a>
+          <a href="tel:09016179196">0901-617-9196</a>
         </p>
         <p>
           Or send an email &nbsp;
           <FontAwesomeIcon className="primary-text" icon="envelope" />
           &nbsp; to &nbsp;
-          <a href="mailto:supportcpc@covenantuniversity.edu.ng?Subject=Canopy%20Scheme">
-            supportcpc@covenantuniversity.edu.ng
+          <a href="mailto:cpc@covenantuniversity.edu.ng?Subject=Canopy%20Scheme%20Inquiry">
+            cpc@covenantuniversity.edu.ng
           </a>
         </p>
         <p>
