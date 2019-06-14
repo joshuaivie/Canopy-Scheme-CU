@@ -2,10 +2,10 @@ import React from "react";
 import { Image, Dropdown, Button } from "react-bootstrap";
 import { AuthAction } from "actions";
 import { errorAlert } from "utils/notification";
-import avatarImg from "assets/img/portrait.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as ROUTES from "routes";
 import { NetworkAvailabilityContext } from "utils/http";
+import { UserStorage } from "storage";
 
 class CustomToggle extends React.PureComponent {
   handleClick = e => {
@@ -15,6 +15,11 @@ class CustomToggle extends React.PureComponent {
   };
 
   render() {
+    let avatarImg =
+      "http://chittagongit.com/images/no-profile-picture-icon/no-profile-picture-icon-2.jpg";
+    if (UserStorage.userInfo && UserStorage.userInfo.matric_no) {
+      avatarImg = `https://res.cloudinary.com/canopy-scheme/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_0px_solid_red,b_rgb:fbf8fb/v1560465313/avatar/${UserStorage.userInfo.matric_no.toUpperCase()}.jpg`;
+    }
     return (
       <Button onClick={this.handleClick} variant="link" className="dark-text">
         <Image

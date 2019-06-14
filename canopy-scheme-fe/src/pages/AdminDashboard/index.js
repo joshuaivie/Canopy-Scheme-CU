@@ -21,14 +21,14 @@ class AdminDashboard extends React.Component {
     showTransactionDetailModal: false,
     transactionDetail: {},
     transactionIndex: null,
-    isFetching: false,
+    isFetching: true,
     errorFetching: false
   };
   componentDidMount() {
     if (!UserStorage.userInfo) this.getOfflineTransactions(1);
   }
 
-  async getOfflineTransactions(page) {
+  getOfflineTransactions = async page => {
     this.setState({ isFetching: true, errorFetching: false });
     try {
       const { paginated_data } = await AdminAction.getOfflineTransactions({ page });
@@ -45,7 +45,7 @@ class AdminDashboard extends React.Component {
     } finally {
       this.setState({ isFetching: false });
     }
-  }
+  };
 
   toggleModal = (transactionIndex = null) => {
     if (transactionIndex !== null) {
@@ -113,7 +113,7 @@ class AdminDashboard extends React.Component {
     } else if (!errorFetching && !isFetching) {
       body = transactions.map((row, index) => (
         <tr key={`row_${index}`}>
-          <td>{index + 1}</td>
+          <td>{2 * (page - 1) + index + 1}</td>
           <td>{`${row.user.firstname} ${row.user.lastname}`}</td>
           <td>{row.reference}</td>
           <td>₦{commaNumber(parseInt(row.amount))}</td>
@@ -133,8 +133,8 @@ class AdminDashboard extends React.Component {
       ));
     }
     return (
-      <div className="dashboard">
-        <div className="dashboard-header">
+      <div className="dashboard admin">
+        <div className="dashboard-header admin">
           <h4 className="welcome-text primary-text">Canopy Scheme Admin</h4>
           <Avatar history={history} isAdmin />
         </div>
@@ -157,7 +157,7 @@ class AdminDashboard extends React.Component {
                 </thead>
                 <tbody>{body}</tbody>
               </Table>
-              <div style={{ textAlign: "left" }}>
+              <div>
                 <Pagination>
                   <Pagination.First
                     onClick={() => this.getOfflineTransactions(1)}
@@ -178,11 +178,11 @@ class AdminDashboard extends React.Component {
 
                   <Pagination.Next
                     onClick={() => this.getOfflineTransactions(page + 1)}
-                    disabled={page => lastPage}
+                    disabled={page >= lastPage}
                   />
                   <Pagination.Last
                     onClick={() => this.getOfflineTransactions(lastPage)}
-                    disabled={page => lastPage}
+                    disabled={page >= lastPage}
                   />
                 </Pagination>
               </div>
@@ -193,7 +193,7 @@ class AdminDashboard extends React.Component {
           transactionDetail={transactionDetail}
           showTransactionDetailModal={showTransactionDetailModal}
           toggleModal={this.toggleModal}
-          updateOfflineTransaction={this.updateOfflineTransaction}
+          updateOfflineTransactionOnTable={this.updateOfflineTransactionOnTable}
           transactionIndex={transactionIndex}
         />
       </div>

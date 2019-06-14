@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Button, Form, Col, Row } from "react-bootstrap";
 import { AdminAction } from "actions";
 import ModalImage from "react-modal-image";
+import { successAlert } from "utils/notification";
 import { BtnLoadingSpinner } from "components/spinners";
 const commaNumber = require("comma-number");
 
@@ -10,29 +11,48 @@ class TransactionDetailModal extends React.Component {
     adminMessage: "",
     transactionStatus: "pending",
     isLoading: false,
-    errorMsg: ""
+    errorMsg: {}
   };
+
   componentDidMount() {
     this.setState({ transactionStatus: this.props.transactionDetail.status });
   }
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.showTransactionDetailModal === true &&
+      prevProps.showTransactionDetailModal === false
+    ) {
+      this.setState({
+        transactionStatus: this.props.transactionDetail.status,
+        adminMessage: this.props.transactionDetail.admin_message,
+        errorMsg: {}
+      });
+    }
+  }
 
   async updateOfflineTransaction() {
-    const { transactionStatus, adminMessage } = this.state;
+    const { transactionStatus, adminMessage, errorMsg } = this.state;
     if (transactionStatus === "rejected" && adminMessage === "") {
-      this.setState({ errorMsg: "Please enter a reason for rejecting." });
+      errorMsg.admin_message = "Please enter a reason for rejecting.";
+      this.setState({ errorMsg });
     } else {
       this.setState({ isLoading: true, errorMsg: "" });
       const {
         transactionDetail: { reference }
       } = this.props;
       try {
-        await AdminAction.updateOfflineTransaction({
+        const { msg } = await AdminAction.updateOfflineTransaction({
           reference,
           transactionStatus,
           adminMessage
         });
-        const { transactionIndex, updateOfflineTransaction, toggleModal } = this.props;
-        updateOfflineTransaction(transactionIndex, transactionStatus);
+        successAlert(msg);
+        const {
+          transactionIndex,
+          updateOfflineTransactionOnTable,
+          toggleModal
+        } = this.props;
+        updateOfflineTransactionOnTable(transactionIndex, transactionStatus);
         toggleModal();
       } catch (err) {
         this.setState({ errorMsg: err });
@@ -49,9 +69,6 @@ class TransactionDetailModal extends React.Component {
   render() {
     const { showTransactionDetailModal, toggleModal, transactionDetail } = this.props;
     const { adminMessage, transactionStatus, isLoading, errorMsg } = this.state;
-    const transactionImgAlt = `Payment by ${transactionDetail.user.firstname} ${
-      transactionDetail.user.lastname
-    }`;
     if (!showTransactionDetailModal) {
       return <div />;
     } else {
@@ -84,7 +101,9 @@ class TransactionDetailModal extends React.Component {
                   small={transactionDetail.photo_url}
                   large={transactionDetail.photo_url}
                   hideZoom
-                  alt={transactionImgAlt}
+                  alt={`${transactionDetail.user.firstname} ${
+                    transactionDetail.user.lastname
+                  }`}
                 />
                 <p
                   className="desktop-only"
@@ -114,6 +133,9 @@ class TransactionDetailModal extends React.Component {
                   <option value="accepted">Accept</option>
                   <option value="rejected">Reject</option>
                 </Form.Control>
+                {errorMsg.status !== "" && (
+                  <p className="form-error-msg">{errorMsg.status}</p>
+                )}
                 {transactionStatus === "accepted" && (
                   <p>
                     The number of tables will be calculated with the unit price and the
@@ -132,7 +154,9 @@ class TransactionDetailModal extends React.Component {
                       onChange={this.handleChange}
                       required
                     />
-                    {errorMsg !== "" && <p className="form-error-msg">{errorMsg}</p>}
+                    {errorMsg.admin_message !== "" && (
+                      <p className="form-error-msg">{errorMsg.admin_message}</p>
+                    )}
                     <Form.Text className="text-muted">
                       Please make sure the user can understand the reason.
                     </Form.Text>

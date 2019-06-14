@@ -18,14 +18,14 @@ class AdminAction {
 
   static async updateOfflineTransaction({
     reference,
-    paymentStatus,
+    transactionStatus,
     adminMessage,
     token = UserStorage.token
   }) {
     try {
-      const response = await AdminApi.changePassword({
+      const response = await AdminApi.updateOfflineTransaction({
         reference,
-        paymentStatus,
+        transactionStatus,
         adminMessage,
         token
       });

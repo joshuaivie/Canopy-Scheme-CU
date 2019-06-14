@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import Groups from "pages/Dashboard/components/Group";
 import Payments from "pages/Dashboard/components/Payments";
 import { UserStorage } from "storage";
@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
     showChangePasswordModal: false,
     verificationEmailSent: false,
     resendVerificationEmailIsLoading: false,
-    isFetching: true,
+    isFetching: false,
     errorFetching: false
   };
 
@@ -30,7 +30,7 @@ class Dashboard extends React.Component {
     if (UserStorage.userInfo) this.getProfile();
   }
 
-  async getProfile() {
+  getProfile = async () => {
     this.setState({ isFetching: true, errorFetching: false });
     try {
       await UserAction.getProfile();
@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
     } finally {
       this.setState({ isFetching: false });
     }
-  }
+  };
 
   resendEmailVerificationLink = async () => {
     this.setState({ isLoading: true });
@@ -65,61 +65,84 @@ class Dashboard extends React.Component {
   render() {
     const { isFetching, errorFetching } = this.state;
     if (isFetching) {
-      return <LoadingSpinner width="6rem" height="6rem" />;
-    } else if (errorFetching) {
-      return <RetryBtn retryEvent={this.getProfile} width="6rem" height="6rem" />;
-    }
-    const { userInfo } = UserStorage;
-    if (!userInfo) {
       return (
-        <Redirect
-          to={{
-            pathname: ROUTES.ADMIN,
-            state: { from: this.props.location, isRedirect: true }
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "100vh"
           }}
-        />
+        >
+          <LoadingSpinner width="6rem" height="6rem" />;
+        </div>
       );
-    }
-    const { history } = this.props;
-    const {
-      showChangePasswordModal,
-      verificationEmailSent,
-      resendVerificationEmailIsLoading
-    } = this.state;
+    } else if (errorFetching) {
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "100vh"
+          }}
+        >
+          <RetryBtn retryEvent={this.getProfile} width="6rem" height="6rem" />
+        </div>
+      );
+    } else {
+      const { userInfo } = UserStorage;
+      if (!userInfo) {
+        return (
+          <Redirect
+            to={{
+              pathname: ROUTES.ADMIN,
+              state: { from: this.props.location, isRedirect: true }
+            }}
+          />
+        );
+      }
+      const { history } = this.props;
+      const {
+        showChangePasswordModal,
+        verificationEmailSent,
+        resendVerificationEmailIsLoading
+      } = this.state;
 
-    const { resendEmailVerificationLink } = this;
+      const { resendEmailVerificationLink } = this;
 
-    return (
-      <div className="dashboard">
-        <div className="dashboard-header">
-          <h4 className="welcome-text">
-            Welcome, {` ${userInfo.firstname} ${userInfo.lastname}`}
-          </h4>
-          <Avatar
-            history={history}
-            toggleChangePasswordModal={() =>
-              this.toggleModal("showChangePasswordModal")
-            }
+      return (
+        <div className="dashboard">
+          <div className="dashboard-header">
+            <h4 className="welcome-text">
+              Welcome, {` ${userInfo.firstname} ${userInfo.lastname}`}
+            </h4>
+            <Avatar
+              history={history}
+              toggleChangePasswordModal={() =>
+                this.toggleModal("showChangePasswordModal")
+              }
+            />
+          </div>
+          <Container>
+            <ResendVerificationEmailContext.Provider
+              value={{
+                verificationEmailSent,
+                resendVerificationEmailIsLoading,
+                resendEmailVerificationLink
+              }}
+            >
+              <Payments />
+              <Groups />
+            </ResendVerificationEmailContext.Provider>
+          </Container>
+          <ChangePasswordModal
+            toggleModal={() => this.toggleModal("showChangePasswordModal")}
+            showChangePasswordModal={showChangePasswordModal}
           />
         </div>
-        <Container>
-          <ResendVerificationEmailContext.Provider
-            value={{
-              verificationEmailSent,
-              resendVerificationEmailIsLoading,
-              resendEmailVerificationLink
-            }}
-          >
-            <Payments />
-            <Groups />
-          </ResendVerificationEmailContext.Provider>
-        </Container>
-        <ChangePasswordModal
-          toggleModal={() => this.toggleModal("showChangePasswordModal")}
-          showChangePasswordModal={showChangePasswordModal}
-        />
-      </div>
-    );
+      );
+    }
   }
 }
 

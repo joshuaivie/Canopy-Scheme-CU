@@ -3,7 +3,7 @@ import * as ENDPOINTS from "./endpoints";
 
 export default class AdminApi {
   /**
-   * Get payments users have made
+   * Get offline transactions users have made
    */
   static getOfflineTransactions = async ({ page, limit, token }) => {
     return HTTP.get(
@@ -13,18 +13,18 @@ export default class AdminApi {
   };
 
   /**
-   * Update a user's payment's status
+   * Update a user's offline transaction's status
    */
-  static updatePaymentStatus = async ({
+  static updateOfflineTransaction = async ({
     reference,
-    paymentStatus,
+    transactionStatus,
     adminMessage,
     token
   }) => {
     return HTTP.put(
       ENDPOINTS.UPDATE_TRANSACTION(reference),
       {
-        status: paymentStatus,
+        status: transactionStatus,
         admin_message: adminMessage
       },
       generateBearer(token)

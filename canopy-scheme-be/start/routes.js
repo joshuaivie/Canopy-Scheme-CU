@@ -40,11 +40,7 @@ Route.group(() => {
     "group/join/:group_id/:token/:invitee_email/:expiring_date",
     "GroupController.join"
   )
-    .middleware([
-      "hasVerifiedPayment",
-      "inviteeNotInUserGroup",
-      "isValidGroupInviteLink"
-    ])
+    .middleware(["inviteeNotInUserGroup", "isValidGroupInviteLink"])
     .as("group.join");
 }).prefix("api");
 
