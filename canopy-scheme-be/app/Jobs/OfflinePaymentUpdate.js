@@ -2,7 +2,7 @@
 
 const Mail = use("Mail");
 
-class PaymentStatusUpdate {
+class OfflinePaymentUpdate {
   // If this getter isn't provided, it will default to 1.
   // Increase this number to increase processing concurrency.
   static get concurrency() {
@@ -10,15 +10,15 @@ class PaymentStatusUpdate {
   }
 
   static get key() {
-    return "payment-status-update";
+    return "offline-payment-update";
   }
 
   async handle(data) {
-    const { payment_accepted, user } = data;
-    const status = payment_accepted ? "accepted" : "rejected";
-    data["payment_status"] = payment_status;
+    const { status, reference, user } = data;
+    const payment_accepted = status === "accepted";
+    data["payment_accepted"] = payment_accepted;
 
-    await Mail.send("emails.payment-status-update", data, message => {
+    await Mail.send("emails.offline-payment-update", data, message => {
       message
         .to(user.email, `${user.firstname} ${user.lastname}`)
         .from(
@@ -26,10 +26,10 @@ class PaymentStatusUpdate {
           "The 14th Set Canopy Scheme Team"
         )
         .subject(
-          `Your payment evidence for canopy scheme has been ${payment_status}`
+          `Your payment evidence with reference ${reference} for canopy scheme has been ${status}`
         );
     });
   }
 }
 
-module.exports = PaymentStatusUpdate;
+module.exports = OfflinePaymentUpdate;
