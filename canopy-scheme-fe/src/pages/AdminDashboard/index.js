@@ -21,7 +21,7 @@ class AdminDashboard extends React.Component {
     showTransactionDetailModal: false,
     transactionDetail: {},
     transactionIndex: null,
-    isFetching: false,
+    isFetching: true,
     errorFetching: false
   };
   componentDidMount() {
@@ -157,7 +157,7 @@ class AdminDashboard extends React.Component {
                 </thead>
                 <tbody>{body}</tbody>
               </Table>
-              <div style={{ textAlign: "left" }}>
+              <div>
                 <Pagination>
                   <Pagination.First
                     onClick={() => this.getOfflineTransactions(1)}
@@ -178,11 +178,11 @@ class AdminDashboard extends React.Component {
 
                   <Pagination.Next
                     onClick={() => this.getOfflineTransactions(page + 1)}
-                    disabled={page => lastPage}
+                    disabled={page >= lastPage}
                   />
                   <Pagination.Last
                     onClick={() => this.getOfflineTransactions(lastPage)}
-                    disabled={page => lastPage}
+                    disabled={page >= lastPage}
                   />
                 </Pagination>
               </div>
@@ -193,7 +193,7 @@ class AdminDashboard extends React.Component {
           transactionDetail={transactionDetail}
           showTransactionDetailModal={showTransactionDetailModal}
           toggleModal={this.toggleModal}
-          updateOfflineTransaction={this.updateOfflineTransaction}
+          updateOfflineTransactionOnTable={this.updateOfflineTransactionOnTable}
           transactionIndex={transactionIndex}
         />
       </div>

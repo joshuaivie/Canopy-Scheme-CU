@@ -37,6 +37,12 @@ class GroupController {
     const { group_id, invitee } = request.params;
 
     try {
+      const hasVerifiedPayment = await invitee.hasVerifiedPayment();
+      if (!hasVerifiedPayment)
+        return response.badRequest({
+          msg:
+            "You not paid for a table yet. You can only invite when he/she has paid"
+        });
       await UserGroupMember.create({
         user_id: invitee.id,
         user_group_id: group_id

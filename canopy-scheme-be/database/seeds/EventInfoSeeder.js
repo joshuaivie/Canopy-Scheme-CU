@@ -19,7 +19,7 @@ class EventInfoSeeder {
     await EventInfo.create({
       total_tables: 960,
       tables_allocated: 0,
-      table_unit_price: 10000,
+      table_unit_price: 12000,
       maximum_group_members: 5
     });
   }

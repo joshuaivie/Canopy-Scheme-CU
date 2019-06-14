@@ -43,11 +43,8 @@ class GroupInvite {
         if (userInAnyGroup) throw new Error("User already in a group");
 
         // check if invitee has paid for at least a table.
-        const transactions = await invitee.transactions().fetch();
-        if (
-          transactions.offline.rows.length < 1 &&
-          transactions.online.rows.length < 1
-        )
+        const hasVerifiedPayment = await invitee.hasVerifiedPayment();
+        if (!hasVerifiedPayment)
           throw new Error(
             `${
               invitee.firstname

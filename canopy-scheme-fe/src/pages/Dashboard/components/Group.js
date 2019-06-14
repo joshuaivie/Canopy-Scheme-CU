@@ -280,7 +280,7 @@ class Groups extends React.Component {
         />
       );
     } else {
-      if (!isGroupOwner && isUserInAnyGroup === false) {
+      if (!isGroupOwner && !isUserInAnyGroup) {
         body = (
           <EmptyGroupContainer
             handleCreateGroup={handleCreateGroup}
@@ -327,7 +327,7 @@ class Groups extends React.Component {
             />
           </React.Fragment>
         );
-      } else if (isUserInAnyGroup === true) {
+      } else if (isUserInAnyGroup === true && !isGroupOwner) {
         // Not a group admin, hence render all the members of the group user belongs to.
         body = (
           <React.Fragment>
