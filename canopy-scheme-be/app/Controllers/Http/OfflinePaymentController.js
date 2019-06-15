@@ -31,7 +31,7 @@ class OfflinePaymentController {
         "reference",
         reference
       );
-      if (transaction != "pending")
+      if (transaction.status !== "pending")
         return response.badRequest({
           msg:
             "This transaction has already been modified. You cannot modify anymore"
