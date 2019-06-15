@@ -47,6 +47,13 @@ class User extends Model {
     return this.hasMany("App/Models/OfflineTransaction");
   }
 
+  async hasVerifiedPayment() {
+    const transaction = await this.offlineTransactions()
+      .where("status", "accepted")
+      .first();
+    return transaction !== null;
+  }
+
   reservations() {
     return this.hasMany("App/Models/Reservation");
   }

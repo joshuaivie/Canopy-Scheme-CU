@@ -1,5 +1,5 @@
 .navbar {
-  padding-top: 20px;
+  padding: 10px 2%;
   @include flex(row, space-between);
   .navbar-brand {
     padding: 0 !important;
@@ -13,7 +13,7 @@
     line-height: 1rem;
     padding: 0;
     margin: 0;
-    font-family: "Nexa Bold";
+    font-family: "Google sans Bold";
     color: rgb(20, 20, 20);
   }
 }

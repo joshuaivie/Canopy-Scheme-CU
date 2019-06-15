@@ -9,7 +9,6 @@ class PasswordResetEmail {
     return 1;
   }
 
-  // This is required. This is a unique key used to identify this job.
   static get key() {
     return "password-reset-email";
   }

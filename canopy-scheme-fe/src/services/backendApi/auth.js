@@ -5,8 +5,9 @@ export default class AuthApi {
   /**
    * Performs a login request to backend.
    */
-  static login = async ({ email, password }) => {
-    return HTTP.post(ENDPOINTS.LOGIN, { email, password });
+  static login = async ({ email, password, isAdmin }) => {
+    if (isAdmin) return HTTP.post(ENDPOINTS.ADMIN_LOGIN, { email, password });
+    return HTTP.post(ENDPOINTS.USER_LOGIN, { email, password });
   };
 
   /**

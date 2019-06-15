@@ -9,12 +9,10 @@ class GroupInvite {
     return 1;
   }
 
-  // This is required. This is a unique key used to identify this job.
   static get key() {
     return "group-invite-email";
   }
 
-  // This is where the work is done.
   async handle(data) {
     const { inviter, groupName, invitee } = data;
 

@@ -26,21 +26,7 @@ services:
     expose:
       - "${PORT}"
     depends_on:
-      - db
       - cache
-  db:
-    image: "mysql:5.7.26"
-    command: --disable-partition-engine-check
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "${DB_PORT}:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
   cache:
     image: "redis:4.0.9-alpine"
     command: redis-server --port ${REDIS_PORT} --requirepass ${REDIS_PASSWORD}
@@ -50,5 +36,4 @@ services:
     volumes:
       - redis-data:/data
 volumes:
-  mysql-data:
   redis-data:

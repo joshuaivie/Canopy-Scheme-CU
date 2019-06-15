@@ -1,11 +1,12 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import avatarImg from "assets/img/portrait.png";
 import { shortenString } from "utils/string";
 import RemoveGroupMemberModal from "./RemoveGroupMemberModal";
 import GroupMemberPlaceholder from "./GroupMemberPlaceholder";
 
+const avatarImg = matric_no =>
+  `https://res.cloudinary.com/canopy-scheme/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_0px_solid_red,b_rgb:fbf8fb/v1560465313/avatar/${matric_no.toUpperCase()}.jpg`;
 export default function GroupMembersContainer({
   groupMembers,
   isGroupOwner,
@@ -22,7 +23,7 @@ export default function GroupMembersContainer({
           // eslint-disable-next-line react/no-array-index-key
           <div className="member-card" key={`member_${index}`}>
             <img
-              src={avatarImg}
+              src={avatarImg(groupMember.matric_no)}
               alt={`${groupMember.firstname} ${groupMember.lastname}`}
             />
             <p title={`${groupMember.firstname} ${groupMember.lastname}`}>

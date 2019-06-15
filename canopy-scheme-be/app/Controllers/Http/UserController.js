@@ -5,7 +5,7 @@ const User = use("App/Models/User");
 const UserGroupMember = use("App/Models/UserGroupMember");
 const EmailVerification = use("App/Models/EmailVerification");
 const randomString = require("crypto-random-string");
-const Kue = use("Kue");
+const JobQueue = use("App/Helpers/JobQueue");
 const SignupEmailJob = use("App/Jobs/SignupEmail");
 const Link = use("App/Helpers/LinkGen");
 const Hash = use("Hash");
@@ -16,8 +16,12 @@ class UserController {
    */
   async profile({ response, auth }) {
     try {
-      return response.ok({ profile: await auth.user });
+      const { user } = auth;
+      user["paid_for_table"] = await user.hasVerifiedPayment();
+      user["is_admin"] = false;
+      return response.ok({ profile: user });
     } catch (err) {
+      console.log(err);
       return response.internalServerError({ msg: err.message });
     }
   }
@@ -28,10 +32,7 @@ class UserController {
   async transactions({ response, auth }) {
     try {
       return response.ok({
-        transactions: {
-          offline: await auth.user.offlineTransactions().fetch(),
-          online: await auth.user.onlineTransactions().fetch()
-        }
+        transactions: await auth.user.offlineTransactions().fetch()
       });
     } catch (err) {
       return response.internalServerError({ msg: err.message });
@@ -220,16 +221,11 @@ class UserController {
         token: emailVerification.token
       });
 
-      Kue.dispatch(
-        SignupEmailJob.key,
-        { user, email_verify_link },
-        {
-          priority: "normal",
-          attempts: 3,
-          remove: true,
-          jobFn: () => {}
-        }
-      );
+      JobQueue.queueJob({
+        jobKey: SignupEmailJob.key,
+        data: { user, email_verify_link },
+        options: { attempts: 3 }
+      });
       return response.ok({ msg: "Email verification link sent successfully." });
     } catch (err) {
       return response.badRequest({

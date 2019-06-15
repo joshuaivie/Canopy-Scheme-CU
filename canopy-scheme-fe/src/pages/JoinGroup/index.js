@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, Spinner } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { GroupAction } from "actions";
 import Layout from "layouts";
 import * as ROUTES from "routes";
+import { LoadingSpinner } from "components/spinners";
 
 class JoinGroup extends React.Component {
   state = {
@@ -38,7 +39,7 @@ class JoinGroup extends React.Component {
     const { toggleModal, history, showAuthModal } = this.props;
     let body;
     if (isLoading) {
-      body = <Spinner animation="border" style={{ height: "6rem", width: "6rem" }} />;
+      body = <LoadingSpinner height="6rem" width="6rem" />;
     } else if (!isLoading && successMsg) {
       body = (
         <React.Fragment>

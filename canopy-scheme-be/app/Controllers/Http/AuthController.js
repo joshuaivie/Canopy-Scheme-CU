@@ -6,7 +6,7 @@ const Admin = use("App/Models/Admin");
 const Token = use("App/Models/Token");
 const PasswordReset = use("App/Models/PasswordReset");
 const randomString = require("crypto-random-string");
-const Kue = use("Kue");
+const JobQueue = use("App/Helpers/JobQueue");
 const SignupEmailJob = use("App/Jobs/SignupEmail");
 const EmailVerification = use("App/Models/EmailVerification");
 const Link = use("App/Helpers/LinkGen");
@@ -50,16 +50,11 @@ class AuthController {
         route: "email.verify",
         token
       });
-      Kue.dispatch(
-        SignupEmailJob.key,
-        { user, email_verify_link },
-        {
-          priority: "normal",
-          attempts: 3,
-          remove: true,
-          jobFn: () => {}
-        }
-      );
+      JobQueue.queueJob({
+        jobKey: SignupEmailJob.key,
+        data: { user, email_verify_link },
+        options: { attempts: 3 }
+      });
 
       const data = await auth
         .withRefreshToken()
@@ -67,8 +62,7 @@ class AuthController {
       return response.ok({
         msg:
           "Registration successful. Email verification link has been sent to your email.",
-        ...data,
-        user
+        ...data
       });
     } catch (err) {
       return response.badRequest({ msg: err.message });
@@ -91,8 +85,11 @@ class AuthController {
         .authenticator(authenticator)
         .withRefreshToken()
         .attempt(email, password);
-      const user = await Model.findBy("email", email);
-      return response.ok({ msg: "Login successful.", ...data, user });
+      return response.ok({
+        msg: "Login successful.",
+        ...data,
+        isAdmin: authenticator == "admin"
+      });
     } catch (err) {
       return response.badRequest({ msg: "Invalid email or password." });
     }
@@ -152,16 +149,11 @@ class AuthController {
         route: "password.reset-token",
         email_token
       });
-      Kue.dispatch(
-        PasswordResetJob.key,
-        { user, password_reset_link },
-        {
-          priority: "normal",
-          attempts: 3,
-          remove: true,
-          jobFn: () => {}
-        }
-      );
+      JobQueue.queueJob({
+        jobKey: PasswordResetJob.key,
+        data: { user, password_reset_link },
+        options: { attempts: 2 }
+      });
 
       return response.ok({
         msg: "A password reset link has been sent to your email address."

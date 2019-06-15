@@ -11,7 +11,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Nexa Bold", sans-serif;
+  font-family: "Google sans Bold", sans-serif;
 }
 
 .primary-text {
@@ -20,6 +20,14 @@ h6 {
 
 .accent-text {
   color: $gold;
+}
+
+.dark-text {
+  color: $black;
+}
+
+.gray-text {
+  color: $table-black;
 }
 
 @media (max-width: 650px) {

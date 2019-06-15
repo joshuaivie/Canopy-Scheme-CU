@@ -1,22 +1,22 @@
 import React from "react";
-import { Button, Card, Col, Table, Modal, Form, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Table, Modal, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PaystackButton from "react-paystack";
 import FeatureLock from "components/FeatureLock";
 import { UserAction, TableAction } from "actions";
-import { generateRandomString } from "utils/string";
-import { nairaToKobo } from "utils/money";
 import { UserStorage } from "storage";
 import { errorAlert } from "utils/notification";
 import { createTimeStamp } from "utils/createTimeStamp";
 import commaNumber from "comma-number";
+import { LoadingSpinner, RetryBtn } from "components/spinners";
+import statuses from "data/statuses.json";
+// import { createTimeStamp } from "utils/createTimeStamp";
 
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
-const RenderEmptyHistory = columns => (
+const RenderEmptyHistory = () => (
   <tr>
     <td
-      colSpan={columns.length}
+      colSpan={5}
       style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
     >
       You have not made any Purchase yet!
@@ -24,23 +24,24 @@ const RenderEmptyHistory = columns => (
   </tr>
 );
 
-const RenderPaymentHistory = (transactions, columns) =>
+const RenderPaymentHistory = transactions =>
   transactions.map((row, index) => (
     <tr key={`row_${index}`}>
-      {columns.map(column =>
-        column.dataName === "amount" ? (
-          <td key={`data_${column.dataName}`}>
-            ₦{commaNumber(parseInt(row[column.dataName]))}
-          </td>
-        ) : (
-          <td key={`data_${column.dataName}`}>{row[column.dataName]}</td>
-        )
-      )}
+      <td>{row.created_at}</td>
+      <td>{row.reference}</td>
+      <td>₦{commaNumber(parseInt(row.amount))}</td>
+      <td
+        style={{
+          color: statuses[row.status]
+        }}
+      >
+        {row.status}
+      </td>
+      <td>{row.total_tables}</td>
     </tr>
   ));
 
 const DisplayPayments = ({
-  columns,
   transactions,
   isFetching,
   errorFetching,
@@ -49,23 +50,16 @@ const DisplayPayments = ({
   if (isFetching) {
     return (
       <tr>
-        <td colSpan={columns.length}>
-          <Spinner
-            animation="border"
-            style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
-          />
+        <td colSpan={5}>
+          <LoadingSpinner />
         </td>
       </tr>
     );
   } else if (errorFetching) {
     return (
       <tr>
-        <td colSpan={columns.length}>
-          <FontAwesomeIcon
-            onClick={() => getPaymentHistory()}
-            icon="redo"
-            style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
-          />
+        <td colSpan={5}>
+          <RetryBtn retryEvent={getPaymentHistory} />
         </td>
       </tr>
     );
@@ -73,8 +67,8 @@ const DisplayPayments = ({
   return (
     <React.Fragment>
       {transactions.length > 0
-        ? RenderPaymentHistory(transactions, columns)
-        : RenderEmptyHistory(columns)}
+        ? RenderPaymentHistory(transactions)
+        : RenderEmptyHistory()}
     </React.Fragment>
   );
 };
@@ -87,9 +81,11 @@ class Payments extends React.Component {
       columns: [
         { name: "Date", dataName: "updated_at" },
         { name: "Mode", dataName: "mode" },
+        { name: "Reference", dataName: "reference" },
         { name: "Amount", dataName: "amount" },
         { name: "Tables", dataName: "total_table" },
-        { name: "Reference", dataName: "reference" }
+        { name: "Status", dataName: "status" },
+        { name: "", dataName: "" }
       ],
       transactions: [],
       show: false,
@@ -123,7 +119,7 @@ class Payments extends React.Component {
     let { numberOfTables, tablePrice, transactions } = this.state;
     let limit = 5;
     transactions.forEach(transaction => {
-      limit -= transaction.total_table;
+      limit -= transaction.total_tables;
     });
     if (numberOfTables >= limit) {
       errorAlert(`You can only pay for ${limit} more table(s)`);
@@ -226,11 +222,11 @@ class Payments extends React.Component {
       errorFetching
     } = this.state;
     const {
-      userInfo: { email, email_verified }
+      userInfo: { email_verified }
     } = UserStorage;
     let limit = 5;
     transactions.forEach(transaction => {
-      limit -= transaction.total_table;
+      limit -= transaction.total_tables;
     });
 
     return (
@@ -238,7 +234,7 @@ class Payments extends React.Component {
         <Card className="material-card">
           <Card.Header>
             <h5>Payments</h5>
-            {email_verified && (
+            {email_verified ? (
               <React.Fragment>
                 {limit > 0 ? (
                   <Button
@@ -254,7 +250,7 @@ class Payments extends React.Component {
                   </p>
                 )}
               </React.Fragment>
-            )}
+            ) : null}
           </Card.Header>
 
           <Card.Body>
@@ -285,8 +281,8 @@ class Payments extends React.Component {
                     className="make-payment-button mobile"
                     disabled={errorFetching}
                   >
-                    Book Table(s) &nbsp;
                     <FontAwesomeIcon icon="credit-card" />
+                    &nbsp;Book Table(s)
                   </Button>
                 ) : (
                   <p className="form-error-msg mobile-only">
@@ -301,7 +297,7 @@ class Payments extends React.Component {
         </Card>
 
         {/* payment modal */}
-        {email_verified && (
+        {email_verified ? (
           <Modal show={show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Pay for Tables</Modal.Title>
@@ -354,23 +350,10 @@ class Payments extends React.Component {
                     </span>
                   </p>
                 </div>
-
-                {/* Paystack Button */}
-                <PaystackButton
-                  text="Pay"
-                  tag="button"
-                  email={email}
-                  amount={nairaToKobo(totalPrice)} // Paystack works with kobo
-                  close={this.paystackClose}
-                  class="btn btn-primary btn-center payment-button"
-                  callback={this.paystackCallback}
-                  reference={generateRandomString()}
-                  paystackkey={PAYSTACK_PUBLIC_KEY}
-                />
               </Form>
             </Modal.Body>
           </Modal>
-        )}
+        ) : null}
       </Col>
     );
   }

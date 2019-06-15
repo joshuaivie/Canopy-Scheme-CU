@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Spinner } from "react-bootstrap";
+import { Button, Card, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { validateMatricNo } from "utils/validateMatric";
 import { UserStorage } from "storage";
@@ -12,6 +12,8 @@ import InviteUserModal from "./InviteUserModal";
 import LeaveGroupModal from "./LeaveGroupModal";
 import GroupHelpModal from "./GroupHelpModal";
 import FeatureLock from "components/FeatureLock";
+import GroupLock from "components/GroupLock";
+import { LoadingSpinner, RetryBtn } from "components/spinners";
 
 const MAX_NO_OF_GROUP_MEMBERS = 5;
 
@@ -43,14 +45,14 @@ class Groups extends React.Component {
 
   componentDidMount() {
     const {
-      userInfo: { email_verified }
+      userInfo: { email_verified, paid_for_table }
     } = UserStorage;
 
     this.setState({
       isGroupOwner: this.isUserGroupOwner
     });
 
-    if (email_verified) {
+    if (email_verified && paid_for_table) {
       this.getGroupMembers({ showAllAlerts: false });
     }
   }
@@ -231,7 +233,7 @@ class Groups extends React.Component {
 
   render() {
     const {
-      userInfo: { email_verified }
+      userInfo: { email_verified, paid_for_table }
     } = UserStorage;
     const {
       handleDeleteGroup,
@@ -266,23 +268,19 @@ class Groups extends React.Component {
     let body = null;
     if (!email_verified) {
       body = <FeatureLock />;
+    } else if (!paid_for_table) {
+      body = <GroupLock />;
     } else if (isFetching === true) {
-      body = (
-        <Spinner
-          animation="border"
-          style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
-        />
-      );
+      body = <LoadingSpinner />;
     } else if (errorFetching === true) {
       body = (
-        <FontAwesomeIcon
-          onClick={() => this.getGroupMembers({ showAllAlerts: false })}
-          icon="redo"
-          style={{ height: "2rem", width: "2rem", margin: "auto", display: "block" }}
+        <RetryBtn
+          retryEvent={this.getGroupMembers}
+          retryEventParams={{ showAllAlerts: false }}
         />
       );
     } else {
-      if (!isGroupOwner && isUserInAnyGroup === false) {
+      if (!isGroupOwner && !isUserInAnyGroup) {
         body = (
           <EmptyGroupContainer
             handleCreateGroup={handleCreateGroup}
@@ -329,7 +327,7 @@ class Groups extends React.Component {
             />
           </React.Fragment>
         );
-      } else if (isUserInAnyGroup === true) {
+      } else if (isUserInAnyGroup === true && !isGroupOwner) {
         // Not a group admin, hence render all the members of the group user belongs to.
         body = (
           <React.Fragment>
@@ -370,7 +368,7 @@ class Groups extends React.Component {
                 onClick={() => toggleModal("showHelpModal")}
               />
             </h5>
-            {email_verified && (
+            {email_verified && paid_for_table ? (
               <React.Fragment>
                 {isGroupOwner && (
                   <Button
@@ -379,7 +377,7 @@ class Groups extends React.Component {
                     onClick={() => toggleModal("showDeleteGroupModal")}
                   >
                     <FontAwesomeIcon icon="door-open" />
-                    &nbsp; Delete
+                    &nbsp;Delete
                   </Button>
                 )}
                 {isUserInAnyGroup && !isGroupOwner && (
@@ -388,12 +386,12 @@ class Groups extends React.Component {
                     variant="outline-danger"
                     onClick={() => toggleModal("showLeaveGroupModal")}
                   >
-                    Leave
                     <FontAwesomeIcon icon="door-open" />
+                    &nbsp;Leave
                   </Button>
                 )}
               </React.Fragment>
-            )}
+            ) : null}
           </Card.Header>
           <Card.Body>{body}</Card.Body>
         </Card>

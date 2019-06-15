@@ -14,8 +14,9 @@
     margin-left: 0;
   }
   .section {
-    width: 90vw;
+    width: 100vw;
     margin: auto;
+    padding: 0 5%;
     .fp-tableCell {
       @include flex(row, center);
       .left,
@@ -76,20 +77,16 @@
 }
 .dashboard {
   background-color: rgba(128, 0, 128, 0.027);
-  padding-top: 5vh;
-  @media (max-width: $screen-md-min) {
-    padding-top: 0;
-  }
   .dashboard-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: 20px 0 0;
+    padding: 5px 0 0;
     max-width: 1048px;
     margin: auto;
     @media (max-width: $screen-md-min) {
-      padding: 10px 20px;
+      padding: 10px 15px;
     }
     .welcome-text {
       line-height: 3;

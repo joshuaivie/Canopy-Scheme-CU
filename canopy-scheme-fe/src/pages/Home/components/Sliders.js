@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import tentSvg from "assets/svg/tent.svg";
 import familySvg from "assets/svg/family.svg";
-import cardSvg from "assets/svg/debit-card.svg";
 import messageSvg from "assets/svg/message.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,16 +19,6 @@ export default ({ toggleModal }) => (
       </div>
       <div className="right">
         <img src={tentSvg} alt="" className="float" />
-      </div>
-    </div>
-    <div className="section" id="payment">
-      <div className="left">
-        <h1>Easy Payment</h1>
-        <p>Pay conviniently with your card or with bank transfers.</p>
-        <Button onClick={() => toggleModal()}>Make a reservation</Button>
-      </div>
-      <div className="right">
-        <img src={cardSvg} alt="" className="float" />
       </div>
     </div>
     <div className="section" id="groups">
@@ -55,14 +44,14 @@ export default ({ toggleModal }) => (
           Call&nbsp;
           <FontAwesomeIcon className="primary-text" icon="phone" />
           &nbsp; us on &nbsp;
-          <a href="tel:808009090">080-xxx-xxx</a>
+          <a href="tel:09016179196">0901-617-9196</a>
         </p>
         <p>
           Or send an email &nbsp;
           <FontAwesomeIcon className="primary-text" icon="envelope" />
           &nbsp; to &nbsp;
-          <a href="mailto:supportcpc@covenantuniversity.edu.ng?Subject=Canopy%20Scheme">
-            supportcpc@covenantuniversity.edu.ng
+          <a href="mailto:cpc@covenantuniversity.edu.ng?Subject=Canopy%20Scheme%20Inquiry">
+            cpc@covenantuniversity.edu.ng
           </a>
         </p>
         <p>

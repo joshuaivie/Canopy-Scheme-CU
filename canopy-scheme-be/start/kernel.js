@@ -38,7 +38,8 @@ const namedMiddleware = {
   inUserGroup: "App/Middleware/InUserGroup",
   isValidGroupInviteLink: "App/Middleware/IsValidGroupInviteLink",
   verifyEmail: "App/Middleware/VerifyEmail",
-  isOfflineTransactionOwner: "App/Middleware/IsOfflineTransactionOwner"
+  isOfflineTransactionOwner: "App/Middleware/IsOfflineTransactionOwner",
+  hasVerifiedPayment: "App/Middleware/HasVerifiedPayment"
 };
 
 /*

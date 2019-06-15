@@ -1,10 +1,17 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import { networkAvailability, NetworkAvailabilityContext } from "utils/http";
 
 class DefaultLayout extends React.Component {
   state = {
-    showAuthModal: false
+    showAuthModal: false,
+    online: true
   };
+
+  componentDidMount() {
+    networkAvailability(this);
+  }
+
   toggleModal = (val = null) => {
     if (val != null) {
       this.setState({ showAuthModal: val });
@@ -14,10 +21,14 @@ class DefaultLayout extends React.Component {
     this.setState({ showAuthModal: !showAuthModal });
   };
   render() {
-    const { showAuthModal } = this.state;
+    const { showAuthModal, online } = this.state;
     const { component: Component, history, ...rest } = this.props;
     return (
-      <React.Fragment>
+      <NetworkAvailabilityContext.Provider
+        value={{
+          online
+        }}
+      >
         <Route
           {...rest}
           render={matchProps => (
@@ -29,7 +40,7 @@ class DefaultLayout extends React.Component {
             />
           )}
         />
-      </React.Fragment>
+      </NetworkAvailabilityContext.Provider>
     );
   }
 }

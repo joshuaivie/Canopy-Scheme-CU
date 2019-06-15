@@ -1,9 +1,9 @@
-const Kue = use("Kue");
 const { sanitize } = use("Validator");
 const User = use("App/Models/User");
 const UserGroupMember = use("App/Models/UserGroupMember");
 const Link = use("App/Helpers/LinkGen");
 const GroupInviteJob = use("App/Jobs/GroupInvite");
+const JobQueue = use("App/Helpers/JobQueue");
 
 class GroupInvite {
   static async inviteUsers(inviter, users, group) {
@@ -43,11 +43,8 @@ class GroupInvite {
         if (userInAnyGroup) throw new Error("User already in a group");
 
         // check if invitee has paid for at least a table.
-        const transactions = await invitee.transactions().fetch();
-        if (
-          transactions.offline.rows.length < 1 &&
-          transactions.online.rows.length < 1
-        )
+        const hasVerifiedPayment = await invitee.hasVerifiedPayment();
+        if (!hasVerifiedPayment)
           throw new Error(
             `${
               invitee.firstname
@@ -63,13 +60,15 @@ class GroupInvite {
         const inviteUrl = await Link.createGroupInviteLink(data);
 
         // Dispatch mailing of invite link to invitee email.
-        GroupInvite._dispatchMailing({
-          payload: {
+        JobQueue.queueJob({
+          jobKey: GroupInviteJob.key,
+          data: {
             inviter,
             invitee,
             groupName: group.name,
             inviteUrl
-          }
+          },
+          options: { attempts: 2 }
         });
       } catch (err) {
         failed.push({ user, msg: err.message ? err.message : err });
@@ -77,16 +76,6 @@ class GroupInvite {
     }
 
     return { failed };
-  }
-
-  static _dispatchMailing({ payload }) {
-    const config = {
-      priority: "normal",
-      attempts: 3,
-      remove: true,
-      jobFn: () => {}
-    };
-    Kue.dispatch(GroupInviteJob.key, payload, config);
   }
 }
 

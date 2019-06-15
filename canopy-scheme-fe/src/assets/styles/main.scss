@@ -1,11 +1,11 @@
 @font-face {
-  font-family: "Nexa Bold";
-  src: url("../fonts/Nexa Bold.otf");
+  font-family: "Google sans Bold";
+  src: url("../fonts/GoogleSans-Bold.ttf");
 }
 
 @font-face {
-  font-family: "Nexa Light";
-  src: url("../fonts/Nexa Light.otf");
+  font-family: "Google sans Regular";
+  src: url("../fonts/GoogleSans-Regular.ttf");
 }
 
 @import "./imports";
@@ -21,16 +21,30 @@
 @import "./cards";
 @import "./modals";
 @import "./dropdown";
+@import "./tables";
 @import "./misc";
 
 body {
-  font-family: "Nexa Light", sans-serif !important;
+  font-family: "Google sans Regular", sans-serif !important;
   font-weight: 900;
   color: $black;
 }
 
 .float {
   animation: float 3s ease-out infinite;
+}
+.pagination {
+  justify-content: flex-end;
+}
+.page-link {
+  color: initial;
+}
+.page-item.active .page-link {
+  border-color: $purple;
+  background-color: $purple;
+}
+.page-link:hover {
+  color: $purple;
 }
 
 @keyframes float {

@@ -2,7 +2,8 @@ import React from "react";
 import { successAlert } from "utils/notification";
 import { UserAction } from "actions";
 import { Modal, Button, Form } from "react-bootstrap";
-import BtnLoadingSpinner from "components/BtnLoadingSpinner";
+import { BtnLoadingSpinner } from "components/spinners";
+import { NetworkAvailabilityContext } from "utils/http";
 
 class ChangePasswordModal extends React.Component {
   state = this.initialState;
@@ -16,6 +17,7 @@ class ChangePasswordModal extends React.Component {
       errorMsg: {}
     };
   }
+  static contextType = NetworkAvailabilityContext;
 
   resetState = (params = {}) => {
     this.setState({ ...this.initialState, ...params });
@@ -109,7 +111,7 @@ class ChangePasswordModal extends React.Component {
               type="submit"
               variant="primary"
               className="btn-center"
-              disabled={isLoading}
+              disabled={isLoading || !this.context.online}
             >
               {isLoading ? <BtnLoadingSpinner /> : "Change Password"}
             </Button>
