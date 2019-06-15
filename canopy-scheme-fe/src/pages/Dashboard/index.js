@@ -132,7 +132,7 @@ class Dashboard extends React.Component {
                 resendEmailVerificationLink
               }}
             >
-              <Payments />
+              <Payments paymentType="offline" />
               <Groups />
             </ResendVerificationEmailContext.Provider>
           </Container>

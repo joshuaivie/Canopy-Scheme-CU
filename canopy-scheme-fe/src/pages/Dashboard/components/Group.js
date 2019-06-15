@@ -14,34 +14,33 @@ import GroupHelpModal from "./GroupHelpModal";
 import FeatureLock from "components/FeatureLock";
 import GroupLock from "components/GroupLock";
 import { LoadingSpinner, RetryBtn } from "components/spinners";
+import { NetworkAvailabilityContext } from "utils/http";
 
 const MAX_NO_OF_GROUP_MEMBERS = 5;
 
 class Groups extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    inviteeEmail: "",
+    inviteeMatricNo: "",
+    isLoading: false,
+    isFetching: false,
+    errorFetching: false,
+    newGroupName: "",
+    groupName: "",
+    groupMembers: [],
+    isGroupOwner: false,
+    isUserInAnyGroup: false,
+    showInviteUserModal: false,
+    showLeaveGroupModal: false,
+    showDeleteGroupModal: false,
+    showCreateGroupModal: false,
+    showHelpModal: false,
+    showRemoveGroupMemberModal: {},
+    inviteErrorMsg: {},
+    createGroupErrorMsg: {}
+  };
 
-    this.state = {
-      inviteeEmail: "",
-      inviteeMatricNo: "",
-      isLoading: false,
-      isFetching: false,
-      errorFetching: false,
-      newGroupName: "",
-      groupName: "",
-      groupMembers: [],
-      isGroupOwner: false,
-      isUserInAnyGroup: false,
-      showInviteUserModal: false,
-      showLeaveGroupModal: false,
-      showDeleteGroupModal: false,
-      showCreateGroupModal: false,
-      showHelpModal: false,
-      showRemoveGroupMemberModal: {},
-      inviteErrorMsg: {},
-      createGroupErrorMsg: {}
-    };
-  }
+  static contextType = NetworkAvailabilityContext;
 
   componentDidMount() {
     const {
@@ -358,7 +357,7 @@ class Groups extends React.Component {
         <Card className="material-card">
           <Card.Header>
             <h5>
-              {groupName !== "" ? groupName : "Group"}{" "}
+              {groupName !== "" ? groupName : "Group"} &nbsp;
               <FontAwesomeIcon
                 icon="question-circle"
                 title="Know more about groups"
@@ -372,7 +371,7 @@ class Groups extends React.Component {
               <React.Fragment>
                 {isGroupOwner && (
                   <Button
-                    disabled={errorFetching}
+                    disabled={errorFetching || !this.context.online}
                     variant="outline-danger"
                     onClick={() => toggleModal("showDeleteGroupModal")}
                   >
@@ -382,7 +381,7 @@ class Groups extends React.Component {
                 )}
                 {isUserInAnyGroup && !isGroupOwner && (
                   <Button
-                    disabled={errorFetching}
+                    disabled={errorFetching || !this.context.online}
                     variant="outline-danger"
                     onClick={() => toggleModal("showLeaveGroupModal")}
                   >

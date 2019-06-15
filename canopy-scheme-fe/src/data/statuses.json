@@ -1,5 +1,5 @@
 {
-  "accepted": "#008000",
-  "rejected": "#b22222",
-  "pending": "#ffc107"
+  "accepted": "success",
+  "rejected": "danger",
+  "pending": "warning"
 }

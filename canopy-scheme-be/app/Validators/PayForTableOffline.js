@@ -5,9 +5,16 @@ const BaseValidator = use("App/Validators/BaseValidator");
 class PayForTableOffline extends BaseValidator {
   get rules() {
     return {
-      reference: "required|string|min:3",
-      amount: "required|number",
-      photo_url: "required|url"
+      evidence:
+        "required|file|file_ext:png,jpg,jpeg|file_size:5mb|file_types:image",
+      reference: "required|string|min:3|max:20",
+      amount: "required|number"
+    };
+  }
+
+  get messages() {
+    return {
+      "evidence.required": "An evidence image is required."
     };
   }
 }

@@ -13,8 +13,7 @@ class OnlinePaymentController {
       transactions: await OnlineTransaction.query()
         .with(["user"])
         .orderBy(["updated_at"])
-        .forPage(page, limit)
-        .fetch()
+        .paginate(page, limit)
     });
   }
 

@@ -13,9 +13,9 @@ class OfflineTransaction extends Model {
      */
     this.addHook("beforeSave", async transaction => {
       if (transaction.status === "accepted") {
-        const { total_tables } = transaction;
-        transaction.admin_message = `You paid for ${total_tables} table${
-          total_tables > 1 ? "s" : ""
+        const { total_table } = transaction;
+        transaction.admin_message = `You paid for ${total_table} table${
+          total_table > 1 ? "s" : ""
         }.`;
       }
     });

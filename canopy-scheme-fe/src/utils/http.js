@@ -11,8 +11,22 @@ const HTTP = axios.create({
   }
 });
 
+export const mergeHeaders = (...headerCollections) => {
+  const result = {};
+  headerCollections.map(content => {
+    const { headers } = content;
+    return Object.assign(result, headers);
+  });
+
+  return { headers: result };
+};
+
 export const generateBearer = token => {
   return { headers: { Authorization: `Bearer ${token}` } };
+};
+
+export const generateMultipartHeader = () => {
+  return { headers: { "Content-Type": `multipart/form-data` } };
 };
 
 function errorHandler(e) {
