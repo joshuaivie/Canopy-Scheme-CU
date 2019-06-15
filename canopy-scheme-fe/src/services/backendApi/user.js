@@ -48,7 +48,10 @@ export default class UserApi {
    * Removes a group member.
    */
   static removeMember = async ({ matricNo, token }) => {
-    return HTTP.delete(ENDPOINTS.REMOVE_GROUP_MEMBER(matricNo), generateBearer(token));
+    return HTTP.delete(
+      ENDPOINTS.USER_GROUP_MEMBER_REMOVE(matricNo),
+      generateBearer(token)
+    );
   };
   /**
    * Changes a user's password.
@@ -60,7 +63,7 @@ export default class UserApi {
     token
   }) => {
     return HTTP.post(
-      ENDPOINTS.CHANGE_PASSWORD,
+      ENDPOINTS.PASSWORD_CHANGE,
       {
         old_password: oldPassword,
         new_password: newPassword,
@@ -74,6 +77,6 @@ export default class UserApi {
    * Resend email verification link
    */
   static resendEmailVerificationLink = async ({ token }) => {
-    return HTTP.get(ENDPOINTS.RESEND_EMAIL_VERIFICATION, generateBearer(token));
+    return HTTP.get(ENDPOINTS.VERIFY_RESEND_EMAIL, generateBearer(token));
   };
 }

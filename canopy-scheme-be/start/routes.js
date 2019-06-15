@@ -55,7 +55,7 @@ Route.group(() => {
     "OfflinePaymentController.purchaseTable"
   ).validator("PayForTableOffline");
 
-  // User Transactions
+  // User
   Route.get("me/transactions", "UserController.transactions");
 
   // User Reservations

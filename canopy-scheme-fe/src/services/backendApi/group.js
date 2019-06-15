@@ -22,7 +22,7 @@ export default class GroupApi {
    */
   static joinGroup = async ({ groupId, groupToken, inviteeEmail, expiringDate }) => {
     return HTTP.get(
-      ENDPOINTS.JOIN_GROUP({
+      ENDPOINTS.GROUP_JOIN({
         groupId,
         groupToken,
         inviteeEmail,

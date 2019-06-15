@@ -272,12 +272,12 @@
 
 .payment-breakdown-container {
   padding: 15px;
+  padding-bottom: 0;
   border-bottom: 1px solid lightgray;
   p {
     display: flex;
     justify-content: space-between;
   }
-
   span {
     color: green;
   }

@@ -3,6 +3,7 @@ const EventInfo = use("App/Utilities/EventInfo");
 const OfflineTransaction = use("App/Models/OfflineTransaction");
 const ModelNotFoundException = "ModelNotFoundException";
 const Event = use("Event");
+const Cloudinary = use("Cloudinary");
 
 class OfflinePaymentController {
   async getAll({ request, response }) {
@@ -30,6 +31,11 @@ class OfflinePaymentController {
         "reference",
         reference
       );
+      if (transaction != "pending")
+        return response.badRequest({
+          msg:
+            "This transaction has already been modified. You cannot modify anymore"
+        });
       transaction.merge({ status, admin_message });
       await transaction.save();
 
@@ -46,29 +52,34 @@ class OfflinePaymentController {
   }
 
   async purchaseTable({ request, response, auth }) {
-    const { reference, amount, photo_url } = request.all();
-    const totalTables = Math.floor(amount / (await EventInfo.unitPrice()));
-    if (totalTables < 1) {
-      return response.badRequest({
-        msg:
-          "Amount paid is less than price of 1 table unit. Please balance up."
-      });
-    }
-
+    const { reference, amount } = request.all();
+    let evidence = request.file("evidence", { types: ["image"], size: "5mb" });
     try {
+      let { secure_url } = await Cloudinary.uploader.upload(evidence.tmpPath, {
+        tags: "table_payment_evidence"
+      });
+      const totalTable = Math.floor(amount / (await EventInfo.unitPrice()));
+      if (totalTable < 1) {
+        return response.badRequest({
+          msg:
+            "Amount paid is less than price of 1 table unit. Please balance up."
+        });
+      }
       await OfflineTransaction.create({
         amount,
         reference,
-        photo_url,
+        photo_url: secure_url,
         user_id: auth.user.id,
-        total_tables: totalTables
+        total_table: totalTable
       });
 
       return response.ok({
         msg:
-          "Transaction successful. An admininstrator will validate your transaction shortly."
+          "Transaction successful. An admininstrator will validate your transaction shortly.",
+        photo_url: secure_url
       });
     } catch (err) {
+      console.log(err);
       if (err.code == "ER_DUP_ENTRY")
         return response.badRequest({
           msg: "Transaction reference already exists."

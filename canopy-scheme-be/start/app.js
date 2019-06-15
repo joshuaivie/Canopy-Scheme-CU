@@ -23,6 +23,7 @@ const providers = [
   "adonis-sentry/providers/Sentry",
   "adonis-kue/providers/KueProvider",
   "@adonisjs/redis/providers/RedisProvider",
+  "adonis-4-cloudinary/provider/Cloudinary",
   path.join(__dirname, "..", "providers", "PaystackProvider"),
   path.join(__dirname, "..", "providers", "MysqlLoggerProvider")
 ];
@@ -54,7 +55,8 @@ const aceProviders = [
 |
 */
 const aliases = {
-  Paystack: "Paystack/Paystack"
+  Paystack: "Paystack/Paystack",
+  Cloudinary: "Adonis/Addons/AdonisCloudinary"
 };
 
 /*
