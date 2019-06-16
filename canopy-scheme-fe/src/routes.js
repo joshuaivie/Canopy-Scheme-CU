@@ -3,7 +3,8 @@ export const FORGOT_PASSWORD = "/canopy/password/forgot";
 export const RESET_PASSWORD = "/canopy/password/reset/:token";
 
 export const VERIFY_EMAIL = "/canopy/verification/email/:token";
-export const JOIN_GROUP = "/canopy/group/join/:group_id/:token/:invitee_email/:expiring_date";
+export const JOIN_GROUP =
+  "/canopy/group/join/:group_id/:token/:invitee_email/:expiring_date";
 export const ONBOARDING = "/canopy/on-boarding";
 // Application/ Dashboard Routes
 export const APP = "/canopy/app";

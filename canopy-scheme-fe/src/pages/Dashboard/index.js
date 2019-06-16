@@ -124,18 +124,18 @@ class Dashboard extends React.Component {
               }
             />
           </div>
-          <Container>
-            <ResendVerificationEmailContext.Provider
-              value={{
-                verificationEmailSent,
-                resendVerificationEmailIsLoading,
-                resendEmailVerificationLink
-              }}
-            >
+          <ResendVerificationEmailContext.Provider
+            value={{
+              verificationEmailSent,
+              resendVerificationEmailIsLoading,
+              resendEmailVerificationLink
+            }}
+          >
+            <Container>
               <Payments paymentType="offline" />
               <Groups />
-            </ResendVerificationEmailContext.Provider>
-          </Container>
+            </Container>
+          </ResendVerificationEmailContext.Provider>
           <ChangePasswordModal
             toggleModal={() => this.toggleModal("showChangePasswordModal")}
             showChangePasswordModal={showChangePasswordModal}

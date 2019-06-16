@@ -231,13 +231,13 @@ class Payments extends React.Component {
         status: "pending",
         photo_url
       });
-      this.setState({ offlinePaymentReference: "", transactions });
+      this.setState({ offlinePaymentReference: "", transactions, show: false });
       successAlert(msg);
       // this.fileInput.current.reset(); // Todo: Clear upload list; This doesn't work. Fix it.
     } catch (err) {
       this.setState({ errorMsg: err });
     } finally {
-      this.setState({ show: false, isLoading: false });
+      this.setState({ isLoading: false });
     }
   };
 

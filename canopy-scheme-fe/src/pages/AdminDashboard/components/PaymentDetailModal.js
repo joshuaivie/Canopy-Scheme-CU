@@ -61,8 +61,8 @@ class PaymentDetailModal extends React.Component {
             <Row>
               <Col xs="12" md="6">
                 <ModalImage
-                  small={"http://localhost:3000/static/media/portrait.000948a7.png"}
-                  large={"http://localhost:3000/static/media/portrait.000948a7.png"}
+                  small={paymentDetail.photo_url}
+                  large={paymentDetail.photo_url}
                   hideZoom
                   alt={paymentImgAlt}
                 />

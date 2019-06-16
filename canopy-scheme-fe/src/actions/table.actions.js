@@ -1,5 +1,5 @@
 import { TableApi } from "services/backendApi";
-import { errorAlert } from "utils/notification";
+import { resolveRequestError } from "utils/http";
 import { UserStorage } from "storage";
 
 class TableAction {
@@ -18,8 +18,7 @@ class TableAction {
       });
       return response.data;
     } catch (err) {
-      errorAlert(err.msg);
-      throw err;
+      throw resolveRequestError(err);
     }
   }
 
@@ -33,8 +32,7 @@ class TableAction {
       });
       return response.data;
     } catch (err) {
-      errorAlert(err.msg);
-      throw err;
+      throw resolveRequestError(err);
     }
   }
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, Dropdown, Button } from "react-bootstrap";
 import { AuthAction } from "actions";
-import { errorAlert } from "utils/notification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as ROUTES from "routes";
 import { NetworkAvailabilityContext } from "utils/http";
@@ -15,10 +14,9 @@ class CustomToggle extends React.PureComponent {
   };
 
   render() {
-    let avatarImg =
-      "http://chittagongit.com/images/no-profile-picture-icon/no-profile-picture-icon-2.jpg";
+    let avatarImg = "https://image.flaticon.com/icons/svg/149/149452.svg";
     if (UserStorage.userInfo && UserStorage.userInfo.matric_no) {
-      avatarImg = `https://res.cloudinary.com/canopy-scheme/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_0px_solid_red,b_rgb:fbf8fb/v1560465313/avatar/${UserStorage.userInfo.matric_no.toUpperCase()}.jpg`;
+      avatarImg = `https://res.cloudinary.com/canopy-scheme/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_1px_solid_red,b_rgb:fbf8fb/avatar/${UserStorage.userInfo.matric_no.toUpperCase()}.jpg`;
     }
     return (
       <Button onClick={this.handleClick} variant="link" className="dark-text">
@@ -41,10 +39,8 @@ class Avatar extends React.PureComponent {
     try {
       await AuthAction.logout();
       this.props.history.push(ROUTES.HOME);
-    } catch (error) {
-      errorAlert(
-        error.message || "You cannot log out till you are connected to the internet"
-      );
+    } catch (err) {
+      console.log(err);
     }
   };
 

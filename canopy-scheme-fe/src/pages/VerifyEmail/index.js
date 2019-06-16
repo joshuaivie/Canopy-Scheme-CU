@@ -43,7 +43,7 @@ class VerifyEmail extends React.Component {
         <React.Fragment>
           <h2>{successMsg}</h2>
           <p>You can now access all features of canopy scheme</p>
-          <Link to="/app">
+          <Link to={ROUTES.APP}>
             <Button>Dashboard</Button>
           </Link>
         </React.Fragment>
