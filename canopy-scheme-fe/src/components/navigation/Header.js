@@ -10,7 +10,7 @@ export default ({ toggleModal }) => (
   <Navbar bg="white" fixed="top" variant="light" expand="lg">
     <Navbar.Brand as="h3" className="primary-text">
       <Link to={ROUTES.APP} className="primary-text">
-        <img src={logo} alt="Perculiar set logo" width={150} />
+        <img src={logo} alt="Peculiar set logo" width={150} />
       </Link>
     </Navbar.Brand>
     {isLoggedIn() ? (
@@ -18,10 +18,20 @@ export default ({ toggleModal }) => (
         Dashboard
       </Link>
     ) : (
-      <Nav.Link onClick={() => toggleModal()}>
-        <FontAwesomeIcon className="primary-text" icon="sign-in-alt" />
-        &nbsp;Login/Register
-      </Nav.Link>
+      <div style={{ display: "flex" }}>
+        <Nav.Link
+          className="mx-3"
+          href="https://cpc-partners.webflow.io"
+          target="_blank"
+        >
+          <FontAwesomeIcon className="primary-text" icon="users" />
+          &nbsp;Partners
+        </Nav.Link>
+        <Nav.Link onClick={() => toggleModal()}>
+          <FontAwesomeIcon className="primary-text" icon="sign-in-alt" />
+          &nbsp;Login/Register
+        </Nav.Link>
+      </div>
     )}
   </Navbar>
 );
