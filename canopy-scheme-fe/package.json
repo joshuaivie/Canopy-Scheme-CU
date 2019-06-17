@@ -23,7 +23,8 @@
     "react-scripts": "3.0.1",
     "react-slick": "^0.24.0",
     "react-toastify": "^5.2.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "typewriter-effect": "^2.5.5"
   },
   "scripts": {
     "start": "react-scripts start",
