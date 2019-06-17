@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Form, Button, Col, InputGroup } from "react-bootstrap";
 import { AuthAction } from "actions";
 import * as ROUTES from "routes";
-import { validateMatricNo } from "utils/validateMatric";
 import { successAlert } from "utils/notification";
 import { BtnLoadingSpinner } from "components/spinners";
 import { NetworkAvailabilityContext } from "utils/http";
@@ -28,12 +27,7 @@ class Register extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     this.setState({ isLoading: true, errorMsg: {} });
-    const matricVal = validateMatricNo(this.state.matricNo);
-    if (matricVal.error) {
-      this.setState({ errorMsg: { matric_no: matricVal.msg }, isLoading: false });
-    } else {
-      this.register();
-    }
+    this.register();
   };
 
   toggleShowPassword = () => {

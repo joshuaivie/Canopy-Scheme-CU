@@ -83,7 +83,7 @@ class AdminDashboard extends React.Component {
     this.setState({ transactions });
   };
 
-  rendeContent = () => {
+  renderContent = () => {
     const {
       transactions,
       page,
@@ -94,23 +94,10 @@ class AdminDashboard extends React.Component {
     } = this.state;
 
     if (isFetching) {
-      return (
-        <tr>
-          <td colSpan="5">
-            <LoadingSpinner />
-          </td>
-        </tr>
-      );
+      return <LoadingSpinner />;
     } else if (errorFetching && !isFetching) {
       return (
-        <tr>
-          <td colSpan="5">
-            <RetryBtn
-              retryEvent={this.getOfflineTransactions}
-              retryEventParams={page}
-            />
-          </td>
-        </tr>
+        <RetryBtn retryEvent={this.getOfflineTransactions} retryEventParams={page} />
       );
     } else if (!errorFetching && !isFetching) {
       if (transactions.length < 1) {
@@ -232,20 +219,20 @@ class AdminDashboard extends React.Component {
                 >
                   <option value="all">All</option>
                   <option value="pending">Pending</option>
-                  <option value="accepted">Accept</option>
-                  <option value="rejected">Reject</option>
+                  <option value="accepted">Accepted</option>
+                  <option value="rejected">Rejected</option>
                 </Form.Control>
               </Form.Group>
             </Card.Header>
 
-            <Card.Body>{this.rendeContent()}</Card.Body>
+            <Card.Body>{this.renderContent()}</Card.Body>
             <Card.Footer>
               {transactions.length > 0 ? (
                 <p>{`${perPage * (lastPage && page === 1 ? 0 : lastPage) + 1} - ${
                   perPage * page > total ? total : perPage * page
                 } of ${total}`}</p>
               ) : (
-                <p>0 - 0 of 0</p>
+                <p>No result</p>
               )}
             </Card.Footer>
           </Card>

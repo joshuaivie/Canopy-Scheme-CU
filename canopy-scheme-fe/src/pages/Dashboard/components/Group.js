@@ -1,7 +1,6 @@
 import React from "react";
-import { Accordion, Button, Card, Col, Container, Row, Form } from "react-bootstrap";
+import { Accordion, Button, Card, Col, Container, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { validateMatricNo } from "utils/validateMatric";
 import { UserStorage } from "storage";
 import { UserAction, GroupAction } from "actions";
 import { successAlert } from "utils/notification";
@@ -93,11 +92,6 @@ class Groups extends React.Component {
     event.preventDefault();
     this.setState({ isLoading: true });
     const { inviteeMatricNo: matric_no, inviteeEmail: email } = this.state;
-    if (!validateMatricNo(matric_no))
-      return this.setState({
-        inviteErrorMsg: { matric_no: "Invalid matric number" },
-        isLoading: false
-      });
 
     try {
       const { msg } = await GroupAction.inviteUser({ users: [{ matric_no, email }] });
