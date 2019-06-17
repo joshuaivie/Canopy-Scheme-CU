@@ -413,10 +413,10 @@ class Groups extends React.Component {
                         If you are interested in setting up a larger group with your
                         friends, course mates or department, kindly send a mail to{" "}
                         <a
-                          href="mailto:support@covenantuniversity.edu.ng"
+                          href="mailto:cpc@covenantuniversity.edu.ng"
                           style={{ color: "purple" }}
                         >
-                          support@covenantuniversity.edu.ng
+                          cpc@covenantuniversity.edu.ng
                         </a>{" "}
                         providing the following details:
                       </p>
