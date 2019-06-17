@@ -34,20 +34,7 @@
 }
 
 .group-help-modal {
-  display: flex;
-  flex-direction: column;
-
-  * {
-    line-height: 1.6em;
-  }
-
   span {
     color: $purple;
-  }
-
-  p {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
   }
 }

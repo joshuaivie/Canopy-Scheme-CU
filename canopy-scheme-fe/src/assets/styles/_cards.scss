@@ -52,8 +52,8 @@
 }
 
 .material-card {
-  box-shadow: 12px 12px 16px 0 rgba(69, 91, 99, 0.1);
-  margin: 10px;
+  box-shadow: 0px 6px 16px 0 rgba(69, 91, 99, 0.1);
+  margin: 30px 10px;
   height: calc(100% - 20px);
   border: none !important;
   .card-header {
@@ -61,4 +61,9 @@
     display: flex;
     justify-content: space-between;
   }
+}
+
+.accordion-card {
+  border-top: 1px solid rgba(0, 0, 0, 0.125) !important;
+  margin-bottom: -15px;
 }

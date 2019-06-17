@@ -76,6 +76,7 @@
   text-align: center;
 }
 .dashboard {
+  height: 100%;
   background-color: rgba(128, 0, 128, 0.027);
   .dashboard-header {
     display: flex;
@@ -98,11 +99,11 @@
   }
 }
 
-@media (min-width: $screen-xl-min) {
-  .dashboard {
-    height: -webkit-fill-available;
-  }
-}
+// @media (min-width: $screen-xl-min) {
+//   .dashboard {
+//     height: -webkit-fill-available;
+//   }
+// }
 
 .modal-footer {
   justify-content: space-between;

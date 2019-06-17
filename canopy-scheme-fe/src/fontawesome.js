@@ -25,13 +25,15 @@ import {
   faEnvelope,
   faCommentAlt,
   faLock,
-  faEdit
+  faEdit,
+  faChevronCircleDown
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
   faEye,
   faChevronLeft,
   faChevronRight,
+  faChevronCircleDown,
   faCircle,
   faUserCircle,
   faMoneyBillWaveAlt,

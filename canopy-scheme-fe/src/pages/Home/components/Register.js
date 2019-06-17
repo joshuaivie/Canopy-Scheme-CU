@@ -155,9 +155,6 @@ class Register extends React.Component {
               onChange={this.handleChange}
               required
             />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
             {errorMsg.email ? <p className="form-error-msg">{errorMsg.email}</p> : null}
           </Form.Group>
 

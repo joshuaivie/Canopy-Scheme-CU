@@ -3,6 +3,7 @@ import { Button, Card, Col, Table, Modal, Form, Badge } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
 import FeatureLock from "components/FeatureLock";
+import PaymentHelpModal from "./PaymentHelpModal";
 import { UserAction, TableAction } from "actions";
 import { generateRandomString } from "utils/string";
 import { nairaToKobo } from "utils/money";
@@ -15,13 +16,17 @@ import { NetworkAvailabilityContext } from "utils/http";
 import statuses from "data/statuses.json";
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
-const RenderEmptyHistory = () => (
+const RenderEmptyHistory = toggleModal => (
   <tr>
     <td
       colSpan={6}
       style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
     >
-      You have not made any Purchase yet!
+      <p>You have not made any Purchase yet!</p>
+      <Button className="my-2" onClick={() => toggleModal("showHelpModal")}>
+        <FontAwesomeIcon icon="question-circle" title="Know more about Payments" />
+        &nbsp; How to Pay
+      </Button>
     </td>
   </tr>
 );
@@ -44,7 +49,8 @@ const DisplayPayments = ({
   transactions,
   isFetching,
   errorFetching,
-  getPaymentHistory
+  getPaymentHistory,
+  toggleModal
 }) => {
   if (isFetching) {
     return (
@@ -67,7 +73,7 @@ const DisplayPayments = ({
     <React.Fragment>
       {transactions.length > 0
         ? RenderPaymentHistory(transactions)
-        : RenderEmptyHistory()}
+        : RenderEmptyHistory(toggleModal)}
     </React.Fragment>
   );
 };
@@ -94,7 +100,8 @@ class Payments extends React.Component {
       errorFetching: false,
       errorMsg: "",
       isLoading: false,
-      offlinePaymentReference: ""
+      offlinePaymentReference: "",
+      showHelpModal: false
     };
     this.fileInput = React.createRef();
   }
@@ -118,6 +125,11 @@ class Payments extends React.Component {
 
   handleOpen = () => {
     this.setState({ show: true });
+  };
+
+  toggleModal = state => {
+    const { [state]: visibility } = this.state;
+    this.setState({ [state]: !visibility });
   };
 
   handleChange = event => {
@@ -272,6 +284,7 @@ class Payments extends React.Component {
       transactions,
       tablePrice,
       show,
+      showHelpModal,
       columns,
       numberOfTables,
       isFetching,
@@ -291,7 +304,17 @@ class Payments extends React.Component {
       <Col xs="12" md="12">
         <Card className="material-card">
           <Card.Header>
-            <h5>Payments</h5>
+            <h5>
+              Payments &nbsp;
+              <FontAwesomeIcon
+                icon="question-circle"
+                title="Know more about groups"
+                style={{
+                  cursor: "pointer"
+                }}
+                onClick={() => this.toggleModal("showHelpModal")}
+              />
+            </h5>
             {email_verified ? (
               <React.Fragment>
                 {limit > 0 ? (
@@ -330,6 +353,7 @@ class Payments extends React.Component {
                       transactions={transactions}
                       columns={columns}
                       getPaymentHistory={this.getPaymentHistory}
+                      toggleModal={this.toggleModal}
                     />
                   </tbody>
                 </Table>
@@ -451,6 +475,10 @@ class Payments extends React.Component {
             </Modal.Body>
           </Modal>
         ) : null}
+        <PaymentHelpModal
+          showHelpModal={showHelpModal}
+          toggleModal={this.toggleModal}
+        />
       </Col>
     );
   }

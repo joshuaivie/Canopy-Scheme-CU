@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col } from "react-bootstrap";
+import { Accordion, Button, Card, Col, Container, Row, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { validateMatricNo } from "utils/validateMatric";
 import { UserStorage } from "storage";
@@ -393,6 +393,44 @@ class Groups extends React.Component {
             ) : null}
           </Card.Header>
           <Card.Body>{body}</Card.Body>
+          <Accordion className="my-5">
+            <Accordion.Toggle as={Card.Header} className="accordion-card" eventKey="0">
+              <h5 style={{ width: "100%" }}>
+                *Special Request &nbsp;{" "}
+                <FontAwesomeIcon
+                  className="text-right"
+                  style={{ float: "right" }}
+                  icon="chevron-circle-down"
+                />
+              </h5>
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey="0">
+              <Card.Body>
+                <Container>
+                  <Row>
+                    <Col xs="12" md="12">
+                      <p className="py-3">
+                        If you are interested in setting up a larger group with your
+                        friends, course mates or department, kindly send a mail to{" "}
+                        <a
+                          href="mailto:support@covenantuniversity.edu.ng"
+                          style={{ color: "purple" }}
+                        >
+                          support@covenantuniversity.edu.ng
+                        </a>{" "}
+                        providing the following details:
+                      </p>
+                      <ol className="ol">
+                        <li className="my-3">The reason for the expansion</li>
+                        <li className="my-3">The amount of people under your group</li>
+                        <li className="my-3">Your contact information</li>
+                      </ol>
+                    </Col>
+                  </Row>
+                </Container>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Accordion>
         </Card>
         <GroupHelpModal showHelpModal={showHelpModal} toggleModal={toggleModal} />
       </Col>
