@@ -26,8 +26,8 @@ export default ({ toggleModal }) => (
         <h1>Groups</h1>
         Got graduating friends you want close by you?
         <ol className="ol text-left">
-          <li>Create a group link invite your friends</li>
-          <li>Your group would be allocated around one another</li>
+          <li>Create a group and invite your friends</li>
+          <li>Your group would be allocated around your friends</li>
           <li>Maximum group size is 5</li>
           <li>Special requests can be made for specific needs</li>
         </ol>
