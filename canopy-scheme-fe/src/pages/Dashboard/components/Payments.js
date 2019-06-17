@@ -3,6 +3,7 @@ import { Button, Card, Col, Table, Modal, Form, Badge } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaystackButton from "react-paystack";
 import FeatureLock from "components/FeatureLock";
+import PaymentHelpModal from "./PaymentHelpModal";
 import { UserAction, TableAction } from "actions";
 import { generateRandomString } from "utils/string";
 import { nairaToKobo } from "utils/money";
@@ -13,66 +14,9 @@ import commaNumber from "comma-number";
 import { LoadingSpinner, RetryBtn, BtnLoadingSpinner } from "components/spinners";
 import statuses from "data/statuses.json";
 import { NetworkAvailabilityContext } from "utils/http";
+import TransactionDetailModal from "pages/AdminDashboard/components/TransactionDetailModal";
 // import { createTimeStamp } from "utils/createTimeStamp";
-
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
-
-const RenderEmptyHistory = () => (
-  <tr>
-    <td
-      colSpan={6}
-      style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
-    >
-      You have not made any Purchase yet!
-    </td>
-  </tr>
-);
-
-const RenderPaymentHistory = transactions =>
-  transactions.map((row, index) => (
-    <tr key={`row_${index}`}>
-      <td>{new Date(row.created_at).toLocaleString()}</td>
-      <td>{row.mode}</td>
-      <td>{row.reference}</td>
-      <td>₦{commaNumber(parseInt(row.amount))}</td>
-      <td>{row.total_table}</td>
-      <td>
-        <Badge variant={statuses[row.status]}>{row.status}</Badge>
-      </td>
-    </tr>
-  ));
-
-const DisplayPayments = ({
-  transactions,
-  isFetching,
-  errorFetching,
-  getPaymentHistory
-}) => {
-  if (isFetching) {
-    return (
-      <tr>
-        <td colSpan={6}>
-          <LoadingSpinner />
-        </td>
-      </tr>
-    );
-  } else if (errorFetching) {
-    return (
-      <tr>
-        <td colSpan={6}>
-          <RetryBtn retryEvent={getPaymentHistory} />
-        </td>
-      </tr>
-    );
-  }
-  return (
-    <React.Fragment>
-      {transactions.length > 0
-        ? RenderPaymentHistory(transactions)
-        : RenderEmptyHistory()}
-    </React.Fragment>
-  );
-};
 
 class Payments extends React.Component {
   constructor(props) {
@@ -88,6 +32,9 @@ class Payments extends React.Component {
         { name: "Status", dataName: "status" }
       ],
       transactions: [],
+      showTransactionDetailModal: false,
+      transactionDetail: {},
+      transactionIndex: null,
       show: false,
       numberOfTables: 1,
       tablePrice: 12000, // naira
@@ -96,7 +43,8 @@ class Payments extends React.Component {
       errorFetching: false,
       errorMsg: "",
       isLoading: false,
-      offlinePaymentReference: ""
+      offlinePaymentReference: "",
+      showHelpModal: false
     };
     this.fileInput = React.createRef();
   }
@@ -114,12 +62,98 @@ class Payments extends React.Component {
     }
   }
 
+  RenderEmptyHistory = () => (
+    <tr>
+      <td
+        colSpan={6}
+        style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
+      >
+        <p>You have not made any Purchase yet!</p>
+        <Button className="my-2" onClick={() => this.toggleModal("showHelpModal")}>
+          <FontAwesomeIcon icon="question-circle" title="Know more about Payments" />
+          &nbsp; How to Pay
+        </Button>
+      </td>
+    </tr>
+  );
+
+  RenderPaymentHistory = transactions =>
+    transactions.map((row, index) => (
+      <tr
+        key={`row_${index}`}
+        onClick={() => this.toggleTransactionDetailModal(index)}
+        style={{
+          cursor: "pointer"
+        }}
+      >
+        <td>{new Date(row.created_at).toLocaleString()}</td>
+        <td>{row.mode}</td>
+        <td>{row.reference}</td>
+        <td>₦{commaNumber(parseInt(row.amount))}</td>
+        <td>{row.total_table}</td>
+        <td>
+          <Badge variant={statuses[row.status]}>{row.status}</Badge>
+        </td>
+        <td>
+          <Button
+            onClick={() => this.toggleTransactionDetailModal(index)}
+            variant="light"
+          >
+            View
+          </Button>
+        </td>
+      </tr>
+    ));
+
+  DisplayPayments = ({ transactions, isFetching, errorFetching }) => {
+    if (isFetching) {
+      return (
+        <tr>
+          <td colSpan={6}>
+            <LoadingSpinner />
+          </td>
+        </tr>
+      );
+    } else if (errorFetching) {
+      return (
+        <tr>
+          <td colSpan={6}>
+            <RetryBtn retryEvent={this.getPaymentHistory} />
+          </td>
+        </tr>
+      );
+    }
+    return (
+      <React.Fragment>
+        {transactions.length > 0
+          ? this.RenderPaymentHistory(transactions)
+          : this.RenderEmptyHistory()}
+      </React.Fragment>
+    );
+  };
+
   handleClose = () => {
     this.setState({ show: false });
   };
 
   handleOpen = () => {
     this.setState({ show: true });
+  };
+
+  toggleModal = state => {
+    const { [state]: visibility } = this.state;
+    this.setState({ [state]: !visibility });
+  };
+
+  toggleTransactionDetailModal = (transactionIndex = null) => {
+    if (transactionIndex !== null) {
+      const { transactions } = this.state;
+      this.setState({
+        transactionDetail: transactions[transactionIndex],
+        transactionIndex
+      });
+    }
+    this.toggleModal("showTransactionDetailModal");
   };
 
   handleChange = event => {
@@ -233,13 +267,13 @@ class Payments extends React.Component {
         status: "pending",
         photo_url
       });
-      this.setState({ offlinePaymentReference: "", transactions });
+      this.setState({ offlinePaymentReference: "", transactions, show: false });
       successAlert(msg);
       // this.fileInput.current.reset(); // Todo: Clear upload list; This doesn't work. Fix it.
     } catch (err) {
       this.setState({ errorMsg: err });
     } finally {
-      this.setState({ show: false, isLoading: false });
+      this.setState({ isLoading: false });
     }
   };
 
@@ -274,12 +308,16 @@ class Payments extends React.Component {
       transactions,
       tablePrice,
       show,
+      showHelpModal,
       columns,
       numberOfTables,
       isFetching,
       isLoading,
       errorFetching,
-      offlinePaymentReference
+      offlinePaymentReference,
+      transactionDetail,
+      transactionIndex,
+      showTransactionDetailModal
     } = this.state;
     const {
       userInfo: { email, email_verified }
@@ -293,7 +331,17 @@ class Payments extends React.Component {
       <Col xs="12" md="12">
         <Card className="material-card">
           <Card.Header>
-            <h5>Payments</h5>
+            <h5>
+              Payments &nbsp;
+              <FontAwesomeIcon
+                icon="question-circle"
+                title="Know more about groups"
+                style={{
+                  cursor: "pointer"
+                }}
+                onClick={() => this.toggleModal("showHelpModal")}
+              />
+            </h5>
             {email_verified ? (
               <React.Fragment>
                 {limit > 0 ? (
@@ -325,14 +373,12 @@ class Payments extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <DisplayPayments
-                      // {...{isFetching, transactions, columns}} // a shorter syntax
-                      isFetching={isFetching}
-                      errorFetching={errorFetching}
-                      transactions={transactions}
-                      columns={columns}
-                      getPaymentHistory={this.getPaymentHistory}
-                    />
+                    {this.DisplayPayments({
+                      isFetching,
+                      errorFetching,
+                      transactions,
+                      columns
+                    })}
                   </tbody>
                 </Table>
                 {limit > 0 ? (
@@ -453,6 +499,17 @@ class Payments extends React.Component {
             </Modal.Body>
           </Modal>
         ) : null}
+        <PaymentHelpModal
+          showHelpModal={showHelpModal}
+          toggleModal={this.toggleModal}
+        />
+        <TransactionDetailModal
+          transactionDetail={transactionDetail}
+          showTransactionDetailModal={showTransactionDetailModal}
+          toggleModal={this.toggleTransactionDetailModal}
+          transactionIndex={transactionIndex}
+          readOnly
+        />
       </Col>
     );
   }

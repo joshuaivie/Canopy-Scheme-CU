@@ -76,6 +76,9 @@
   text-align: center;
 }
 .dashboard {
+  background-image: url("../img/pattern-bg.png");
+  min-height: 100vh;
+  height: 100%;
   background-color: rgba(128, 0, 128, 0.027);
   .dashboard-header {
     display: flex;
@@ -89,6 +92,7 @@
       padding: 10px 15px;
     }
     .welcome-text {
+      display: flex;
       line-height: 3;
     }
     .dropdown-toggle {
@@ -97,13 +101,6 @@
     }
   }
 }
-
-@media (min-width: $screen-xl-min) {
-  .dashboard {
-    height: -webkit-fill-available;
-  }
-}
-
 .modal-footer {
   justify-content: space-between;
   p {
@@ -228,6 +225,16 @@
     .dashboard-header {
       .welcome-text {
         font-size: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    .dashboard-header {
+      .welcome-text {
+        font-size: 0.8rem;
       }
     }
   }

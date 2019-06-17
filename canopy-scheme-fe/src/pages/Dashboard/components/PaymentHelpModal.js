@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
@@ -6,7 +7,7 @@ export default function ShowHelpModal({ toggleModal, showHelpModal }) {
     <Modal show={showHelpModal} onHide={() => toggleModal("showHelpModal")}>
       <Modal.Header closeButton>
         <Modal.Title>
-          What is Group all about{" "}
+          How can I reserve a table
           <span role="img" aria-label="emoji">
             💁
           </span>
@@ -15,33 +16,26 @@ export default function ShowHelpModal({ toggleModal, showHelpModal }) {
       </Modal.Header>
       <Modal.Body>
         <div className="group-help-modal">
-          <p className="py-2">
-            Wouldn't you just love it if you could sit with your best friends and thier
-            families. This can be arranged in just 3 easy steps:
-          </p>
           <ol className="ol">
             <li className="py-2">
-              Create your group, make sure you give it a fly name
+              Pay the required amount into &nbsp;
+              <span style={{ fontWeight: "bold" }}>
+                (UBA) CUSC Canopy Scheme 2088303800
+              </span>
+              .
             </li>
             <li className="py-2">
-              Invite your friends using their matric number and valid email address. A
-              group invite link is sent to thier email
+              Enter the payment <b>reference number</b> along with a picture evidence{" "}
+              <b>(screenshot or photograph)</b>.
             </li>
             <li className="py-2">
-              After your friends accept your invites, we'll set up a nice spot for you
-              guys
+              Upon submission you'll receive a mail from us showing your reservation
+              status.
             </li>
           </ol>
           <p>
-            <span style={{ fontWeight: "bold" }}>Note:</span> You can only invites
-            friends who have paid for at least 1 table
-          </p>
-          <p>
-            if you want more than 5 people in your group, make a special request by
-            sending a mail to:{" "}
-            <a href="mailto:supportcpc@covenantuniversity.edu.ng?Subject=Canopy%20Scheme%20Special%20Group%20Request">
-              supportcpc@covenantuniversity.edu.ng
-            </a>
+            <strong>P.S</strong> - you can make the payment at the bank, through your
+            mobile banking app or through USSD.
           </p>
         </div>
       </Modal.Body>

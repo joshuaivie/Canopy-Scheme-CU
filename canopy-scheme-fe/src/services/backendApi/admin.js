@@ -5,8 +5,11 @@ export default class AdminApi {
   /**
    * Get offline transactions users have made
    */
-  static getOfflineTransactions = async ({ page, limit, token }) => {
-    return HTTP.get(ENDPOINTS.TRANSACTIONS_OFFLINE(page, limit), generateBearer(token));
+  static getOfflineTransactions = async ({ page, statusType, limit, token }) => {
+    return HTTP.get(
+      ENDPOINTS.TRANSACTIONS_OFFLINE(page, statusType, limit),
+      generateBearer(token)
+    );
   };
 
   /**

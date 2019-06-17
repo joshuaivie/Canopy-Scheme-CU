@@ -23,7 +23,8 @@
     "react-scripts": "3.0.1",
     "react-slick": "^0.24.0",
     "react-toastify": "^5.2.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "typewriter-effect": "^2.5.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -53,5 +54,6 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.11.0"
-  }
+  },
+  "homepage": "https://the14thset.covenantuniversity.edu.ng/canopy"
 }

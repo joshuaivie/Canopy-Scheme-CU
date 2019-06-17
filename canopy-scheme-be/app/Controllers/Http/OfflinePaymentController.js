@@ -7,13 +7,22 @@ const Cloudinary = use("Cloudinary");
 
 class OfflinePaymentController {
   async getAll({ request, response }) {
-    const { page = 1, limit = 50 } = request.params;
+    const { page = 1, statusType, limit = 50 } = request.params;
 
     try {
+      if (statusType === "all") {
+        return response.ok({
+          paginated_data: await OfflineTransaction.query()
+            .with(["user"])
+            .orderBy(["status", "updated_at"])
+            .paginate(page, limit)
+        });
+      }
       return response.ok({
         paginated_data: await OfflineTransaction.query()
           .with(["user"])
-          .orderBy(["status", "updated_at"])
+          .where("status", statusType)
+          .orderBy(["updated_at"])
           .paginate(page, limit)
       });
     } catch (err) {
@@ -31,7 +40,7 @@ class OfflinePaymentController {
         "reference",
         reference
       );
-      if (transaction != "pending")
+      if (transaction.status !== "pending")
         return response.badRequest({
           msg:
             "This transaction has already been modified. You cannot modify anymore"
