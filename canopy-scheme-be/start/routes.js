@@ -116,7 +116,7 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get(
-    "transactions/offline/page/:page/limit/:limit",
+    "transactions/offline/page/:page/limit/:limit/statusType/:statusType",
     "OfflinePaymentController.getAll"
   );
   Route.get(
