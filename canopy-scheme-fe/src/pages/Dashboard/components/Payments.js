@@ -14,69 +14,9 @@ import commaNumber from "comma-number";
 import { LoadingSpinner, RetryBtn, BtnLoadingSpinner } from "components/spinners";
 import { NetworkAvailabilityContext } from "utils/http";
 import statuses from "data/statuses.json";
+import { thisExpression } from "@babel/types";
+import TransactionDetailModal from "pages/AdminDashboard/components/TransactionDetailModal";
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
-
-const RenderEmptyHistory = toggleModal => (
-  <tr>
-    <td
-      colSpan={6}
-      style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
-    >
-      <p>You have not made any Purchase yet!</p>
-      <Button className="my-2" onClick={() => toggleModal("showHelpModal")}>
-        <FontAwesomeIcon icon="question-circle" title="Know more about Payments" />
-        &nbsp; How to Pay
-      </Button>
-    </td>
-  </tr>
-);
-
-const RenderPaymentHistory = transactions =>
-  transactions.map((row, index) => (
-    <tr key={`row_${index}`}>
-      <td>{new Date(row.created_at).toLocaleString()}</td>
-      <td>{row.mode}</td>
-      <td>{row.reference}</td>
-      <td>₦{commaNumber(parseInt(row.amount))}</td>
-      <td>{row.total_table}</td>
-      <td>
-        <Badge variant={statuses[row.status]}>{row.status}</Badge>
-      </td>
-    </tr>
-  ));
-
-const DisplayPayments = ({
-  transactions,
-  isFetching,
-  errorFetching,
-  getPaymentHistory,
-  toggleModal
-}) => {
-  if (isFetching) {
-    return (
-      <tr>
-        <td colSpan={6}>
-          <LoadingSpinner />
-        </td>
-      </tr>
-    );
-  } else if (errorFetching) {
-    return (
-      <tr>
-        <td colSpan={6}>
-          <RetryBtn retryEvent={getPaymentHistory} />
-        </td>
-      </tr>
-    );
-  }
-  return (
-    <React.Fragment>
-      {transactions.length > 0
-        ? RenderPaymentHistory(transactions)
-        : RenderEmptyHistory(toggleModal)}
-    </React.Fragment>
-  );
-};
 
 class Payments extends React.Component {
   constructor(props) {
@@ -92,6 +32,9 @@ class Payments extends React.Component {
         { name: "Status", dataName: "status" }
       ],
       transactions: [],
+      showTransactionDetailModal: false,
+      transactionDetail: {},
+      transactionIndex: null,
       show: false,
       numberOfTables: 1,
       tablePrice: 12000, // naira
@@ -119,6 +62,76 @@ class Payments extends React.Component {
     }
   }
 
+  RenderEmptyHistory = () => (
+    <tr>
+      <td
+        colSpan={6}
+        style={{ textAlign: "center", fontWeight: "bolder", padding: "30px" }}
+      >
+        <p>You have not made any Purchase yet!</p>
+        <Button className="my-2" onClick={() => this.toggleModal("showHelpModal")}>
+          <FontAwesomeIcon icon="question-circle" title="Know more about Payments" />
+          &nbsp; How to Pay
+        </Button>
+      </td>
+    </tr>
+  );
+
+  RenderPaymentHistory = transactions =>
+    transactions.map((row, index) => (
+      <tr
+        key={`row_${index}`}
+        onClick={() => this.toggleTransactionDetailModal(index)}
+        style={{
+          cursor: "pointer"
+        }}
+      >
+        <td>{new Date(row.created_at).toLocaleString()}</td>
+        <td>{row.mode}</td>
+        <td>{row.reference}</td>
+        <td>₦{commaNumber(parseInt(row.amount))}</td>
+        <td>{row.total_table}</td>
+        <td>
+          <Badge variant={statuses[row.status]}>{row.status}</Badge>
+        </td>
+        <td>
+          <Button
+            onClick={() => this.toggleTransactionDetailModal(index)}
+            variant="light"
+          >
+            View
+          </Button>
+        </td>
+      </tr>
+    ));
+
+  DisplayPayments = ({ transactions, isFetching, errorFetching }) => {
+    if (isFetching) {
+      return (
+        <tr>
+          <td colSpan={6}>
+            <LoadingSpinner />
+          </td>
+        </tr>
+      );
+    } else if (errorFetching) {
+      return (
+        <tr>
+          <td colSpan={6}>
+            <RetryBtn retryEvent={this.getPaymentHistory} />
+          </td>
+        </tr>
+      );
+    }
+    return (
+      <React.Fragment>
+        {transactions.length > 0
+          ? this.RenderPaymentHistory(transactions)
+          : this.RenderEmptyHistory()}
+      </React.Fragment>
+    );
+  };
+
   handleClose = () => {
     this.setState({ show: false });
   };
@@ -130,6 +143,17 @@ class Payments extends React.Component {
   toggleModal = state => {
     const { [state]: visibility } = this.state;
     this.setState({ [state]: !visibility });
+  };
+
+  toggleTransactionDetailModal = (transactionIndex = null) => {
+    if (transactionIndex !== null) {
+      const { transactions } = this.state;
+      this.setState({
+        transactionDetail: transactions[transactionIndex],
+        transactionIndex
+      });
+    }
+    this.toggleModal("showTransactionDetailModal");
   };
 
   handleChange = event => {
@@ -290,7 +314,10 @@ class Payments extends React.Component {
       isFetching,
       isLoading,
       errorFetching,
-      offlinePaymentReference
+      offlinePaymentReference,
+      transactionDetail,
+      transactionIndex,
+      showTransactionDetailModal
     } = this.state;
     const {
       userInfo: { email, email_verified }
@@ -346,15 +373,12 @@ class Payments extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <DisplayPayments
-                      // {...{isFetching, transactions, columns}} // a shorter syntax
-                      isFetching={isFetching}
-                      errorFetching={errorFetching}
-                      transactions={transactions}
-                      columns={columns}
-                      getPaymentHistory={this.getPaymentHistory}
-                      toggleModal={this.toggleModal}
-                    />
+                    {this.DisplayPayments({
+                      isFetching,
+                      errorFetching,
+                      transactions,
+                      columns
+                    })}
                   </tbody>
                 </Table>
                 {limit > 0 ? (
@@ -478,6 +502,13 @@ class Payments extends React.Component {
         <PaymentHelpModal
           showHelpModal={showHelpModal}
           toggleModal={this.toggleModal}
+        />
+        <TransactionDetailModal
+          transactionDetail={transactionDetail}
+          showTransactionDetailModal={showTransactionDetailModal}
+          toggleModal={this.toggleTransactionDetailModal}
+          transactionIndex={transactionIndex}
+          readOnly
         />
       </Col>
     );

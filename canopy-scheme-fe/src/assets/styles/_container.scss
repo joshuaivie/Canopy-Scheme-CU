@@ -230,6 +230,16 @@
   }
 }
 
+@media (max-width: 480px) {
+  .dashboard {
+    .dashboard-header {
+      .welcome-text {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
 .payment-container {
   display: flex;
   justify-content: space-between;
