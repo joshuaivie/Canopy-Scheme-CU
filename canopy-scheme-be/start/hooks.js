@@ -23,7 +23,14 @@ hooks.after.providersRegistered(() => {
           "utf8"
         )
       );
-      if (!content.includes(get(data, field).toLowerCase())) throw message;
+      if (
+        !content.includes(
+          get(data, field)
+            .toLowerCase()
+            .trim()
+        )
+      )
+        throw message;
     },
     "This matric number is not valid for this platform"
   );
