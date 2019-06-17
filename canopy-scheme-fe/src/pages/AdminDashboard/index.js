@@ -232,8 +232,8 @@ class AdminDashboard extends React.Component {
                 >
                   <option value="all">All</option>
                   <option value="pending">Pending</option>
-                  <option value="accepted">Accept</option>
-                  <option value="rejected">Reject</option>
+                  <option value="accepted">Accepted</option>
+                  <option value="rejected">Rejected</option>
                 </Form.Control>
               </Form.Group>
             </Card.Header>

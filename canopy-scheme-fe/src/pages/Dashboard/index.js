@@ -10,6 +10,7 @@ import ChangePasswordModal from "./components/ChangePasswordModal";
 import { Redirect } from "react-router-dom";
 import * as ROUTES from "routes";
 import { LoadingSpinner, RetryBtn } from "components/spinners";
+import Typewriter from "typewriter-effect";
 
 export const ResendVerificationEmailContext = React.createContext({
   verificationEmailSent: false,
@@ -115,7 +116,14 @@ class Dashboard extends React.Component {
         <div className="dashboard">
           <div className="dashboard-header">
             <h4 className="welcome-text">
-              Welcome, {` ${userInfo.firstname} ${userInfo.lastname}`}
+              <Typewriter
+                options={{
+                  strings: ["Welcome", "Kaabo", "Nnabata", "Maraba"],
+                  autoStart: true,
+                  loop: true
+                }}
+              />
+              <span>, {` ${userInfo.firstname} ${userInfo.lastname}`}</span>
             </h4>
             <Avatar
               history={history}
