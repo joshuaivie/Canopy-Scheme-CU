@@ -5,8 +5,8 @@ import { shortenString } from "utils/string";
 import RemoveGroupMemberModal from "./RemoveGroupMemberModal";
 import GroupMemberPlaceholder from "./GroupMemberPlaceholder";
 
-const avatarImg = matric_no =>
-  `https://res.cloudinary.com/canopy-scheme/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_0px_solid_red,b_rgb:fbf8fb/v1560465313/avatar/${matric_no.toUpperCase()}.jpg`;
+const avatarImg = matricNo =>
+  `https://res.cloudinary.com/canopy-scheme/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_1px_solid_red,b_rgb:fbf8fb/avatar/${matricNo.toUpperCase()}.jpg`;
 export default function GroupMembersContainer({
   groupMembers,
   isGroupOwner,

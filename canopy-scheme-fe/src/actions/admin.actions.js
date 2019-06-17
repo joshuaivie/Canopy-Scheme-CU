@@ -5,9 +5,19 @@ import { UserStorage } from "storage";
 import { resolveRequestError } from "utils/http";
 
 class AdminAction {
-  static async getOfflineTransactions({ page, limit = 50, token = UserStorage.token }) {
+  static async getOfflineTransactions({
+    page,
+    statusType = "all",
+    limit = 50,
+    token = UserStorage.token
+  }) {
     try {
-      const response = await AdminApi.getOfflineTransactions({ page, limit, token });
+      const response = await AdminApi.getOfflineTransactions({
+        page,
+        statusType,
+        limit,
+        token
+      });
       return response.data;
     } catch (err) {
       resolveRequestError(err, false); // only displays error when offline.

@@ -35,6 +35,7 @@ class AuthActions {
       });
       UserStorage.token = data.token;
       UserStorage.refreshToken = data.refreshToken;
+      UserStorage.userInfo = { is_admin: false };
       return data.msg;
     } catch (err) {
       throw resolveRequestError(err);

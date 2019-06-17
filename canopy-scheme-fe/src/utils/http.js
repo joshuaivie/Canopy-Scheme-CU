@@ -3,6 +3,7 @@ import { UserStorage } from "storage";
 import { errorAlert } from "utils/notification";
 import { toast } from "react-toastify";
 import React from "react";
+import * as ROUTES from "routes";
 
 const HTTP = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -44,7 +45,7 @@ function errorHandler(e) {
     UserStorage.unsetUserInfo();
     UserStorage.unsetRefreshToken();
     window.setTimeout(function() {
-      window.location.replace("/");
+      window.location.replace(ROUTES.HOME);
     }, 1500);
   } else if (e.response && (e.response.status === 400 || e.response.status === 403)) {
     res.status = e.response.status;
