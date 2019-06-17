@@ -12,10 +12,10 @@ import { errorAlert, successAlert } from "utils/notification";
 import { createTimeStamp } from "utils/createTimeStamp";
 import commaNumber from "comma-number";
 import { LoadingSpinner, RetryBtn, BtnLoadingSpinner } from "components/spinners";
-import { NetworkAvailabilityContext } from "utils/http";
 import statuses from "data/statuses.json";
-import { thisExpression } from "@babel/types";
+import { NetworkAvailabilityContext } from "utils/http";
 import TransactionDetailModal from "pages/AdminDashboard/components/TransactionDetailModal";
+// import { createTimeStamp } from "utils/createTimeStamp";
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
 class Payments extends React.Component {
