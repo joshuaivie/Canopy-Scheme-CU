@@ -35,6 +35,6 @@ export const TABLE_PURCHASE_OFFLINE = `${TABLE}/purchase/offline`;
 
 // Admin
 const TRANSACTIONS = "/transactions";
-export const TRANSACTIONS_OFFLINE = (page, limit) =>
-  `${TRANSACTIONS}/offline/page/${page}/limit/${limit}`;
+export const TRANSACTIONS_OFFLINE = (page, statusType, limit) =>
+  `${TRANSACTIONS}/offline/page/${page}/limit/${limit}/statusType/${statusType}`;
 export const TRANSACTIONS_UPDATE = reference => `${TRANSACTIONS}/offline/${reference}`;
