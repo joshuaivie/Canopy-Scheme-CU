@@ -50,6 +50,12 @@ class Avatar extends React.PureComponent {
       <Dropdown>
         <Dropdown.Toggle as={CustomToggle} />
         <Dropdown.Menu alignRight>
+          <Dropdown.Item target="_blank" href="https://cpc-partners.webflow.io">
+            <Button variant="link" className="primary-text">
+              <FontAwesomeIcon icon="users" />
+              &nbsp;Partners
+            </Button>
+          </Dropdown.Item>
           {!isAdmin && (
             <Dropdown.Item onClick={() => toggleChangePasswordModal()}>
               <Button variant="link" className="primary-text">
