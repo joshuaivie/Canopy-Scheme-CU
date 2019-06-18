@@ -445,6 +445,18 @@ class Payments extends React.Component {
                   </p>
                 </div>
 
+                <div className="payment-breakdown-container">
+                  <p>
+                    Bank <span>UBA</span>
+                  </p>
+                  <p>
+                    Name <span>CUSC Canopu Scheme</span>
+                  </p>
+                  <p>
+                    Account Number <span>2088303800</span>
+                  </p>
+                </div>
+
                 {this.props.paymentType === "online" ? (
                   <div>
                     <PaystackButton
@@ -464,13 +476,13 @@ class Payments extends React.Component {
                   <div>
                     <div className="payment-breakdown-container">
                       <Form.Group>
-                        <Form.Label>Enter your teller reference number</Form.Label>
+                        <Form.Label>Enter your payment reference number</Form.Label>
                         <Form.Control
                           type="text"
                           value={offlinePaymentReference}
                           name="offlinePaymentReference"
                           onChange={this.handleChange}
-                          placeholder="Reference Number"
+                          placeholder="Payment Reference Number"
                         />
                       </Form.Group>
                       <p style={{ color: "red" }}>{this.state.errorMsg.reference}</p>
