@@ -41,23 +41,23 @@ export default ({ toggleModal }) => (
       <div className="left">
         <h1>Have questions?</h1>
         <p>
-          Call&nbsp;
+          Call us on &nbsp;
           <FontAwesomeIcon className="primary-text" icon="phone" />
-          &nbsp; us on &nbsp;
+          &nbsp;
           <a href="tel:09016179196">0901-617-9196</a>
         </p>
         <p>
-          Or send an email &nbsp;
+          Or send an email to &nbsp;
           <FontAwesomeIcon className="primary-text" icon="envelope" />
-          &nbsp; to &nbsp;
+          &nbsp;
           <a href="mailto:cpc@covenantuniversity.edu.ng?Subject=Canopy%20Scheme%20Inquiry">
             cpc@covenantuniversity.edu.ng
           </a>
         </p>
         <p>
-          You can also click on the message icon&nbsp;
+          Would you like to have a chat with us, kindly click the message icon&nbsp;
           <FontAwesomeIcon className="primary-text" icon="comment-alt" />
-          &nbsp;on the bottom right on your sceen to have a chat with the CPC team.
+          &nbsp; at the bottom right of your sceen.
         </p>
       </div>
       <div className="right">
