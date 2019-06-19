@@ -10,7 +10,7 @@ class UserAction {
       const response = await UserApi.getTransactions({ token });
       return response.data.transactions;
     } catch (err) {
-      resolveRequestError(err, false); // only displays error when offline.
+      resolveRequestError(err);
     }
 
     return [];
@@ -21,7 +21,7 @@ class UserAction {
       const { data } = await UserApi.getProfile({ token });
       UserStorage.userInfo = data.profile;
     } catch (err) {
-      resolveRequestError(err, false); // only displays error when offline.
+      resolveRequestError(err);
     }
   }
 
@@ -30,7 +30,7 @@ class UserAction {
       const response = await UserApi.getReservations({ token });
       return response.data.reservations;
     } catch (err) {
-      resolveRequestError(err, false); // only displays error when offline.
+      resolveRequestError(err);
     }
 
     return [];
@@ -41,7 +41,7 @@ class UserAction {
       const response = await UserApi.getGroup({ token });
       return response.data.group;
     } catch (err) {
-      resolveRequestError(err, showAllAlerts); // only displays error when offline.
+      resolveRequestError(err, showAllAlerts);
     }
   }
 
@@ -50,7 +50,7 @@ class UserAction {
       const response = await UserApi.deleteGroup({ token });
       return response.data;
     } catch (err) {
-      resolveRequestError(err); // only displays error when offline.
+      resolveRequestError(err);
     }
   }
 
@@ -59,7 +59,7 @@ class UserAction {
       const response = await UserApi.leaveGroup({ token });
       return response.data;
     } catch (err) {
-      resolveRequestError(err); // only displays error when offline.
+      resolveRequestError(err);
     }
   }
 
@@ -68,7 +68,7 @@ class UserAction {
       const response = await UserApi.removeMember({ matricNo, token });
       return response.data;
     } catch (err) {
-      resolveRequestError(err); // only displays error when offline.
+      resolveRequestError(err);
     }
   }
 
@@ -87,7 +87,7 @@ class UserAction {
       });
       return response.data;
     } catch (err) {
-      resolveRequestError(err); // only displays error when offline.
+      resolveRequestError(err);
     }
   }
 
@@ -98,7 +98,7 @@ class UserAction {
       });
       return response.data;
     } catch (err) {
-      resolveRequestError(err); // only displays error when offline.
+      resolveRequestError(err);
     }
   }
 }

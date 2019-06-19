@@ -20,7 +20,7 @@ class AdminAction {
       });
       return response.data;
     } catch (err) {
-      resolveRequestError(err, false); // only displays error when offline.
+      resolveRequestError(err);
     }
 
     return [];
@@ -41,7 +41,7 @@ class AdminAction {
       });
       return response.data;
     } catch (err) {
-      resolveRequestError(err); // only displays error when offline.
+      resolveRequestError(err);
     }
   }
 }

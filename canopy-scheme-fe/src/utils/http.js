@@ -31,7 +31,7 @@ export const generateMultipartHeader = () => {
 };
 
 function errorHandler(e) {
-  const res = { status: 0, data: "You are currently offline" };
+  const res = { status: 0, data: "Error, could not connect." };
 
   if (e.response && e.response.status === 500) {
     res.status = 500;
@@ -44,9 +44,7 @@ function errorHandler(e) {
     UserStorage.unsetToken();
     UserStorage.unsetUserInfo();
     UserStorage.unsetRefreshToken();
-    window.setTimeout(function() {
-      window.location.replace(ROUTES.HOME);
-    }, 1500);
+    window.location.replace(ROUTES.HOME);
   } else if (e.response && (e.response.status === 400 || e.response.status === 403)) {
     res.status = e.response.status;
     res.data = e.response.data;
@@ -76,12 +74,33 @@ export default HTTP;
 
 export const networkAvailability = componentInstance => {
   window.addEventListener("offline", e => {
-    toast.error("You are offline", { autoClose: false });
+    if (toast.isActive(window.networkToast)) {
+      toast.update(window.networkToast, {
+        autoClose: false,
+        type: toast.TYPE.ERROR,
+        render: "You are offline"
+      });
+    } else {
+      window.networkToast = toast.error("You are offline", {
+        autoClose: false,
+        position: toast.POSITION.BOTTOM_LEFT
+      });
+    }
     componentInstance.setState({ online: false });
   });
   window.addEventListener("online", e => {
-    toast.dismiss();
-    toast.info("You are back online", { autoClose: 3000 });
+    if (toast.isActive(window.networkToast)) {
+      toast.update(window.networkToast, {
+        autoClose: 3000,
+        type: toast.TYPE.INFO,
+        render: "You are back online"
+      });
+    } else {
+      window.networkToast = toast.info("You are back online", {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_LEFT
+      });
+    }
     componentInstance.setState({ online: true });
   });
 };
