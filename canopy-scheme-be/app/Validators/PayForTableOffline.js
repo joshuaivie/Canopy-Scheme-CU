@@ -7,7 +7,7 @@ class PayForTableOffline extends BaseValidator {
     return {
       evidence:
         "required|file|file_ext:png,jpg,jpeg|file_size:5mb|file_types:image",
-      reference: "required|string|min:3|max:20",
+      reference: "required|string|min:3|max:100",
       amount: "required|number"
     };
   }
