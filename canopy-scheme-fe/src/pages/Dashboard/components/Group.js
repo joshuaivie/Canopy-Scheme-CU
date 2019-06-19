@@ -158,7 +158,6 @@ class Groups extends React.Component {
         createGroupErrorMsg: {}
       });
     } catch (err) {
-      // stop showing "Error", only show "name"
       this.setState({ createGroupErrorMsg: err });
     } finally {
       this.setState({ isLoading: false });
