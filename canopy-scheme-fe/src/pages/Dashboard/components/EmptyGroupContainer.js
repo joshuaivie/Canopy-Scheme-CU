@@ -48,7 +48,6 @@ export default function EmptyGroupContainer({
                   <Form.Control
                     type="text"
                     placeholder="Group name"
-                    maxLength="10"
                     name="newGroupName"
                     value={newGroupName}
                     onChange={handleChange}
