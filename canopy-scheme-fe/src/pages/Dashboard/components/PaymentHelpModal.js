@@ -7,7 +7,7 @@ export default function ShowHelpModal({ toggleModal, showHelpModal }) {
     <Modal show={showHelpModal} onHide={() => toggleModal("showHelpModal")}>
       <Modal.Header closeButton>
         <Modal.Title>
-          How can I reserve a table
+          How can I pay for table(s)
           <span role="img" aria-label="emoji">
             💁
           </span>

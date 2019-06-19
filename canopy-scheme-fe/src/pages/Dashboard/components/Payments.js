@@ -335,7 +335,7 @@ class Payments extends React.Component {
               Payments &nbsp;
               <FontAwesomeIcon
                 icon="question-circle"
-                title="Know more about groups"
+                title="How to pay"
                 style={{
                   cursor: "pointer"
                 }}

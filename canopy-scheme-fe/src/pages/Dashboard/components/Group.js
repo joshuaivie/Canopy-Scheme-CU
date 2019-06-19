@@ -392,7 +392,7 @@ class Groups extends React.Component {
                 *Special Request &nbsp;{" "}
                 <FontAwesomeIcon
                   className="text-right"
-                  style={{ float: "right" }}
+                  style={{ float: "right", cursor: "pointer" }}
                   icon="chevron-circle-down"
                 />
               </h5>
