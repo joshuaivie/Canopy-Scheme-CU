@@ -63,6 +63,12 @@
     background: none;
     display: flex;
     justify-content: space-between;
+    @media(max-width: $screen-md-min){
+      display: block;
+      button, p {
+        float:right
+      }
+    }
   }
 }
 

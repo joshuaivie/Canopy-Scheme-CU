@@ -45,21 +45,6 @@ button,
   margin-top: 15px !important;
 }
 
-.make-payment-button {
-  @media (max-width: $screen-md-min) {
-    display: none;
-  }
-
-  &.mobile {
-    display: none;
-    margin: auto;
-
-    @media (max-width: $screen-md-min) {
-      display: block;
-    }
-  }
-}
-
 button.btn-full-width {
   width: 100%;
 }

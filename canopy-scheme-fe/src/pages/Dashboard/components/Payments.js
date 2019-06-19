@@ -353,9 +353,7 @@ class Payments extends React.Component {
                     <FontAwesomeIcon icon="credit-card" /> &nbsp; Book Table(s)
                   </Button>
                 ) : (
-                  <p className="form-error-msg desktop-only">
-                    You have paid for 5 tables
-                  </p>
+                  <p className="form-error-msg">You have paid for 5 tables</p>
                 )}
               </React.Fragment>
             ) : null}
@@ -381,20 +379,6 @@ class Payments extends React.Component {
                     })}
                   </tbody>
                 </Table>
-                {limit > 0 ? (
-                  <Button
-                    onClick={this.handleOpen}
-                    className="make-payment-button mobile"
-                    disabled={errorFetching || !this.context.online}
-                  >
-                    <FontAwesomeIcon icon="credit-card" />
-                    &nbsp;Book Table(s)
-                  </Button>
-                ) : (
-                  <p className="form-error-msg mobile-only">
-                    You have paid for 5 tables
-                  </p>
-                )}
               </React.Fragment>
             ) : (
               <FeatureLock />
