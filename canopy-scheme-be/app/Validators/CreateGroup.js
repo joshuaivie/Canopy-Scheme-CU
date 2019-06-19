@@ -5,7 +5,7 @@ const BaseValidator = use("App/Validators/BaseValidator");
 class CreateGroup extends BaseValidator {
   get rules() {
     return {
-      name: "required|unique:user_groups,name|max:10"
+      name: "required|unique:user_groups,name|min:5"
     };
   }
 
@@ -13,7 +13,7 @@ class CreateGroup extends BaseValidator {
     return {
       "name.unique": "The specified group name already exists.",
       "name.required": "Group name is required.",
-      "name.max": "Group name must be less than 11 characters."
+      "name.min": "Group name must be at least 5 characters."
     };
   }
 }

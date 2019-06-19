@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UserStorage } from "storage";
 import { UserAction, GroupAction } from "actions";
 import { successAlert } from "utils/notification";
+import { shortenString } from "utils/string";
 import GroupMembersContainer from "./GroupMembersContainer";
 import EmptyGroupContainer from "./EmptyGroupContainer";
 import DeleteGroupModal from "./DeleteGroupModal";
@@ -349,8 +350,9 @@ class Groups extends React.Component {
       <Col xs="12" md="12">
         <Card className="material-card">
           <Card.Header>
-            <h5>
-              {groupName !== "" ? groupName : "Group"} &nbsp;
+            <h5 title={groupName !== "" ? groupName : null}>
+              {groupName !== "" ? " Group: " + shortenString(groupName, 10) : "Group"}{" "}
+              &nbsp;
               <FontAwesomeIcon
                 icon="question-circle"
                 title="Know more about groups"
