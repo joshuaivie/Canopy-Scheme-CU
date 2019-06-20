@@ -65,7 +65,6 @@ class AdminLogin extends React.Component {
               ) : null}
             </Form.Group>
             <Form.Group>
-              <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Password"
