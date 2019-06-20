@@ -1,7 +1,6 @@
 import React from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NetworkAvailabilityContext } from "utils/http";
 import { BtnLoadingSpinner } from "components/spinners";
 
 export default function EmptyGroupContainer({
@@ -11,65 +10,62 @@ export default function EmptyGroupContainer({
   createGroupErrorMsg,
   handleCreateGroup,
   handleChange,
-  newGroupName
+  newGroupName,
+  offline
 }) {
   return (
-    <NetworkAvailabilityContext.Consumer>
-      {context => (
-        <React.Fragment>
-          <div style={{ textAlign: "center", padding: "40px", lineHeight: "30px" }}>
-            <h5>You currently do not belong to any group</h5>
-            <p>Groups members sit down together during convocation</p>
+    <React.Fragment>
+      <div style={{ textAlign: "center", padding: "40px", lineHeight: "30px" }}>
+        <h5>You currently do not belong to any group</h5>
+        <p>Groups members sit down together during convocation</p>
+        <Button
+          variant="outline-success"
+          onClick={() => toggleModal("showCreateGroupModal")}
+        >
+          <FontAwesomeIcon icon="user-plus" />
+          &nbsp;Create Group
+        </Button>
+      </div>
+
+      <Modal
+        show={showCreateGroupModal}
+        onHide={() => toggleModal("showCreateGroupModal")}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Create group</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>
+            Groups are mediums to get closer with one another, and they are uniquely
+            named.
+          </p>
+          <Form onSubmit={handleCreateGroup}>
+            <Form.Group>
+              <Form.Label>Group Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Group name"
+                name="newGroupName"
+                value={newGroupName}
+                onChange={handleChange}
+                required
+              />
+              {createGroupErrorMsg.name ? (
+                <p className="form-error-msg">{createGroupErrorMsg.name}</p>
+              ) : null}
+            </Form.Group>
             <Button
-              variant="outline-success"
-              onClick={() => toggleModal("showCreateGroupModal")}
+              type="submit"
+              variant="success"
+              disabled={isLoading || offline}
+              className="btn-center"
             >
-              <FontAwesomeIcon icon="user-plus" />
-              &nbsp;Create Group
+              {isLoading ? <BtnLoadingSpinner /> : "Create Group"}
             </Button>
-          </div>
-
-          <Modal
-            show={showCreateGroupModal}
-            onHide={() => toggleModal("showCreateGroupModal")}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Create group</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-              <p>
-                Groups are mediums to get closer with one another, and they are uniquely
-                named.
-              </p>
-              <Form onSubmit={handleCreateGroup}>
-                <Form.Group>
-                  <Form.Label>Group Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Group name"
-                    name="newGroupName"
-                    value={newGroupName}
-                    onChange={handleChange}
-                    required
-                  />
-                  {createGroupErrorMsg.name ? (
-                    <p className="form-error-msg">{createGroupErrorMsg.name}</p>
-                  ) : null}
-                </Form.Group>
-                <Button
-                  type="submit"
-                  variant="success"
-                  disabled={isLoading || !context.online}
-                  className="btn-center"
-                >
-                  {isLoading ? <BtnLoadingSpinner /> : "Create Group"}
-                </Button>
-              </Form>
-            </Modal.Body>
-          </Modal>
-        </React.Fragment>
-      )}
-    </NetworkAvailabilityContext.Consumer>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </React.Fragment>
   );
 }

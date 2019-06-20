@@ -68,7 +68,7 @@ class Avatar extends React.PureComponent {
             <Button
               variant="link"
               className="primary-text"
-              disabled={!this.context.online}
+              disabled={this.context.offline}
             >
               <FontAwesomeIcon className="primary-text" icon="power-off" />
               &nbsp; Logout
