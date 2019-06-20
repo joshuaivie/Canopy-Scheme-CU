@@ -9,6 +9,7 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import OnBoarding from "./pages/onBoarding";
 import Home from "./pages/Home";
 import ForgotPassword from "./pages/ForgotPassword";
+import AdminLogin from "./pages/AdminLogin";
 import ResetPassword from "./pages/ResetPassword";
 import JoinGroup from "./pages/JoinGroup";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -33,6 +34,7 @@ const App = () => {
       <Switch>
         <DefaultLayout exact path={ROUTES.HOME} component={Home} />
         <DefaultLayout exact path={ROUTES.ONBOARDING} component={OnBoarding} />
+        <DefaultLayout exact path={ROUTES.ADMIN_LOGIN} component={AdminLogin} />
         <DefaultLayout exact path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
         <DefaultLayout exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
         <DefaultLayout exact path={ROUTES.VERIFY_EMAIL} component={VerifyEmail} />

@@ -12,7 +12,6 @@ class Login extends React.Component {
   state = {
     email: "",
     password: "",
-    isAdmin: false,
     isLoading: false,
     errorMsg: {}
   };
@@ -20,10 +19,6 @@ class Login extends React.Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-  };
-  toggleIsAdmin = () => {
-    const { isAdmin } = this.state;
-    this.setState({ isAdmin: !isAdmin });
   };
 
   handleSubmit = event => {
@@ -36,11 +31,7 @@ class Login extends React.Component {
     try {
       const { msg } = await AuthAction.login({ ...this.state });
       successAlert(msg);
-      if (this.state.isAdmin) {
-        this.props.history.push(ROUTES.ADMIN);
-      } else {
-        this.props.history.push(ROUTES.APP);
-      }
+      this.props.history.push(ROUTES.APP);
     } catch (errorMsg) {
       this.setState({ isLoading: false, errorMsg });
     }
@@ -75,17 +66,9 @@ class Login extends React.Component {
               onChange={this.handleChange}
               required
             />
-          </Form.Group>
-
-          {errorMsg.password ? (
-            <p className="form-error-msg">{errorMsg.password}</p>
-          ) : null}
-          <Form.Group>
-            <Form.Check
-              type="checkbox"
-              label="Login as admin"
-              onClick={() => this.toggleIsAdmin()}
-            />
+            {errorMsg.password ? (
+              <p className="form-error-msg">{errorMsg.password}</p>
+            ) : null}
           </Form.Group>
           <Button
             variant="primary"

@@ -9,4 +9,5 @@ export const ONBOARDING = "/canopy/on-boarding";
 // Application/ Dashboard Routes
 export const APP = "/canopy/app";
 
-export const ADMIN = "/canopy/canopy-scheme-admin";
+export const ADMIN = "/canopy/admin";
+export const ADMIN_LOGIN = "/canopy/admin/login";
