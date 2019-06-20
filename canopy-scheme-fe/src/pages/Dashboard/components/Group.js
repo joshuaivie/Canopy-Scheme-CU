@@ -256,7 +256,8 @@ class Groups extends React.Component {
         newGroupName,
         createGroupErrorMsg,
         inviteErrorMsg
-      }
+      },
+      context: { offline }
     } = this;
     let body = null;
     if (!email_verified) {
@@ -283,6 +284,7 @@ class Groups extends React.Component {
             newGroupName={newGroupName}
             handleChange={handleChange}
             toggleModal={toggleModal}
+            offline={offline}
           />
         );
       } else if (isGroupOwner) {
@@ -298,6 +300,7 @@ class Groups extends React.Component {
                 toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
                 groupMembers={groupMembers}
                 isGroupOwner={isGroupOwner}
+                offline={offline}
               />
             </div>
 
@@ -310,6 +313,7 @@ class Groups extends React.Component {
               isLoading={isLoading}
               inviteeEmail={inviteeEmail}
               inviteeMatricNo={inviteeMatricNo}
+              offline={offline}
             />
 
             <DeleteGroupModal
@@ -317,6 +321,7 @@ class Groups extends React.Component {
               toggleModal={toggleModal}
               isLoading={isLoading}
               handleDeleteGroup={handleDeleteGroup}
+              offline={offline}
             />
           </React.Fragment>
         );
@@ -340,6 +345,7 @@ class Groups extends React.Component {
               toggleModal={toggleModal}
               showLeaveGroupModal={showLeaveGroupModal}
               handleLeaveGroup={handleLeaveGroup}
+              offline={offline}
             />
           </React.Fragment>
         );
@@ -366,7 +372,7 @@ class Groups extends React.Component {
               <React.Fragment>
                 {isGroupOwner && (
                   <Button
-                    disabled={errorFetching || !this.context.online}
+                    disabled={errorFetching || offline}
                     variant="outline-danger"
                     onClick={() => toggleModal("showDeleteGroupModal")}
                   >
@@ -376,7 +382,7 @@ class Groups extends React.Component {
                 )}
                 {isUserInAnyGroup && !isGroupOwner && (
                   <Button
-                    disabled={errorFetching || !this.context.online}
+                    disabled={errorFetching || offline}
                     variant="outline-danger"
                     onClick={() => toggleModal("showLeaveGroupModal")}
                   >

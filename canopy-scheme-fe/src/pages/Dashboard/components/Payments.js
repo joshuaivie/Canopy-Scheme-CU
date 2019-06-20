@@ -15,7 +15,6 @@ import { LoadingSpinner, RetryBtn, BtnLoadingSpinner } from "components/spinners
 import statuses from "data/statuses.json";
 import { NetworkAvailabilityContext } from "utils/http";
 import TransactionDetailModal from "pages/AdminDashboard/components/TransactionDetailModal";
-// import { createTimeStamp } from "utils/createTimeStamp";
 const PAYSTACK_PUBLIC_KEY = process.env.REACT_APP_PAYSTACK_KEY;
 
 class Payments extends React.Component {
@@ -86,12 +85,28 @@ class Payments extends React.Component {
           cursor: "pointer"
         }}
       >
-        <td>{new Date(row.created_at).toLocaleString()}</td>
-        <td>{row.mode}</td>
-        <td>{row.reference}</td>
-        <td>₦{commaNumber(parseInt(row.amount))}</td>
-        <td>{row.total_table}</td>
         <td>
+          <span class="row-data-name">Date: </span>{" "}
+          {new Date(row.created_at).toLocaleString()}
+        </td>
+        <td>
+          <span class="row-data-name">Mode: </span>
+          {row.mode}
+        </td>
+        <td>
+          <span class="row-data-name">Reference: </span>
+          {row.reference}
+        </td>
+        <td>
+          <span class="row-data-name">Amount: </span>₦
+          {commaNumber(parseInt(row.amount))}
+        </td>
+        <td>
+          <span class="row-data-name">Tables: </span>
+          {row.total_table}
+        </td>
+        <td>
+          <span class="row-data-name">Status: </span>
           <Badge variant={statuses[row.status]}>{row.status}</Badge>
         </td>
         <td>
@@ -326,6 +341,7 @@ class Payments extends React.Component {
     transactions.forEach(transaction => {
       if (transaction.status !== "rejected") limit -= transaction.total_table;
     });
+    const { offline } = this.context;
 
     return (
       <Col xs="12" md="12">
@@ -348,7 +364,7 @@ class Payments extends React.Component {
                   <Button
                     onClick={this.handleOpen}
                     className="make-payment-button"
-                    disabled={errorFetching || !this.context.online}
+                    disabled={errorFetching || offline}
                   >
                     <FontAwesomeIcon icon="credit-card" /> &nbsp; Book Table(s)
                   </Button>
@@ -390,7 +406,7 @@ class Payments extends React.Component {
         {email_verified ? (
           <Modal show={show} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Pay for Tables</Modal.Title>
+              <Modal.Title>Pay for Table(s)</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -446,7 +462,7 @@ class Payments extends React.Component {
                     <PaystackButton
                       text="Pay"
                       tag="button"
-                      disabled={isLoading || !this.context.online}
+                      disabled={isLoading || offline}
                       email={email}
                       amount={nairaToKobo(numberOfTables * tablePrice)} // Paystack works with kobo
                       close={this.paystackClose}
@@ -485,7 +501,7 @@ class Payments extends React.Component {
                     <Button
                       className="btn btn-primary payment-button"
                       onClick={this.handleOfflinePayment}
-                      disabled={isLoading || !this.context.online}
+                      disabled={isLoading || offline}
                     >
                       {isLoading ? <BtnLoadingSpinner /> : "Pay"}
                     </Button>

@@ -181,7 +181,7 @@ class Register extends React.Component {
           <Button
             variant="primary"
             type="submit"
-            disabled={isLoading || !this.context.online}
+            disabled={isLoading || this.context.offline}
             className="btn-center btn-full-width"
           >
             {isLoading ? <BtnLoadingSpinner /> : "Register"}

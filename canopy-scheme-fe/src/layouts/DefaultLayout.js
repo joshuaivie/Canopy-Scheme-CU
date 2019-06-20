@@ -5,7 +5,7 @@ import { networkAvailability, NetworkAvailabilityContext } from "utils/http";
 class DefaultLayout extends React.Component {
   state = {
     showAuthModal: false,
-    online: true
+    offline: false
   };
 
   componentDidMount() {
@@ -21,12 +21,12 @@ class DefaultLayout extends React.Component {
     this.setState({ showAuthModal: !showAuthModal });
   };
   render() {
-    const { showAuthModal, online } = this.state;
+    const { showAuthModal, offline } = this.state;
     const { component: Component, history, ...rest } = this.props;
     return (
       <NetworkAvailabilityContext.Provider
         value={{
-          online
+          offline
         }}
       >
         <Route

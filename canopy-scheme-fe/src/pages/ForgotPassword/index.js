@@ -67,7 +67,7 @@ class ForgotPassword extends React.Component {
             <Button
               variant="primary"
               type="submit"
-              disabled={isLoading || !this.context.online}
+              disabled={isLoading || this.context.offline}
             >
               {isLoading ? <BtnLoadingSpinner /> : "Reset Password"}
             </Button>

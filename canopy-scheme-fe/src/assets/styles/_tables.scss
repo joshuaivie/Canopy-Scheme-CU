@@ -5,3 +5,35 @@ th {
 .table td {
   padding: 0.3rem;
 }
+
+.table {
+  .row-data-name {
+    display: none;
+  }
+  @media (max-width: $screen-md-min) {
+    thead {
+      display: none;
+    }
+    tbody {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      tr {
+        border: 1px dashed $purple;
+        margin: 5px 0;
+      }
+      td {
+        text-align: left;
+        display: block;
+        button {
+          margin: auto;
+          width: 100%;
+        }
+        .row-data-name {
+          color: gray;
+          display: inline;
+        }
+      }
+    }
+  }
+}
