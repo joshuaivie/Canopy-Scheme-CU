@@ -86,7 +86,7 @@ export const networkAvailability = componentInstance => {
         position: toast.POSITION.BOTTOM_LEFT
       });
     }
-    componentInstance.setState({ online: false });
+    componentInstance.setState({ offline: true });
   });
   window.addEventListener("online", e => {
     if (toast.isActive(window.networkToast)) {
@@ -101,10 +101,10 @@ export const networkAvailability = componentInstance => {
         position: toast.POSITION.BOTTOM_LEFT
       });
     }
-    componentInstance.setState({ online: true });
+    componentInstance.setState({ offline: false });
   });
 };
 
 export const NetworkAvailabilityContext = React.createContext({
-  online: true
+  offline: false
 });

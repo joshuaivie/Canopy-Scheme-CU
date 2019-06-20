@@ -14,7 +14,8 @@ export default function GroupMembersContainer({
   showRemoveGroupMemberModal,
   handleRemoveMember,
   isLoading,
-  toggleModal
+  toggleModal,
+  offline
 }) {
   return (
     <React.Fragment>
@@ -51,6 +52,7 @@ export default function GroupMembersContainer({
                 showRemoveGroupMemberModal={showRemoveGroupMemberModal}
                 matricNo={groupMember.matric_no}
                 memberName={`${groupMember.firstname} ${groupMember.lastname}`}
+                offline={offline}
               />
             )}
           </div>

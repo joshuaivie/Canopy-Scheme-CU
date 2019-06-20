@@ -111,7 +111,7 @@ class ChangePasswordModal extends React.Component {
               type="submit"
               variant="primary"
               className="btn-center"
-              disabled={isLoading || !this.context.online}
+              disabled={isLoading || this.context.offline}
             >
               {isLoading ? <BtnLoadingSpinner /> : "Change Password"}
             </Button>
