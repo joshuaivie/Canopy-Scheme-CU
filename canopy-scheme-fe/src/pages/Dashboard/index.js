@@ -118,7 +118,7 @@ class Dashboard extends React.Component {
             <h4 className="welcome-text">
               <Typewriter
                 options={{
-                  strings: ["Welcome", "Kaabo", "Nnabata", "Maraba"],
+                  strings: ["Welcome", "Kaabo", "Nnabata", "Maraba", "欢迎", "😁 👋 "],
                   autoStart: true,
                   loop: true
                 }}

@@ -13,25 +13,27 @@ export default ({ toggleModal }) => (
         <img src={logo} alt="Peculiar set logo" width={150} />
       </Link>
     </Navbar.Brand>
-    {isLoggedIn() ? (
-      <Link to={ROUTES.APP} className="nav-link">
-        Dashboard
-      </Link>
-    ) : (
-      <div style={{ display: "flex" }}>
-        <Nav.Link
-          className="mx-3"
-          href="https://cpc-partners.webflow.io"
-          target="_blank"
-        >
-          <FontAwesomeIcon className="primary-text" icon="users" />
-          &nbsp;Partners
-        </Nav.Link>
-        <Nav.Link onClick={() => toggleModal()}>
-          <FontAwesomeIcon className="primary-text" icon="sign-in-alt" />
-          &nbsp;Login/Register
-        </Nav.Link>
-      </div>
-    )}
+    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+    <Navbar.Collapse id="responsive-navbar-nav">
+      <Nav className="mr-auto" />
+      <Nav>
+        {isLoggedIn() ? (
+          <Link to={ROUTES.APP} className="nav-link">
+            Dashboard
+          </Link>
+        ) : (
+          <React.Fragment>
+            <Nav.Link href="https://cpc-partners.webflow.io" target="_blank">
+              <FontAwesomeIcon className="primary-text" icon="users" />
+              &nbsp;Partners
+            </Nav.Link>
+            <Nav.Link onClick={() => toggleModal()}>
+              <FontAwesomeIcon className="primary-text" icon="sign-in-alt" />
+              &nbsp;Login/Register
+            </Nav.Link>
+          </React.Fragment>
+        )}
+      </Nav>
+    </Navbar.Collapse>
   </Navbar>
 );

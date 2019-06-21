@@ -444,11 +444,11 @@ class Groups extends React.Component {
           <Card.Body>{body}</Card.Body>
           <Accordion className="my-5">
             <Accordion.Toggle as={Card.Header} className="accordion-card" eventKey="0">
-              <h5 style={{ width: "100%" }}>
+              <h5 style={{ width: "100%", cursor: "pointer" }}>
                 *Special Request &nbsp;{" "}
                 <FontAwesomeIcon
                   className="text-right"
-                  style={{ float: "right", cursor: "pointer" }}
+                  style={{ float: "right" }}
                   icon="chevron-circle-down"
                 />
               </h5>

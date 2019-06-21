@@ -7,12 +7,10 @@
 }
 @keyframes not-joined-group-animation {
   from {
-    border-color: red;
-    box-shadow: 0 0 4px 0 rgba(17, 22, 26, 0.16), 0 2px 4px 0 rgba(17, 22, 26, 0.08),
-      0 4px 8px 0 rgba(17, 22, 26, 0.08);
+    border-color: darken($purple, 10);
   }
   to {
-    border-color: gray;
+    border-color: lighten($purple, 10);
   }
 }
 .member-card {
@@ -23,11 +21,13 @@
   text-align: center;
   padding: 0.5rem 0;
   &.not-joined {
-    animation-name: not-joined-group-animation;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    border-style: dashed;
+    // animation: not-joined-group-animation 5s ease-out infinite;
+    border-color: #f4f4f4;
     border-width: 2px;
+    img,
+    p {
+      opacity: 0.2;
+    }
   }
   img {
     width: 100px;

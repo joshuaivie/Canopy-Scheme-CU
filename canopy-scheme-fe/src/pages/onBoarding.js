@@ -85,7 +85,7 @@ class OnBoarding extends React.Component {
               <h3>Orderly</h3>
               <p>
                 Easily find information you need and perform various actions to make
-                your reservation seemless.{" "}
+                your reservation seamless.{" "}
               </p>
             </div>
           </Slider>
