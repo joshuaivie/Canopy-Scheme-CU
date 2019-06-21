@@ -1,14 +1,10 @@
 const Route = use("Route");
 const Encryption = use("Encryption");
 const Env = use("Env");
-const EventInfo = use("App/Utilities/EventInfo");
+const HOST = Env.get("FRONT_END_URL");
 
 class LinkGen {
   static async createGroupInviteLink({ route, groupId, email, token }) {
-    let now = new Date();
-    now.setHours(
-      now.getHours() + (await EventInfo.noOfHoursInviteLinkIsValid())
-    );
     let endpoint = Route.url(route, {
       group_id: Encryption.encrypt(groupId),
       token,
@@ -16,8 +12,7 @@ class LinkGen {
     });
     // remove "/api" so frontend can use it
     endpoint = endpoint.split("/api")[1];
-    const host = Env.get("FRONT_END_URL", "http://localhost:3000");
-    return `${host}${endpoint}`;
+    return `${HOST}${endpoint}`;
   }
 
   static createEmailVerifyLink({ route, token }) {
@@ -26,8 +21,7 @@ class LinkGen {
     });
     // remove "/api" so frontend can use it
     endpoint = endpoint.split("/api")[1];
-    const host = Env.get("FRONT_END_URL", "http://localhost:3000");
-    return `${host}${endpoint}`;
+    return `${HOST}${endpoint}`;
   }
 
   static createPasswordLink({ route, email_token }) {
@@ -36,8 +30,7 @@ class LinkGen {
     });
     // remove "/api" so frontend can use it
     endpoint = endpoint.split("/api")[1];
-    const host = Env.get("FRONT_END_URL", "http://localhost:3000");
-    return `${host}${endpoint}`;
+    return `${HOST}${endpoint}`;
   }
 }
 

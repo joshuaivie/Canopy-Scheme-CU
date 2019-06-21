@@ -13,16 +13,16 @@ class EventInfo {
     return event.table_unit_price;
   }
 
-  static async maximumGroupMembers() {
+  static async tablesBooked() {
     const event = await EventInfoModel.first();
-    if (event === null) return 4;
-    return event.maximum_group_members;
+    if (event === null) return 0;
+    return event.tables_booked;
   }
 
-  static async noOfHoursInviteLinkIsValid() {
+  static async tablesLeft() {
     const event = await EventInfoModel.first();
-    if (event === null) return 12;
-    return event.invite_link_hours_valid;
+    if (event === null) return 0;
+    return event.total_tables - event.tables_booked;
   }
 }
 
