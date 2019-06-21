@@ -9,24 +9,32 @@ export default function RemoveGroupMemberModal({
   toggleRemoveGroupMemberModal,
   showRemoveGroupMemberModal,
   handleRemoveMember,
+  deleteInvite,
   offline
 }) {
   return (
     <Modal
       show={showRemoveGroupMemberModal[matricNo]}
-      onHide={() => toggleRemoveGroupMemberModal(matricNo)}
+      onHide={() => toggleRemoveGroupMemberModal(matricNo, deleteInvite)}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Remove {memberName} from your group</Modal.Title>
+        <Modal.Title>
+          {deleteInvite
+            ? `Cancel Group Invite Sent to ${memberName}`
+            : `Remove ${memberName} from your group`}
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <div>
           <p>
-            Removing {memberName} means he/she will no longer be in your group. This
-            reduces his/her chances of sitting with close friends.
+            {deleteInvite
+              ? `Cancelling invite sent to ${memberName} means he/she will no longer be able to join your group. This
+            reduces his/her chances of sitting with close friends.`
+              : `Removing ${memberName} means he/she will no longer be in your group. This
+            reduces his/her chances of sitting with close friends.`}
           </p>
-          <p>Do you still want to remove {memberName}?</p>
+          <p>{!deleteInvite && `Do you still want to remove ${memberName}?`}</p>
         </div>
       </Modal.Body>
 
@@ -34,7 +42,7 @@ export default function RemoveGroupMemberModal({
         <Button
           type="submit"
           variant="light"
-          onClick={() => toggleRemoveGroupMemberModal(matricNo)}
+          onClick={() => toggleRemoveGroupMemberModal(matricNo, deleteInvite)}
         >
           Cancel
         </Button>
@@ -42,9 +50,9 @@ export default function RemoveGroupMemberModal({
           type="submit"
           variant="danger"
           disabled={isLoading || offline}
-          onClick={() => handleRemoveMember(matricNo)}
+          onClick={() => handleRemoveMember(matricNo, deleteInvite)}
         >
-          {isLoading ? <BtnLoadingSpinner /> : "Remove"}
+          {isLoading ? <BtnLoadingSpinner /> : "Remove/Cancel"}
         </Button>
       </Modal.Footer>
     </Modal>

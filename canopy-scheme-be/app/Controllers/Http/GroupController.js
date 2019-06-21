@@ -11,11 +11,25 @@ class GroupController {
     const { users } = request.only(["users"]);
 
     try {
-      const group = (await auth.user
+      const group = await auth.user
         .group()
         .with("basicMembersInfo")
-        .first()).toJSON();
-      const { failed } = await GroupInvite.inviteUsers(auth.user, users, group);
+        .first();
+      const totalMembers = (await group
+        .members()
+        .where("joined", true)
+        .count("* as total")
+        .first()).total;
+      if (totalMembers + users.length > group.maximum_group_members)
+        return response.badRequest({
+          msg: "You cannot invite anymore. You have maxed out your slots"
+        });
+
+      const { failed } = await GroupInvite.inviteUsers(
+        auth.user,
+        users,
+        group.toJSON()
+      );
       if (failed.length > 0) {
         return response.badRequest({
           failed,
@@ -41,12 +55,20 @@ class GroupController {
       if (!hasVerifiedPayment)
         return response.badRequest({
           msg:
-            "You not paid for a table yet. You can only invite when he/she has paid"
+            "You have not paid for a table yet. You can only join when you have paid"
         });
-      await UserGroupMember.create({
-        user_id: invitee.id,
-        user_group_id: group_id
-      });
+      const member = await UserGroupMember.query()
+        .where("user_group_id", group_id)
+        .where("user_id", invitee.id)
+        .first();
+      if (member === null) {
+        return response.badRequest({
+          msg: "You were not invited to this group."
+        });
+      }
+      member.joined = true;
+      member.save();
+
       return response.ok({ msg: "Successfully joined group." });
     } catch (err) {
       return response.internalServerError({ msg: err.message });
@@ -68,7 +90,7 @@ class GroupController {
       await auth.user.save(trx);
       trx.commit();
 
-      return response.ok({ msg: "Group has been created." });
+      return response.ok({ msg: "Group created." });
     } catch (err) {
       return response.internalServerError({ msg: err.message });
     }

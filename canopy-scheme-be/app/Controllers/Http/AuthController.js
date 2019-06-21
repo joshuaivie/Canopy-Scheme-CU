@@ -77,7 +77,7 @@ class AuthController {
       request.params.authenticator,
       LOGIN_AUTH_SERVICES
     );
-    if (error == true) return response.notFound();
+    if (error === true) return response.notFound();
     const { email, password } = request.only(["email", "password"]);
 
     try {

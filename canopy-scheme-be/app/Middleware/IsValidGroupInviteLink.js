@@ -4,7 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const { sanitize } = use("Validator");
 const UserGroup = use("App/Models/UserGroup");
-const EventInfo = use("App/Utilities/EventInfo");
+const UserGroupMember = use("App/Models/UserGroupMember");
 const { createTimestamp } = use("App/Helpers/DateHelper");
 
 class IsValidGroupInviteLink {
@@ -16,21 +16,12 @@ class IsValidGroupInviteLink {
   async handle({ request, response }, next) {
     // Update param.group_id with decrypted group_id. Validators do not support params validation currently.
     const payload = {
-      group_id: request.params.group_id,
-      expiring_date: request.params.expiring_date
+      group_id: request.params.group_id
     };
     request.params.group_id = sanitize(payload, {
       group_id: "decode_uri_and_decrypt"
     }).group_id;
-    request.params.expiring_date = sanitize(payload, {
-      expiring_date: "decode_uri_and_decrypt"
-    }).expiring_date;
-    const { token, group_id, expiring_date } = request.params;
-
-    const now = new Date();
-    if (expiring_date < createTimestamp(now)) {
-      return response.forbidden({ msg: "Group invitation link has expired." });
-    }
+    const { token, group_id } = request.params;
 
     try {
       const group = await UserGroup.findOrFail(group_id);
@@ -39,11 +30,11 @@ class IsValidGroupInviteLink {
       // Todo: lock database row here to prevent data race.
       const totalMembers = (await group
         .members()
+        .where("joined", true)
         .count("* as total")
         .first()).total;
-      const maxGroupNo = await EventInfo.maximumGroupMembers();
 
-      if (totalMembers >= maxGroupNo) {
+      if (totalMembers >= group.maximum_group_members) {
         return response.forbidden({
           msg: "Failed to join group. Maximum number of group members reached."
         });

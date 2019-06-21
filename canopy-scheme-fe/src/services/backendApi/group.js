@@ -20,13 +20,12 @@ export default class GroupApi {
   /**
    * Join a group.
    */
-  static joinGroup = async ({ groupId, groupToken, inviteeEmail, expiringDate }) => {
+  static joinGroup = async ({ groupId, groupToken, inviteeEmail }) => {
     return HTTP.get(
       ENDPOINTS.GROUP_JOIN({
         groupId,
         groupToken,
-        inviteeEmail,
-        expiringDate
+        inviteeEmail
       })
     );
   };

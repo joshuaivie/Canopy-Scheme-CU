@@ -37,7 +37,7 @@ Route.group(() => {
     .validator("PasswordResetCheckToken")
     .as("password.reset-token");
   Route.get(
-    "group/join/:group_id/:token/:invitee_email/:expiring_date",
+    "group/join/:group_id/:token/:invitee_email/",
     "GroupController.join"
   )
     .middleware(["inviteeNotInUserGroup", "isValidGroupInviteLink"])
@@ -82,12 +82,10 @@ Route.group(() => {
   // Group
   Route.post("group", "GroupController.create")
     .validator("CreateGroup")
-    .middleware("hasVerifiedPayment")
-    .middleware("notInUserGroup");
+    .middleware(["hasVerifiedPayment", "notInUserGroup"]);
   Route.post("group/invite", "GroupController.invite")
     .validator("InviteUsersToGroup")
-    .middleware("hasVerifiedPayment")
-    .middleware("isUserGroupOwner");
+    .middleware(["hasVerifiedPayment", "isUserGroupOwner"]);
 })
   .prefix("api")
   .middleware(["auth:user", "verifyEmail"]);

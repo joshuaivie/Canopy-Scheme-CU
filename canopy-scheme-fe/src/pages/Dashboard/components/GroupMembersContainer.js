@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { shortenString } from "utils/string";
+import { UserStorage } from "storage";
 import RemoveGroupMemberModal from "./RemoveGroupMemberModal";
 import GroupMemberPlaceholder from "./GroupMemberPlaceholder";
 
@@ -15,6 +16,7 @@ export default function GroupMembersContainer({
   handleRemoveMember,
   isLoading,
   toggleModal,
+  deleteInvite,
   offline
 }) {
   return (
@@ -22,19 +24,31 @@ export default function GroupMembersContainer({
       {groupMembers.map((groupMember, index) =>
         groupMember !== null ? (
           // eslint-disable-next-line react/no-array-index-key
-          <div className="member-card" key={`member_${index}`}>
+          <div
+            className={`member-card ${!groupMember.joined &&
+              !groupMember.is_group_owner &&
+              "not-joined"}`}
+            key={`member_${index}`}
+          >
             <img
               src={avatarImg(groupMember.matric_no)}
               alt={`${groupMember.firstname} ${groupMember.lastname}`}
             />
             <p title={`${groupMember.firstname} ${groupMember.lastname}`}>
-              {shortenString(`${groupMember.firstname} ${groupMember.lastname}`)}
+              {UserStorage.userInfo.matric_no === groupMember.matric_no
+                ? "You"
+                : shortenString(`${groupMember.firstname} ${groupMember.lastname}`)}
             </p>
             <p>{groupMember.matric_no}</p>
             {!groupMember.is_group_owner && (
               <Button
                 className="remove-button"
-                onClick={() => toggleRemoveGroupMemberModal(groupMember.matric_no)}
+                onClick={() =>
+                  toggleRemoveGroupMemberModal(
+                    groupMember.matric_no,
+                    groupMember.joined === 0
+                  )
+                }
               >
                 <FontAwesomeIcon icon="minus" />
               </Button>
@@ -50,6 +64,7 @@ export default function GroupMembersContainer({
                 handleRemoveMember={handleRemoveMember}
                 toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
                 showRemoveGroupMemberModal={showRemoveGroupMemberModal}
+                deleteInvite={deleteInvite}
                 matricNo={groupMember.matric_no}
                 memberName={`${groupMember.firstname} ${groupMember.lastname}`}
                 offline={offline}

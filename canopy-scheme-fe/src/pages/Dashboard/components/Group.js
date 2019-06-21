@@ -16,18 +16,17 @@ import GroupLock from "components/GroupLock";
 import { LoadingSpinner, RetryBtn } from "components/spinners";
 import { NetworkAvailabilityContext } from "utils/http";
 
-const MAX_NO_OF_GROUP_MEMBERS = 5;
-
 class Groups extends React.Component {
   state = {
     inviteeEmail: "",
     inviteeMatricNo: "",
     isLoading: false,
-    isFetching: false,
+    isFetching: true,
     errorFetching: false,
     newGroupName: "",
     groupName: "",
     groupMembers: [],
+    deleteInvite: false,
     isGroupOwner: false,
     isUserInAnyGroup: false,
     showInviteUserModal: false,
@@ -47,19 +46,15 @@ class Groups extends React.Component {
       userInfo: { email_verified, paid_for_table }
     } = UserStorage;
 
-    this.setState({
-      isGroupOwner: this.isUserGroupOwner
-    });
-
     if (email_verified && paid_for_table) {
       this.getGroupMembers({ showAllAlerts: false });
     }
   }
 
-  toggleRemoveGroupMemberModal = matricNo => {
+  toggleRemoveGroupMemberModal = (matricNo, deleteInvite) => {
     const { showRemoveGroupMemberModal } = this.state;
     showRemoveGroupMemberModal[matricNo] = !showRemoveGroupMemberModal[matricNo];
-    this.setState({ showRemoveGroupMemberModal });
+    this.setState({ showRemoveGroupMemberModal, deleteInvite });
   };
 
   toggleModal = state => {
@@ -97,16 +92,32 @@ class Groups extends React.Component {
     try {
       const { msg } = await GroupAction.inviteUser({ users: [{ matric_no, email }] });
       successAlert(msg);
+      let { groupMembers } = this.state;
+      // remove one null item of the list and replace it with new invitee
+      groupMembers.pop();
+      groupMembers.push({
+        matric_no,
+        email,
+        firstname: "New",
+        lastname: "Invitee",
+        is_group_owner: false,
+        joined: 0
+      });
+      groupMembers.sort();
       this.setState({
         inviteeMatricNo: "",
         inviteeEmail: "",
         showInviteUserModal: false,
-        inviteErrorMsg: {}
+        inviteErrorMsg: {},
+        groupMembers
       });
     } catch (err) {
       if (err.response) {
-        const msg = err.response.data.failed[0]["msg"];
-        this.setState({ inviteErrorMsg: { all: msg } });
+        const { data } = err.response;
+        if (data.failed) {
+          const msg = err.response.data.failed[0]["msg"];
+          this.setState({ inviteErrorMsg: { all: msg } });
+        }
       }
     } finally {
       this.setState({ isLoading: false });
@@ -124,21 +135,12 @@ class Groups extends React.Component {
       this.setState({
         groupMembers: [],
         isUserInAnyGroup: false,
-        showLeaveGroupModal: false
+        showLeaveGroupModal: false,
+        groupName: ""
       });
     } finally {
       this.setState({ isLoading: false });
     }
-  };
-
-  /**
-   * Sets the state of the group members. It fills in remaining members
-   * slot left with null if total members is less than the
-   * MAX_NO_OF_GROUP_MEMBERS allowed.
-   */
-  populateGroupMembers = members => {
-    while (members.length < MAX_NO_OF_GROUP_MEMBERS) members.push(null);
-    this.setState({ groupMembers: members });
   };
 
   handleCreateGroup = async event => {
@@ -150,13 +152,15 @@ class Groups extends React.Component {
       const { msg } = await GroupAction.createGroup({ name });
       successAlert(msg);
       this.isUserGroupOwner = true; // updates in state and localstorage.
-      this.populateGroupMembers([UserStorage.userInfo]);
+      const groupMembers = [UserStorage.userInfo];
+      while (groupMembers.length <= 4) groupMembers.push(null);
       this.setState({
         newGroupName: "",
         groupName: name,
         isUserInAnyGroup: true,
         showCreateGroupModal: false,
-        createGroupErrorMsg: {}
+        createGroupErrorMsg: {},
+        groupMembers
       });
     } catch (err) {
       this.setState({ createGroupErrorMsg: err });
@@ -176,6 +180,7 @@ class Groups extends React.Component {
       this.setState({
         groupMembers: [],
         isGroupOwner: false,
+        groupName: "",
         isUserInAnyGroup: false,
         showDeleteGroupModal: false
       });
@@ -184,37 +189,58 @@ class Groups extends React.Component {
     }
   };
 
-  handleRemoveMember = async matricNo => {
+  handleRemoveMember = async (matricNo, deleteInvite) => {
     this.setState({ isLoading: true });
     try {
-      const { msg } = await UserAction.removeMember({ matricNo });
+      const { msg } = await UserAction.removeMember({ matricNo, deleteInvite });
       successAlert(msg);
+      let { groupMembers } = this.state;
+      groupMembers = groupMembers
+        .map(member => {
+          if (member && member.matric_no !== matricNo) return member;
+          return null;
+        })
+        .sort();
+      this.setState({ groupMembers });
     } finally {
-      let { showRemoveGroupMemberModal, groupMembers } = this.state;
-      groupMembers = groupMembers.map(member => {
-        if (member && member.matric_no !== matricNo) return member;
-        return null;
-      });
+      let { showRemoveGroupMemberModal } = this.state;
       showRemoveGroupMemberModal[matricNo] = false;
-      this.setState({ isLoading: false, showRemoveGroupMemberModal, groupMembers });
+      this.setState({ isLoading: false, showRemoveGroupMemberModal });
     }
   };
 
   getGroupMembers = async ({ showAllAlerts }) => {
-    this.setState({ errorFetching: false, isFetching: true });
+    this.setState({
+      errorFetching: false,
+      isFetching: true,
+      isGroupOwner: this.isUserGroupOwner
+    });
     try {
-      let { members, owner, name } = await UserAction.getGroup({ showAllAlerts });
+      let { members, owner, name, maximum_group_members } = await UserAction.getGroup({
+        showAllAlerts
+      });
       owner.is_group_owner = true;
-      this.setState({ groupName: name });
       const showRemoveGroupMemberModal = {};
       members = members.map(m => {
         let user = m.user;
         user.is_group_owner = false;
+        user.joined = m.joined;
         showRemoveGroupMemberModal[user.matric_no] = false;
         return user;
       });
-      this.populateGroupMembers([owner, ...members]);
-      this.setState({ isUserInAnyGroup: true, showRemoveGroupMemberModal });
+      /**
+       * Sets the state of the group members. It fills in remaining members
+       * slot left with null if total members is less than the
+       * maximum_group_members allowed.
+       */
+      members = [owner, ...members];
+      while (members.length <= maximum_group_members) members.push(null);
+      this.setState({
+        isUserInAnyGroup: true,
+        showRemoveGroupMemberModal,
+        groupName: name,
+        groupMembers: members
+      });
     } catch (err) {
       let errorFetching = false;
       if (err.request && err.request.status === 0) errorFetching = true;
@@ -226,7 +252,7 @@ class Groups extends React.Component {
 
   render() {
     const {
-      userInfo: { email_verified, paid_for_table }
+      userInfo: { email_verified, paid_for_table, matric_no: userMatricNo }
     } = UserStorage;
     const {
       handleDeleteGroup,
@@ -250,6 +276,7 @@ class Groups extends React.Component {
         showRemoveGroupMemberModal,
         showCreateGroupModal,
         showDeleteGroupModal,
+        deleteInvite,
         showLeaveGroupModal,
         showInviteUserModal,
         showHelpModal,
@@ -259,6 +286,7 @@ class Groups extends React.Component {
       },
       context: { offline }
     } = this;
+    let notJoined = false;
     let body = null;
     if (!email_verified) {
       body = <FeatureLock />;
@@ -298,6 +326,7 @@ class Groups extends React.Component {
                 handleRemoveMember={handleRemoveMember}
                 toggleModal={toggleModal}
                 toggleRemoveGroupMemberModal={toggleRemoveGroupMemberModal}
+                deleteInvite={deleteInvite}
                 groupMembers={groupMembers}
                 isGroupOwner={isGroupOwner}
                 offline={offline}
@@ -327,8 +356,26 @@ class Groups extends React.Component {
         );
       } else if (isUserInAnyGroup === true && !isGroupOwner) {
         // Not a group admin, hence render all the members of the group user belongs to.
+        let namesNotJoined = "";
+        groupMembers.map(x => {
+          if (x && x.joined === 0 && x.matric_no === userMatricNo) notJoined = true;
+          if (x && x.joined === 0 && x.matric_no !== userMatricNo)
+            namesNotJoined += `${x.firstname} ${x.lastname}, `;
+          return x;
+        });
         body = (
           <React.Fragment>
+            {notJoined && (
+              <p style={{ textAlign: "center" }}>
+                You are yet to accept the invitation to this group. Check your email for
+                the invitation link.
+              </p>
+            )}
+            {namesNotJoined !== "" && (
+              <p style={{ textAlign: "center" }}>
+                {`${namesNotJoined} is/are yet to accept the invitation to this group`}
+              </p>
+            )}
             <div className="group-container not-group-admin">
               <GroupMembersContainer
                 showRemoveGroupMemberModal={showRemoveGroupMemberModal}
@@ -345,6 +392,7 @@ class Groups extends React.Component {
               toggleModal={toggleModal}
               showLeaveGroupModal={showLeaveGroupModal}
               handleLeaveGroup={handleLeaveGroup}
+              notJoined={notJoined}
               offline={offline}
             />
           </React.Fragment>
@@ -387,7 +435,7 @@ class Groups extends React.Component {
                     onClick={() => toggleModal("showLeaveGroupModal")}
                   >
                     <FontAwesomeIcon icon="door-open" />
-                    &nbsp;Leave
+                    &nbsp; {notJoined ? "Cancel Invite" : "Leave"}
                   </Button>
                 )}
               </React.Fragment>
@@ -422,6 +470,10 @@ class Groups extends React.Component {
                         providing the following details:
                       </p>
                       <ol className="ol">
+                        <li className="my-3">
+                          Your group name (
+                          {groupName == "" ? "Create a group" : groupName})
+                        </li>
                         <li className="my-3">The reason for the expansion</li>
                         <li className="my-3">The amount of people under your group</li>
                         <li className="my-3">Your contact information</li>

@@ -69,7 +69,7 @@ class UserController {
         .with("owner", builder =>
           builder.setVisible(["matric_no", "email", "firstname", "lastname"])
         )
-        .setVisible(["name", "created_at"])
+        .setVisible(["name", "created_at", "maximum_group_members"])
         .fetch()).toJSON();
 
       return response.ok({ group: { ...group, members } });
@@ -90,7 +90,9 @@ class UserController {
         });
       }
       await auth.user.group().delete();
-      return response.ok({ msg: "Successfully left group." });
+      return response.ok({
+        msg: "Successfully left group/cancelled invitation."
+      });
     } catch (err) {
       return response.internalServerError({ msg: err.message });
     }
@@ -119,6 +121,7 @@ class UserController {
    */
   async removeGroupMember({ request, response, auth }) {
     const { matric_no } = request.params;
+    const { deleteInvite } = request.only(["deleteInvite"]);
 
     try {
       const user = await User.findBy("matric_no", matric_no);
@@ -129,9 +132,12 @@ class UserController {
         .where("user_id", user.id)
         .where("user_group_id", id)
         .delete();
-
+      const msg =
+        deleteInvite == "true"
+          ? `Group invite sent to ${user.firstname} has been cancelled`
+          : `${user.firstname} has been removed from your group.`;
       return response.ok({
-        msg: `${user.firstname} has been removed from your group.`
+        msg
       });
     } catch (err) {
       return response.internalServerError({ msg: err.message });

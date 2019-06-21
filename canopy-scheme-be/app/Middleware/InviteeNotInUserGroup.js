@@ -25,8 +25,13 @@ class InviteeNotInUserGroup {
         return response.forbidden({ msg: "Invalid invite link." });
       request.params.invitee = user; // add invitee to the header
 
-      const groupCount = await user.group().first();
-      if (groupCount !== null) {
+      const group = await user.group().first();
+      if (group == null) {
+        return response.forbidden({
+          msg: "You have not been invited this group."
+        });
+      }
+      if (group.joined) {
         return response.forbidden({ msg: "You already belong to a group." });
       }
     } catch (err) {

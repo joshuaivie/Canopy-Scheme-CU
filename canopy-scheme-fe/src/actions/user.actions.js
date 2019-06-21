@@ -63,9 +63,9 @@ class UserAction {
     }
   }
 
-  static async removeMember({ matricNo, token = UserStorage.token }) {
+  static async removeMember({ matricNo, deleteInvite, token = UserStorage.token }) {
     try {
-      const response = await UserApi.removeMember({ matricNo, token });
+      const response = await UserApi.removeMember({ matricNo, deleteInvite, token });
       return response.data;
     } catch (err) {
       resolveRequestError(err);
