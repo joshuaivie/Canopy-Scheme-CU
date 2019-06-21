@@ -7,7 +7,7 @@ import RemoveGroupMemberModal from "./RemoveGroupMemberModal";
 import GroupMemberPlaceholder from "./GroupMemberPlaceholder";
 
 const avatarImg = matricNo =>
-  `https://res.cloudinary.com/canopy-scheme/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_1px_solid_red,b_rgb:fbf8fb/avatar/${matricNo.toUpperCase()}.jpg`;
+  `https://res.cloudinary.com/canopy-scheme/image/upload/ar_1:1,b_rgb:fbf8fb,bo_1px_solid_rgb:ff0000,c_fill,g_face:center,r_max,w_1000/avatar/${matricNo}`;
 export default function GroupMembersContainer({
   groupMembers,
   isGroupOwner,

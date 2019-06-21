@@ -16,7 +16,9 @@ class CustomToggle extends React.PureComponent {
   render() {
     let avatarImg = "https://image.flaticon.com/icons/svg/149/149452.svg";
     if (UserStorage.userInfo && UserStorage.userInfo.matric_no) {
-      avatarImg = `https://res.cloudinary.com/canopy-scheme/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_1px_solid_red,b_rgb:fbf8fb/avatar/${UserStorage.userInfo.matric_no.toUpperCase()}.jpg`;
+      avatarImg = `https://res.cloudinary.com/canopy-scheme/image/upload/ar_1:1,b_rgb:fbf8fb,bo_1px_solid_rgb:ff0000,c_fill,g_face:center,r_max,w_1000/avatar/${
+        UserStorage.userInfo.matric_no
+      }`;
     }
     return (
       <Button onClick={this.handleClick} variant="link" className="dark-text">
