@@ -5,12 +5,30 @@
     background-color: #ffffff;
   }
 }
+@keyframes not-joined-group-animation {
+  from {
+    border-color: red;
+    box-shadow: 0 0 4px 0 rgba(17, 22, 26, 0.16), 0 2px 4px 0 rgba(17, 22, 26, 0.08),
+      0 4px 8px 0 rgba(17, 22, 26, 0.08);
+  }
+  to {
+    border-color: gray;
+  }
+}
 .member-card {
   width: 180px;
-  height: 200px;
+  height: 180px;
+  border: 1px solid $purple;
   border-radius: 5%;
   text-align: center;
   padding: 0.5rem 0;
+  &.not-joined {
+    animation-name: not-joined-group-animation;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    border-style: dashed;
+    border-width: 2px;
+  }
   img {
     width: 100px;
     height: 100px;
@@ -63,10 +81,11 @@
     background: none;
     display: flex;
     justify-content: space-between;
-    @media(max-width: $screen-md-min){
+    @media (max-width: $screen-md-min) {
       display: block;
-      button, p {
-        float:right
+      button,
+      p {
+        float: right;
       }
     }
   }

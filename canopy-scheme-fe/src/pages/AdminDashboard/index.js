@@ -109,11 +109,24 @@ class AdminDashboard extends React.Component {
       }
       const body = transactions.map((row, index) => (
         <tr key={`row_${index}`}>
-          <td>{perPage * (page - 1) + index + 1}</td>
-          <td>{`${row.user.firstname} ${row.user.lastname}`}</td>
-          <td>{row.reference}</td>
-          <td>₦{commaNumber(parseInt(row.amount))}</td>
           <td>
+            <span className="row-data-name">S/N: </span>
+            {perPage * (page - 1) + index + 1}
+          </td>
+          <td>
+            <span className="row-data-name">Name: </span>
+            {`${row.user.firstname} ${row.user.lastname}`}
+          </td>
+          <td>
+            <span className="row-data-name">Reference: </span>
+            {row.reference}
+          </td>
+          <td>
+            <span className="row-data-name">Amount: </span>₦
+            {commaNumber(parseInt(row.amount))}
+          </td>
+          <td>
+            <span className="row-data-name">Status: </span>
             <Badge variant={statuses[row.status]}>{row.status}</Badge>
           </td>
           <td>

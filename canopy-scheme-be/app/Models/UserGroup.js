@@ -21,7 +21,7 @@ class UserGroup extends Model {
       .with("user", user => {
         return user.setVisible(["matric_no", "email", "firstname", "lastname"]);
       })
-      .setVisible(["user"]);
+      .setVisible(["user", "joined"]);
   }
 }
 

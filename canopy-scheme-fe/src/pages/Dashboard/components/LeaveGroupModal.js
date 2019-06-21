@@ -7,20 +7,25 @@ export default function LeaveGroupModal({
   toggleModal,
   showLeaveGroupModal,
   handleLeaveGroup,
+  notJoined,
   offline
 }) {
   return (
     <Modal show={showLeaveGroupModal} onHide={() => toggleModal("showLeaveGroupModal")}>
       <Modal.Header closeButton>
-        <Modal.Title>Are you sure you want to leave this group?</Modal.Title>
+        <Modal.Title>
+          Are you sure you want to{" "}
+          {notJoined ? "cancel this group invitation" : "leave this group?"}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div>
           <p>
-            Leaving this group means you will most likely wouldn't be able to sit down
-            with other member(s) of this group during the convocation.
+            {notJoined
+              ? "Cancelling this group invitation means you can no longer accept this invitation sent to you by the group owner "
+              : "Leaving this group means you will most likely wouldn't be able to sit down with other member(s) of this group during the convocation."}
           </p>
-          <p>Do you still want to leave this group?</p>
+          <p>Do you still want to?</p>
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -37,7 +42,7 @@ export default function LeaveGroupModal({
           disabled={isLoading || offline}
           onClick={handleLeaveGroup}
         >
-          {isLoading ? <BtnLoadingSpinner /> : "Leave Group"}
+          {isLoading ? <BtnLoadingSpinner /> : "Leave/Cancel"}
         </Button>
       </Modal.Footer>
     </Modal>

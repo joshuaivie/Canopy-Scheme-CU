@@ -86,27 +86,27 @@ class Payments extends React.Component {
         }}
       >
         <td>
-          <span class="row-data-name">Date: </span>{" "}
+          <span className="row-data-name">Date: </span>{" "}
           {new Date(row.created_at).toLocaleString()}
         </td>
         <td>
-          <span class="row-data-name">Mode: </span>
+          <span className="row-data-name">Mode: </span>
           {row.mode}
         </td>
         <td>
-          <span class="row-data-name">Reference: </span>
+          <span className="row-data-name">Reference: </span>
           {row.reference}
         </td>
         <td>
-          <span class="row-data-name">Amount: </span>₦
+          <span className="row-data-name">Amount: </span>₦
           {commaNumber(parseInt(row.amount))}
         </td>
         <td>
-          <span class="row-data-name">Tables: </span>
+          <span className="row-data-name">Tables: </span>
           {row.total_table}
         </td>
         <td>
-          <span class="row-data-name">Status: </span>
+          <span className="row-data-name">Status: </span>
           <Badge variant={statuses[row.status]}>{row.status}</Badge>
         </td>
         <td>
@@ -466,7 +466,7 @@ class Payments extends React.Component {
                       email={email}
                       amount={nairaToKobo(numberOfTables * tablePrice)} // Paystack works with kobo
                       close={this.paystackClose}
-                      class="btn btn-primary btn-center payment-button"
+                      className="btn btn-primary btn-center payment-button"
                       callback={this.handleOnlinePaymentWithPaystack}
                       reference={generateRandomString()}
                       paystackkey={PAYSTACK_PUBLIC_KEY}

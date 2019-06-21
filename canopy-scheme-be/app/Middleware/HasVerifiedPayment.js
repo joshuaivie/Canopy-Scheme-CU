@@ -14,7 +14,7 @@ class HasVerifiedPayment {
     if (!hasVerifiedPayment)
       return response.forbidden({
         msg:
-          "None of your payments have been verified. You can't perform this action yet"
+          "None of your payments is verified. You can't perform this action yet"
       });
 
     await next();

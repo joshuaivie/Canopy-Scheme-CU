@@ -47,9 +47,9 @@ export default class UserApi {
   /**
    * Removes a group member.
    */
-  static removeMember = async ({ matricNo, token }) => {
+  static removeMember = async ({ matricNo, deleteInvite, token }) => {
     return HTTP.delete(
-      ENDPOINTS.USER_GROUP_MEMBER_REMOVE(matricNo),
+      ENDPOINTS.USER_GROUP_MEMBER_REMOVE(matricNo, deleteInvite),
       generateBearer(token)
     );
   };

@@ -11,6 +11,7 @@ th {
     display: none;
   }
   @media (max-width: $screen-md-min) {
+    display: block;
     thead {
       display: none;
     }

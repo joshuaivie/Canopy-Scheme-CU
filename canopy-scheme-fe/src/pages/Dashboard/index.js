@@ -65,7 +65,7 @@ class Dashboard extends React.Component {
 
   render() {
     const { isFetching, errorFetching } = this.state;
-    if (isFetching) {
+    if (isFetching && !errorFetching) {
       return (
         <div
           style={{
@@ -78,7 +78,7 @@ class Dashboard extends React.Component {
           <LoadingSpinner width="6rem" height="6rem" />;
         </div>
       );
-    } else if (errorFetching) {
+    } else if (errorFetching && !isFetching) {
       return (
         <div
           style={{

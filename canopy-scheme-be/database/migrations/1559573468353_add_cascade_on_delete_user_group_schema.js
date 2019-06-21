@@ -20,7 +20,14 @@ class AddCascadeOnDeleteUserGroupSchema extends Schema {
 
   down() {
     this.table("user_group_members", table => {
-      // reverse alternations
+      table.dropForeign("user_group_id");
+      table
+        .integer("user_group_id")
+        .unsigned()
+        .references("id")
+        .inTable("user_groups")
+        .notNullable()
+        .alter();
     });
   }
 }

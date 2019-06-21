@@ -1,7 +1,6 @@
 const Route = use("Route");
 const Encryption = use("Encryption");
 const Env = use("Env");
-const { createTimestamp } = use("App/Helpers/DateHelper");
 const EventInfo = use("App/Utilities/EventInfo");
 
 class LinkGen {
@@ -13,8 +12,7 @@ class LinkGen {
     let endpoint = Route.url(route, {
       group_id: Encryption.encrypt(groupId),
       token,
-      invitee_email: Encryption.encrypt(email),
-      expiring_date: Encryption.encrypt(createTimestamp(now))
+      invitee_email: Encryption.encrypt(email)
     });
     // remove "/api" so frontend can use it
     endpoint = endpoint.split("/api")[1];

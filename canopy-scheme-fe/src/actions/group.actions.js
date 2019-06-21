@@ -21,13 +21,12 @@ class GroupActions {
     }
   }
 
-  static async joinGroup({ groupId, groupToken, inviteeEmail, expiringDate }) {
+  static async joinGroup({ groupId, groupToken, inviteeEmail }) {
     try {
       const response = await GroupApi.joinGroup({
         groupId,
         groupToken,
-        inviteeEmail,
-        expiringDate
+        inviteeEmail
       });
       return response.data;
     } catch (err) {

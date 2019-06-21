@@ -18,13 +18,10 @@ class GroupInvite {
           email: "normalize_email",
           matric_no: "lowercase"
         });
-
-        if (inviter.email == email) {
+        if (inviter.email == email)
           throw new Error(
             "A group owner cannot be invited to a group he/she created."
           );
-        }
-
         if (unique.has(email)) throw new Error("Duplicate user");
         else unique.add(email);
 
@@ -40,7 +37,8 @@ class GroupInvite {
           "user_id",
           invitee.id
         );
-        if (userInAnyGroup) throw new Error("User already in a group");
+        if (userInAnyGroup || invitee.is_group_owner)
+          throw new Error("User already in a group");
 
         // check if invitee has paid for at least a table.
         const hasVerifiedPayment = await invitee.hasVerifiedPayment();
@@ -51,6 +49,10 @@ class GroupInvite {
             } has not paid for a table yet. You can only invite when he/she has paid`
           );
 
+        await UserGroupMember.create({
+          user_id: invitee.id,
+          user_group_id: group.id
+        });
         const data = {
           route: "group.join",
           groupId: group.id,
