@@ -205,6 +205,7 @@ class TransactionDetailModal extends React.Component {
                 )}
                 {readOnly && transactionDetail.admin_message && (
                   <React.Fragment>
+                    <hr />
                     <p className="gray-text">Admin Message</p>
                     <h5>{transactionDetail.admin_message}</h5>
                   </React.Fragment>

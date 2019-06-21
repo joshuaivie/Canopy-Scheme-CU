@@ -472,7 +472,7 @@ class Groups extends React.Component {
                       <ol className="ol">
                         <li className="my-3">
                           Your group name (
-                          {groupName == "" ? "Create a group" : groupName})
+                          {groupName === "" ? "Create a group" : groupName})
                         </li>
                         <li className="my-3">The reason for the expansion</li>
                         <li className="my-3">The amount of people under your group</li>
