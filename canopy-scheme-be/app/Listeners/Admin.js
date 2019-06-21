@@ -10,7 +10,7 @@ const Admin = (exports = module.exports = {});
 
 Admin.updatedOfflineTransaction = async ({ admin, transaction }) => {
   const { firstname, lastname, email } = admin;
-  const { reference, status, admin_message } = transaction;
+  const { reference, status, admin_message, total_table } = transaction;
   admin = JSON.stringify({ firstname, lastname, email });
   const user = await transaction.user().fetch();
   transaction = JSON.stringify({ reference, status, admin_message });
@@ -20,7 +20,7 @@ Admin.updatedOfflineTransaction = async ({ admin, transaction }) => {
   if (status == "accepted") {
     const trx = await Database.beginTransaction();
     const eventInfo = await EventInfo.first(trx);
-    eventInfo.tables_booked += 1;
+    eventInfo.tables_booked += total_table;
     await eventInfo.save(trx);
     trx.commit();
   }
