@@ -80,7 +80,6 @@ class Payments extends React.Component {
     transactions.map((row, index) => (
       <tr
         key={`row_${index}`}
-        onClick={() => this.toggleTransactionDetailModal(index)}
         style={{
           cursor: "pointer"
         }}
