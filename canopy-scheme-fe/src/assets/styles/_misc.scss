@@ -1,0 +1,66 @@
+#on-boarding {
+  padding: 15px;
+  .skip-text {
+    float: right;
+    button {
+      color: #a9a9a9;
+    }
+  }
+  .content {
+    padding-top: 20vh;
+    width: 100%;
+    margin: auto;
+    max-width: 800px;
+    text-align: center;
+    .item {
+      * {
+        margin: 30px auto;
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  #on-boarding {
+    .content {
+      padding-top: 10vh;
+    }
+  }
+}
+.slick-dots {
+  position: relative !important;
+  bottom: 0 !important;
+  margin-bottom: 10px;
+}
+
+.ol {
+  list-style-type: none;
+  padding-left: 0;
+}
+ol > li {
+  counter-increment: step-counter;
+  margin: $number-bg-size;
+  padding: 0;
+  padding-left: $number-size + 15px;
+  position: relative;
+  // Optional
+  font-size: 1.1em;
+  line-height: 1.58;
+  &:before {
+    background-color: $number-bg;
+    border-radius: 50%;
+    color: $number-color;
+    content: counter(step-counter);
+    font-size: 80%;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    width: $number-size;
+    height: $number-size;
+    line-height: $number-size;
+    left: 0;
+    top: 0;
+    top: 40%;
+    transform: translateY(-50%);
+  }
+}

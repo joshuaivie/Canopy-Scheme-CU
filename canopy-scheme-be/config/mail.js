@@ -1,6 +1,6 @@
-'use strict'
+"use strict";
 
-const Env = use('Env')
+const Env = use("Env");
 
 module.exports = {
   /*
@@ -12,7 +12,7 @@ module.exports = {
   | define a driver too.
   |
   */
-  connection: Env.get('MAIL_CONNECTION', 'smtp'),
+  connection: Env.get("MAIL_CONNECTION", "smtp"),
 
   /*
   |--------------------------------------------------------------------------
@@ -23,14 +23,14 @@ module.exports = {
   |
   */
   smtp: {
-    driver: 'smtp',
+    driver: "smtp",
     pool: true,
     port: 2525,
-    host: Env.get('SMTP_HOST'),
+    host: Env.get("SMTP_HOST"),
     secure: false,
     auth: {
-      user: Env.get('MAIL_USERNAME'),
-      pass: Env.get('MAIL_PASSWORD')
+      user: Env.get("MAIL_USERNAME"),
+      pass: Env.get("MAIL_PASSWORD")
     },
     maxConnections: 5,
     maxMessages: 100,
@@ -54,8 +54,8 @@ module.exports = {
   |
   */
   sparkpost: {
-    driver: 'sparkpost',
-    apiKey: Env.get('SPARKPOST_API_KEY'),
+    driver: "sparkpost",
+    apiKey: Env.get("SPARKPOST_API_KEY"),
     extras: {}
   },
 
@@ -77,9 +77,9 @@ module.exports = {
   |
   */
   mailgun: {
-    driver: 'mailgun',
-    domain: Env.get('MAILGUN_DOMAIN'),
-    apiKey: Env.get('MAILGUN_API_KEY'),
+    driver: "mailgun",
+    domain: Env.get("MAILGUN_DOMAIN"),
+    apiKey: Env.get("MAILGUN_API_KEY"),
     extras: {}
   },
 
@@ -95,6 +95,6 @@ module.exports = {
   |
   */
   ethereal: {
-    driver: 'ethereal'
+    driver: "ethereal"
   }
-}
+};

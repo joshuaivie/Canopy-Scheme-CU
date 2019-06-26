@@ -23,7 +23,9 @@ const providers = [
   "adonis-sentry/providers/Sentry",
   "adonis-kue/providers/KueProvider",
   "@adonisjs/redis/providers/RedisProvider",
-  path.join(__dirname, "..", "providers", "PaystackProvider")
+  "adonis-4-cloudinary/provider/Cloudinary",
+  path.join(__dirname, "..", "providers", "PaystackProvider"),
+  path.join(__dirname, "..", "providers", "MysqlLoggerProvider")
 ];
 
 /*
@@ -54,6 +56,7 @@ const aceProviders = [
 */
 const aliases = {
   Paystack: "Paystack/Paystack",
+  Cloudinary: "Adonis/Addons/AdonisCloudinary"
 };
 
 /*
@@ -74,6 +77,11 @@ const commands = [];
 | Here you write jobs
 |
 */
-const jobs = ["App/Jobs/SignupEmail", "App/Jobs/GroupInvite"];
+const jobs = [
+  "App/Jobs/SignupEmail",
+  "App/Jobs/GroupInvite",
+  "App/Jobs/PasswordResetEmail",
+  "App/Jobs/OfflinePaymentUpdate"
+];
 
 module.exports = { providers, aceProviders, aliases, commands, jobs };

@@ -1,10 +1,11 @@
-'use strict'
+"use strict";
 
 /** @type {import('@adonisjs/framework/src/Env')} */
-const Env = use('Env')
+const Env = use("Env");
+const Config = use("Config");
+const DEFAULT_DB_CONNECTION = Config.get("database.connection");
 
 module.exports = {
-
   /*
   |--------------------------------------------------------------------------
   | Application Name
@@ -16,7 +17,7 @@ module.exports = {
   |
   */
 
-  name: Env.get('APP_NAME', 'AdonisJs'),
+  name: Env.get("APP_NAME", "AdonisJs"),
 
   /*
   |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ module.exports = {
   | to encrypt cookies, sessions and other sensitive data.
   |
   */
-  appKey: Env.getOrFail('APP_KEY'),
+  appKey: Env.getOrFail("APP_KEY"),
 
   http: {
     /*
@@ -80,8 +81,7 @@ module.exports = {
     | in request url.
     |
     */
-    jsonpCallback: 'callback',
-
+    jsonpCallback: "callback",
 
     /*
     |--------------------------------------------------------------------------
@@ -107,7 +107,7 @@ module.exports = {
     | production to optimize view loading time.
     |
     */
-    cache: Env.get('CACHE_VIEWS', true)
+    cache: Env.get("CACHE_VIEWS", true)
   },
 
   static: {
@@ -124,7 +124,7 @@ module.exports = {
     | ignore, deny, allow
     |
     */
-    dotfiles: 'ignore',
+    dotfiles: "ignore",
 
     /*
     |--------------------------------------------------------------------------
@@ -161,7 +161,7 @@ module.exports = {
     | file, database
     |
     */
-    loader: 'file',
+    loader: "file",
 
     /*
     |--------------------------------------------------------------------------
@@ -173,7 +173,7 @@ module.exports = {
     | based on HTTP headers/query string.
     |
     */
-    locale: 'en'
+    locale: "en"
   },
 
   logger: {
@@ -188,7 +188,7 @@ module.exports = {
     | Available drivers are: `file` and `console`.
     |
     */
-    transport: 'console',
+    transport: "console",
 
     /*
     |--------------------------------------------------------------------------
@@ -200,9 +200,9 @@ module.exports = {
     |
     */
     console: {
-      driver: 'console',
-      name: 'adonis-app',
-      level: 'info'
+      driver: "console",
+      name: "adonis-app",
+      level: "info"
     },
 
     /*
@@ -217,10 +217,19 @@ module.exports = {
     |
     */
     file: {
-      driver: 'file',
-      name: 'adonis-app',
-      filename: 'adonis.log',
-      level: 'info'
+      driver: "file",
+      name: "adonis-app",
+      filename: "adonis.log",
+      level: "info"
+    },
+
+    database: {
+      driver: "mysql",
+      name: "adonis-app",
+      level: "info",
+      tableName: "canopy_logs_default",
+      client: DEFAULT_DB_CONNECTION,
+      connection: Config.get(`database.${DEFAULT_DB_CONNECTION}.connection`)
     }
   },
 
@@ -237,7 +246,7 @@ module.exports = {
   cookie: {
     httpOnly: true,
     sameSite: false,
-    path: '/',
+    path: "/",
     maxAge: 7200
   }
-}
+};

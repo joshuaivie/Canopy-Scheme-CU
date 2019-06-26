@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /*
 |--------------------------------------------------------------------------
@@ -14,38 +14,117 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route');
+const Route = use("Route");
 
 Route.group(() => {
-  Route.post('login', 'AuthController.login').validator('Login');
-  Route.post('register', 'AuthController.register').validator('Register');
-}).prefix('api');
+  // Authentication
+  Route.post("auth/:authenticator/login", "AuthController.login").validator(
+    "Login"
+  );
+  Route.post("auth/user/register", "AuthController.register").validator(
+    "Register"
+  );
+
+  // Reset and Verification
+  Route.post(
+    "password/reset",
+    "AuthController.sendResetPasswordLink"
+  ).validator("PasswordReset");
+  Route.get("verification/email/:token", "UserController.verifyEmail").as(
+    "email.verify"
+  );
+  Route.post("password/reset/:email_token", "AuthController.resetPassword")
+    .validator("PasswordResetCheckToken")
+    .as("password.reset-token");
+  Route.get(
+    "group/join/:group_id/:token/:invitee_email/",
+    "GroupController.join"
+  )
+    .middleware(["inviteeNotInUserGroup", "isValidGroupInviteLink"])
+    .as("group.join");
+}).prefix("api");
 
 Route.group(() => {
-  Route.post('token/refresh', 'AuthController.refreshToken').validator('RequestToken');
-  Route.post('logout', 'AuthController.signout').validator('RequestToken');
-
   // Payment
-  Route.post('table/pay', 'PaymentController.purchaseTable').validator('PayForTable');
+  Route.post(
+    "table/purchase/online",
+    "OnlinePaymentController.purchaseTable"
+  ).validator("PayForTableOnline");
+  Route.post(
+    "table/purchase/offline",
+    "OfflinePaymentController.purchaseTable"
+  ).validator("PayForTableOffline");
 
   // User
-  Route.get('me', 'UserController.profile');
-  Route.get('me/transactions', 'UserController.transactions');
-  Route.get('me/reservations', 'UserController.reservations');
+  Route.get("me/transactions", "UserController.transactions");
+
+  // User Reservations
+  Route.get("me/reservations", "UserController.reservations");
+
+  // User Group
+  Route.get("me/group", "UserController.getGroup").middleware([
+    "hasVerifiedPayment",
+    "inUserGroup"
+  ]);
+  Route.delete("me/group", "UserController.deleteGroup").middleware([
+    "hasVerifiedPayment",
+    "isUserGroupOwner"
+  ]);
+  Route.delete("me/group/leave", "UserController.leaveGroup").middleware([
+    "hasVerifiedPayment",
+    "inUserGroup"
+  ]);
+  Route.delete(
+    "me/group/member/:matric_no/remove",
+    "UserController.removeGroupMember"
+  ).middleware(["hasVerifiedPayment", "inUserGroup"]);
 
   // Group
-  Route.get('group', 'GroupController.get').middleware('inUserGroup');
-  Route.delete('group', 'GroupController.delete').middleware('isUserGroupOwner');
-  Route.post('group', 'GroupController.create')
-    .validator('CreateGroup')
-    .middleware('notInUserGroup');
+  Route.post("group", "GroupController.create")
+    .validator("CreateGroup")
+    .middleware(["hasVerifiedPayment", "notInUserGroup"]);
+  Route.post("group/invite", "GroupController.invite")
+    .validator("InviteUsersToGroup")
+    .middleware(["hasVerifiedPayment", "isUserGroupOwner"]);
 })
-  .prefix('api')
-  .middleware('auth');
+  .prefix("api")
+  .middleware(["auth:user", "verifyEmail"]);
 
 Route.group(() => {
-  Route.get('group/join/:group_id/:token', 'GroupController.join')
-    .middleware('notInUserGroup')
-    .middleware('isValidGroupInviteLink')
-    .as('group.join');
-}).middleware('auth');
+  Route.get("me", "UserController.profile");
+  Route.get(
+    "verification/resend/email",
+    "UserController.resendEmailVerificationLink"
+  );
+  Route.post("password/change", "UserController.changePassword").validator(
+    "ChangePassword"
+  );
+  Route.post(
+    "token/:authenticator/refresh",
+    "AuthController.refreshToken"
+  ).validator("RequestToken");
+  Route.post(
+    "token/:authenticator/refresh",
+    "AuthController.refreshToken"
+  ).validator("RequestToken");
+  Route.post("logout", "AuthController.logout").validator("RequestToken");
+})
+  .prefix("api")
+  .middleware("auth");
+
+Route.group(() => {
+  Route.get(
+    "transactions/offline/page/:page/limit/:limit/statusType/:statusType",
+    "OfflinePaymentController.getAll"
+  );
+  Route.get(
+    "transactions/online/page/:page/limit/:limit",
+    "OnlinePaymentController.getAll"
+  );
+  Route.put(
+    "transactions/offline/:reference",
+    "OfflinePaymentController.update"
+  ).validator("UpdateOfflineTransaction");
+})
+  .prefix("api")
+  .middleware("auth:admin");

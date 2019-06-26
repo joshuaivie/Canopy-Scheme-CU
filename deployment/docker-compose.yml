@@ -1,0 +1,44 @@
+version: "3"
+services:
+  traefik:
+    image: traefik
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.toml:/etc/traefik/traefik.toml:ro
+      - ./traefik/acme:/etc/traefik/acme
+      - ./traefik/.htpasswd:/etc/traefik/.htpasswd
+  home:
+    build: ../home
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:the14thset.covenantuniversity.edu.ng"
+  fe:
+    build: ../canopy-scheme-fe
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:the14thset.covenantuniversity.edu.ng;PathPrefix:/canopy;ReplacePathRegex:^/canopy/static/(.*) /static/$$1"
+  be:
+    build: ../canopy-scheme-be
+    env_file:
+      - ../canopy-scheme-be/.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:the14thset.covenantuniversity.edu.ng;PathPrefix:/api"
+    expose:
+      - "${PORT}"
+    depends_on:
+      - cache
+  cache:
+    image: "redis:4.0.9-alpine"
+    command: redis-server --port ${REDIS_PORT} --requirepass ${REDIS_PASSWORD}
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - redis-data:/data
+volumes:
+  redis-data:

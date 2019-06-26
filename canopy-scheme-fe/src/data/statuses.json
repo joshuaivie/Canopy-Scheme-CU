@@ -1,0 +1,5 @@
+{
+  "accepted": "success",
+  "rejected": "danger",
+  "pending": "warning"
+}

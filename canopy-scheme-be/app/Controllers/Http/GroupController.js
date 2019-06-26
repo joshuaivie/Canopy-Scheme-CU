@@ -1,80 +1,98 @@
-'use strict';
+"use strict";
 
-const Database = use('Database');
-const Link = use('App/Helpers/LinkGen');
-const UserGroup = use('App/Models/UserGroup');
-const randomString = require('crypto-random-string');
-const UserGroupMember = use('App/Models/UserGroupMember');
-const InternalServerError = use('App/Exceptions/InternalServerError');
+const Database = use("Database");
+const UserGroup = use("App/Models/UserGroup");
+const GroupInvite = use("App/Utilities/GroupInvite");
+const randomString = require("crypto-random-string");
+const UserGroupMember = use("App/Models/UserGroupMember");
 
 class GroupController {
-  /**
-   * Get group information about about a given user.
-   */
-  async getGroupForUser({ response, auth }) {
+  async invite({ request, response, auth }) {
+    const { users } = request.only(["users"]);
+
     try {
-      if (auth.user.is_group_owner == true) {
-        const group = await auth.user.group().with('members').fetch();
-        const { id, token, members, ...data } = group.toJSON();
-        const invite_url = Link.createGroupInviteLink('group.join', id, token);
-        return response.status(200).json({ group: { ...data, invite_url, members } });
+      const group = await auth.user
+        .group()
+        .with("basicMembersInfo")
+        .first();
+      const totalMembers = (await group
+        .members()
+        .where("joined", true)
+        .count("* as total")
+        .first()).total;
+      if (totalMembers + users.length > group.maximum_group_members)
+        return response.badRequest({
+          msg: "You cannot invite anymore. You have maxed out your slots"
+        });
+
+      const { failed } = await GroupInvite.inviteUsers(
+        auth.user,
+        users,
+        group.toJSON()
+      );
+      if (failed.length > 0) {
+        return response.badRequest({
+          failed,
+          msg: "Invitation wasn't sent to one or more email addresses."
+        });
       }
 
-      return response.status(200).json({ group: await auth.user.group().fetch() });
+      return response.ok({ msg: "Invitation(s) successfully sent." });
     } catch (err) {
-      throw new InternalServerError();
+      return response.internalServerError({ msg: err.message });
     }
   }
 
   /**
-   * Allow a user to join a user group via a unique URL.
+   * Allow a user to join a user group via a unique URL
    */
-  async join({ request, response, auth }) {
-    const { group_id } = request.params;
+  async join({ request, response }) {
+    // `invitee` param gets added in the InviteeNotInUserGroup middleware
+    const { group_id, invitee } = request.params;
 
     try {
-      await UserGroupMember.create({ user_id: auth.user.id, user_group_id: group_id });
-      return response.status(200).json({ msg: 'Sucessfully joined group' });
+      const hasVerifiedPayment = await invitee.hasVerifiedPayment();
+      if (!hasVerifiedPayment)
+        return response.badRequest({
+          msg:
+            "You have not paid for a table yet. You can only join when you have paid"
+        });
+      const member = await UserGroupMember.query()
+        .where("user_group_id", group_id)
+        .where("user_id", invitee.id)
+        .first();
+      if (member === null) {
+        return response.badRequest({
+          msg: "You were not invited to this group."
+        });
+      }
+      member.joined = true;
+      member.save();
+
+      return response.ok({ msg: "Successfully joined group." });
     } catch (err) {
-      throw new InternalServerError();
+      return response.internalServerError({ msg: err.message });
     }
   }
 
   /**
-   * Create a user group if only the user hasn't aleady created
+   * Create a user group if only the user hasn't already created
    * a group or belongs to any group.
    */
   async create({ request, response, auth }) {
-    const { name } = request.only(['name']);
+    const { name } = request.only(["name"]);
 
     try {
       const trx = await Database.beginTransaction();
-      await UserGroup.create({ name, user_id: auth.user.id, token: randomString({ length: 16, type: 'base64' }) }, trx);
+      const token = randomString({ length: 16, type: "url-safe" });
+      await UserGroup.create({ name, user_id: auth.user.id, token }, trx);
       auth.user.is_group_owner = true;
       await auth.user.save(trx);
       trx.commit();
 
-      return response.status(200).json({ msg: 'Group has been created.' });
+      return response.ok({ msg: "Group created." });
     } catch (err) {
-      throw new InternalServerError();
-    }
-  }
-
-  /**
-   * Delete a user group created by an authenticated user.
-   */
-  async delete({ response, auth }) {
-    const trx = await Database.beginTransaction();
-
-    try {
-      await auth.user.group().delete(trx);
-      auth.user.is_group_owner = false;
-      await auth.user.save(trx);
-      trx.commit();
-
-      return response.status(200).json({ msg: 'Group successfully deleted.' });
-    } catch (err) {
-      throw new InternalServerError();
+      return response.internalServerError({ msg: err.message });
     }
   }
 }

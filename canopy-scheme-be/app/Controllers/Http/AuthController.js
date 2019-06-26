@@ -1,75 +1,211 @@
-'use strict';
+"use strict";
 
-const Encryption = use('Encryption');
-const User = use('App/Models/User');
-const Token = use('App/Models/Token');
-const Unauthorized = use('App/Exceptions/UnauthorizedException');
-const InternalServerError = use('App/Exceptions/InternalServerError');
-const Kue = use('Kue');
-const Job = use('App/Jobs/SignupEmail');
+const Encryption = use("Encryption");
+const User = use("App/Models/User");
+const Admin = use("App/Models/Admin");
+const Token = use("App/Models/Token");
+const PasswordReset = use("App/Models/PasswordReset");
+const randomString = require("crypto-random-string");
+const JobQueue = use("App/Helpers/JobQueue");
+const SignupEmailJob = use("App/Jobs/SignupEmail");
+const EmailVerification = use("App/Models/EmailVerification");
+const Link = use("App/Helpers/LinkGen");
+const PasswordResetJob = use("App/Jobs/PasswordResetEmail");
+const LOGIN_AUTH_SERVICES = {
+  admin: Admin,
+  user: User
+};
 
-class UserController {
+const resolveAuthenticator = (authenticator, supportedServices = {}) => {
+  if (authenticator.toLowerCase() in supportedServices != true) {
+    return { error: true };
+  }
+  return {
+    authenticator: authenticator.toLowerCase(),
+    model: supportedServices[authenticator]
+  };
+};
+
+class AuthController {
   /**
    * Registers a new user.
    */
-  async register({ request, response }) {
-    const details = request.only(['email', 'matric_no', 'password', 'firstname', 'lastname', 'telephone_no']);
+  async register({ request, response, auth }) {
+    const details = request.only([
+      "email",
+      "matric_no",
+      "password",
+      "firstname",
+      "lastname",
+      "telephone_no"
+    ]);
 
     try {
       const user = await User.create({ ...details });
-      Kue.dispatch(Job.key, { user }, { priority: 'normal', attempts: 3, remove: true, jobFn: () => {} });
+      const { token } = await EmailVerification.create({
+        email: user.email,
+        token: randomString({ length: 32, type: "url-safe" })
+      });
+      const email_verify_link = Link.createEmailVerifyLink({
+        route: "email.verify",
+        token
+      });
+      JobQueue.queueJob({
+        jobKey: SignupEmailJob.key,
+        data: { user, email_verify_link },
+        options: { attempts: 3 }
+      });
 
-      return response.send({ msg: 'Registration successfull' });
+      const data = await auth
+        .withRefreshToken()
+        .attempt(details.email, details.password);
+      return response.ok({
+        msg:
+          "Registration successful. Email verification link has been sent to your email.",
+        ...data
+      });
     } catch (err) {
-      console.log(err);
-      throw new InternalServerError();
+      return response.badRequest({ msg: err.message });
     }
   }
 
   /**
    * Login a given user.
    */
-  async login({ request, auth }) {
-    const { email, password } = request.only(['email', 'password']);
+  async login({ request, response, auth }) {
+    const { model: Model, authenticator, error } = resolveAuthenticator(
+      request.params.authenticator,
+      LOGIN_AUTH_SERVICES
+    );
+    if (error === true) return response.notFound();
+    const { email, password } = request.only(["email", "password"]);
 
     try {
-      return await auth.withRefreshToken().attempt(email, password);
+      const data = await auth
+        .authenticator(authenticator)
+        .withRefreshToken()
+        .attempt(email, password);
+      return response.ok({
+        msg: "Login successful.",
+        ...data,
+        isAdmin: authenticator == "admin"
+      });
     } catch (err) {
-      throw new Unauthorized('Invalid email or password');
+      return response.badRequest({ msg: "Invalid email or password." });
     }
   }
 
   /**
-   * Signout a user.
+   * Logout a user.
    */
-  async signout({ request, response }) {
-    const { refresh_token } = request.only(['refresh_token']);
+  async logout({ request, response }) {
+    const { refresh_token } = request.only(["refresh_token"]);
 
     try {
       const decrypted = Encryption.decrypt(refresh_token);
-      const refreshToken = await Token.findBy('token', decrypted);
-      if (!refreshToken) return response.status(401).send({ msg: 'Sorry, you are not currently logged in' });
+      await Token.query()
+        .where("token", decrypted)
+        .delete();
 
-      await refreshToken.delete();
-      return response.status(200).send({ msg: 'Logout successful' });
+      return response.ok({ msg: "Logout successful." });
     } catch (err) {
-      console.log(err);
-      throw new InternalServerError();
+      return response.badRequest({ msg: err.message });
     }
   }
 
   /**
    * Refresh a users token.
    */
-  async refreshToken({ request, auth }) {
-    const { refresh_token } = request.only(['refresh_token']);
+  async refreshToken({ request, response, auth }) {
+    const { refresh_token } = request.only(["refresh_token"]);
+    const { authenticator, error } = resolveAuthenticator(
+      request.params.authenticator,
+      ["user", "admin"]
+    );
+    if (error === true) return response.notFound();
 
     try {
-      return await auth.newRefreshToken().generateForRefreshToken(refresh_token);
+      return await auth
+        .authenticator(authenticator)
+        .newRefreshToken()
+        .generateForRefreshToken(refresh_token);
     } catch (err) {
-      throw new Unauthorized('Invalid refresh token');
+      return response.unauthorized({ msg: "Invalid refresh token." });
+    }
+  }
+
+  async sendResetPasswordLink({ request, response }) {
+    const { email } = request.only(["email"]);
+    try {
+      const user = await User.findBy("email", email);
+      await PasswordReset.query()
+        .where("email", user.email)
+        .delete();
+      const { email_token } = await PasswordReset.create({
+        email: user.email,
+        email_token: randomString({ length: 32, type: "url-safe" })
+      });
+      const password_reset_link = Link.createPasswordLink({
+        route: "password.reset-token",
+        email_token
+      });
+      JobQueue.queueJob({
+        jobKey: PasswordResetJob.key,
+        data: { user, password_reset_link },
+        options: { attempts: 2 }
+      });
+
+      return response.ok({
+        msg: "A password reset link has been sent to your email address."
+      });
+    } catch (err) {
+      return response.badRequest({
+        msg: "This email is not registered on this platform"
+      });
+    }
+  }
+
+  async resetPassword({ request, params, response }) {
+    const { email_token } = params;
+    const { password, password_confirm } = request.only([
+      "password",
+      "password_confirm"
+    ]);
+
+    try {
+      const passwordReset = await PasswordReset.query()
+        .where("email_token", email_token)
+        .first();
+
+      if (!passwordReset) {
+        return response.badRequest({
+          msg:
+            "Password reset link invalid, please try the reset password process again."
+        });
+      }
+
+      if (password != password_confirm) {
+        return response.badRequest({
+          msg: "You new passwords don't match."
+        });
+      }
+
+      const user = await User.findBy("email", passwordReset.email);
+      user.password = password;
+      await user.save();
+
+      await PasswordReset.query()
+        .where("email", user.email)
+        .delete();
+
+      return response.ok({ msg: "Password successfully reset." });
+    } catch (err) {
+      return response.badRequest({
+        msg:
+          "Error resetting password, please try the reset password process again."
+      });
     }
   }
 }
 
-module.exports = UserController;
+module.exports = AuthController;

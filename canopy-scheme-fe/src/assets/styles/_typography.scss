@@ -1,7 +1,40 @@
-h1 {
-  font-size: 2rem;
+a {
+  color: $purple;
+  &:hover {
+    color: darken($purple, 10);
+  }
 }
 
-h2 {
-  font-size: 1.5rem;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Google sans Bold", sans-serif;
+}
+
+.primary-text {
+  color: $purple !important;
+}
+
+.accent-text {
+  color: $gold;
+}
+
+.dark-text {
+  color: $black;
+}
+
+.gray-text {
+  color: $table-black;
+}
+
+@media (max-width: 650px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.2rem;
+  }
 }

@@ -1,11 +1,13 @@
-const { capitalizeFirstLetter } = use('App/Helpers/Stringify');
+const { capitalizeFirstLetter } = use("App/Helpers/Stringify");
 
 class Sanitize {
   static reduceError(errorMessages) {
-    return errorMessages.map(x => {
-      console.log(x);
-      return { [x.field]: capitalizeFirstLetter(x.message) };
+    let errorMsg = {};
+    errorMessages.map(x => {
+      errorMsg[x.field] = capitalizeFirstLetter(x.message);
     });
+
+    return { errors: errorMsg };
   }
 }
 

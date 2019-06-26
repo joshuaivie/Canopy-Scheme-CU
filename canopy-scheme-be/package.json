@@ -27,13 +27,17 @@
     "@adonisjs/mail": "^3.0.9",
     "@adonisjs/redis": "^2.0.7",
     "@adonisjs/validator": "^5.0.6",
+    "adonis-4-cloudinary": "^1.0.2",
     "adonis-kue": "^5.0.1",
     "adonis-redis": "^1.0.1",
     "adonis-sentry": "^1.0.4",
+    "crypto-random-string": "^3.0.0",
     "mysql": "^2.17.1",
     "path": "^0.12.7",
     "paystack-api": "^2.0.1",
-    "pg": "^7.11.0"
+    "pg": "^7.11.0",
+    "winston": "^3.2.1",
+    "winston-sql-transport": "^1.0.0"
   },
   "autoload": {
     "App": "./app"

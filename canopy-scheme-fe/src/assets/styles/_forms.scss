@@ -1,0 +1,28 @@
+#forgot-pasword-form,
+#reset-pasword-form {
+  padding: 20px;
+  padding-top: 100px;
+  margin: auto;
+  width: 420px;
+  max-width: 800px;
+  button {
+    width: 100%;
+  }
+  @media (max-width: $screen-md-min) {
+    width: 100%;
+  }
+
+}
+
+.form-error-msg {
+  color: red;
+  font-weight: 100;
+}
+
+.password-toggle-icon {
+  float: right;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}

@@ -1,10 +1,11 @@
-'use strict';
+"use strict";
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const UserGroup = use('App/Models/UserGroup');
-const Encryption = use('Encryption');
-const EventInfo = use('App/Utilities/EventInfo');
+const { sanitize } = use("Validator");
+const UserGroup = use("App/Models/UserGroup");
+const UserGroupMember = use("App/Models/UserGroupMember");
+const { createTimestamp } = use("App/Helpers/DateHelper");
 
 class IsValidGroupInviteLink {
   /**
@@ -14,22 +15,32 @@ class IsValidGroupInviteLink {
    */
   async handle({ request, response }, next) {
     // Update param.group_id with decrypted group_id. Validators do not support params validation currently.
-    request.params.group_id = Encryption.decrypt(decodeURIComponent(request.params.group_id));
+    const payload = {
+      group_id: request.params.group_id
+    };
+    request.params.group_id = sanitize(payload, {
+      group_id: "decode_uri_and_decrypt"
+    }).group_id;
     const { token, group_id } = request.params;
 
     try {
       const group = await UserGroup.findOrFail(group_id);
       if (group.token !== token) throw Error("Group token doesn't match");
-      const totalMembers = (await group.members().count('* as total').first()).total;
-      const maxGroupNo = await EventInfo.maximumGroupMembers();
 
-      if (totalMembers >= maxGroupNo) {
-        return response.status(200).json({
-          msg: 'Failed to join group. Maximum number of group members reached.'
+      // Todo: lock database row here to prevent data race.
+      const totalMembers = (await group
+        .members()
+        .where("joined", true)
+        .count("* as total")
+        .first()).total;
+
+      if (totalMembers >= group.maximum_group_members) {
+        return response.forbidden({
+          msg: "Failed to join group. Maximum number of group members reached."
         });
       }
     } catch (err) {
-      return response.status(200).json({ msg: 'Invalid group invitation link.' });
+      return response.forbidden({ msg: "Invalid group invitation link." });
     }
 
     await next();

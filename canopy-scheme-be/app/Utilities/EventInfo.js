@@ -1,7 +1,7 @@
-const EventInfoModel = use('App/Models/EventInfo');
+const EventInfoModel = use("App/Models/EventInfo");
 
 class EventInfo {
-  static async totalChairs() {
+  static async totalTables() {
     const event = await EventInfoModel.first();
     if (event === null) return 960;
     return event.total_tables;
@@ -9,14 +9,20 @@ class EventInfo {
 
   static async unitPrice() {
     const event = await EventInfoModel.first();
-    if (event === null) return 15000;
+    if (event === null) return 12000;
     return event.table_unit_price;
   }
 
-  static async maximumGroupMembers() {
-    const event = await EventInfoModle.first();
-    if (event === null) return 4;
-    return event.maximum_group_members;
+  static async tablesBooked() {
+    const event = await EventInfoModel.first();
+    if (event === null) return 0;
+    return event.tables_booked;
+  }
+
+  static async tablesLeft() {
+    const event = await EventInfoModel.first();
+    if (event === null) return 0;
+    return event.total_tables - event.tables_booked;
   }
 }
 

@@ -5,6 +5,10 @@ $gold: #ffd700;
 
 $purple: #800080;
 
+$black: #192a3e;
+
+$table-black: #323c47;
+
 // Small tablets (portrait view)
 $screen-md-min: 768px;
 
@@ -12,8 +16,20 @@ $screen-md-min: 768px;
 $screen-lg-min: 992px;
 
 // Large tablets and desktops
-$screen-xl-min: 1200px;
+$screen-xl-min: 1280px;
 
 $header-height: 100px;
 
 $sidebar-width: 300px;
+
+$number-bg: $purple;
+$number-color: #fff;
+
+$number-size: 30px;
+$number-bg-size: 5px;
+
+@for $i from 1 through 20 {
+  ol[start="#{$i}"] {
+    counter-reset: step-counter $i - 1;
+  }
+}

@@ -1,4 +1,25 @@
-.nav-link {
-  font-family: 'Nexa Bold';
-  color: rgb(20, 20, 20);
+.navbar {
+  padding: 10px 2%;
+  .navbar-brand {
+    padding: 0 !important;
+    line-height: 1rem !important;
+    h3 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .navbar-toggler {
+    border: none;
+    &:focus {
+      border: none;
+      box-shadow: none;
+    }
+  }
+  .nav-link {
+    line-height: 1rem;
+    padding: 0;
+    margin: 10px 0;
+    font-family: "Google sans Bold";
+    color: rgb(20, 20, 20) !important;
+  }
 }

@@ -1,4 +1,4 @@
-const { reduceError } = use('App/Helpers/Sanitizers');
+const { reduceError } = use("App/Helpers/Sanitizers");
 
 class BaseValidator {
   get validateAll() {
@@ -6,7 +6,7 @@ class BaseValidator {
   }
 
   async fails(errorMessages) {
-    return this.ctx.response.send(reduceError(errorMessages));
+    return this.ctx.response.badRequest(reduceError(errorMessages));
   }
 }
 
