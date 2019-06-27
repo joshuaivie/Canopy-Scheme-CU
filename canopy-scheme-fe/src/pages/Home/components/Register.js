@@ -149,6 +149,7 @@ class Register extends React.Component {
               onChange={this.handleChange}
               required
             />
+            <Form.Text className="text-muted">We advise you use gmail</Form.Text>
             {errorMsg.email ? <p className="form-error-msg">{errorMsg.email}</p> : null}
           </Form.Group>
 
