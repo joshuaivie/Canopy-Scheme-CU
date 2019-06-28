@@ -74,6 +74,11 @@ class OfflinePaymentController {
             "Amount paid is less than price of 1 table unit. Please balance up."
         });
       }
+      const exists = await OfflineTransaction.query()
+        .where({ reference, status: "accepted" })
+        .orWhere({ reference, status: "pending" })
+        .first();
+      if (exists != null) throw { code: "ER_DUP_ENTRY" };
       await OfflineTransaction.create({
         amount,
         reference,

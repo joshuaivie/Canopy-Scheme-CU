@@ -14,7 +14,7 @@ Admin.updatedOfflineTransaction = async ({ admin, transaction }) => {
   admin = JSON.stringify({ firstname, lastname, email });
   const user = await transaction.user().fetch();
   transaction = JSON.stringify({ reference, status, admin_message });
-  Logger.transport("database").info(
+  Logger.transport("file").info(
     `Admin ${admin}: updated offline transaction as follows: ${transaction}`
   );
   if (status == "accepted") {
