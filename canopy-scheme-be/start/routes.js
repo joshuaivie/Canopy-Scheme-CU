@@ -122,7 +122,7 @@ Route.group(() => {
     "OnlinePaymentController.getAll"
   );
   Route.put(
-    "transactions/offline/:reference",
+    "transactions/offline/update",
     "OfflinePaymentController.update"
   ).validator("UpdateOfflineTransaction");
 })

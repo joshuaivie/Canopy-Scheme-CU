@@ -32,8 +32,7 @@ class OfflinePaymentController {
   }
 
   async update({ request, response, auth }) {
-    const { reference } = request.params;
-    const { status, admin_message } = request.all();
+    const { reference, status, admin_message } = request.all();
 
     try {
       const transaction = await OfflineTransaction.findByOrFail(
