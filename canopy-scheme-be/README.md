@@ -26,3 +26,8 @@ Run the following command to run startup migrations.
 ```js
 adonis migration:run
 ```
+
+
+## Known bugs & issues
+1. If a user and an admin have the same email and any of them logins in. The token generated is not differentiable because they both get their token from `tokens` table.
+2. Add default image a user's avatar in case their image is not available on cloudinary. [ This can be done on cloudinary so no need to change the url dynamically]

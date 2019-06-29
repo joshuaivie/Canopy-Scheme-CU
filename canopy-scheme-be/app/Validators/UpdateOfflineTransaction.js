@@ -5,6 +5,7 @@ const BaseValidator = use("App/Validators/BaseValidator");
 class UpdateOfflineTransaction extends BaseValidator {
   get rules() {
     return {
+      reference: "required",
       status: "required|in:accepted,rejected",
       admin_message: "required_when:status,rejected|string|min:10"
     };

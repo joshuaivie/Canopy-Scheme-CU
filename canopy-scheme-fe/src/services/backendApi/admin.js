@@ -22,8 +22,9 @@ export default class AdminApi {
     token
   }) => {
     return HTTP.put(
-      ENDPOINTS.TRANSACTIONS_UPDATE(reference),
+      ENDPOINTS.TRANSACTIONS_UPDATE,
       {
+        reference,
         status: transactionStatus,
         admin_message: adminMessage
       },
