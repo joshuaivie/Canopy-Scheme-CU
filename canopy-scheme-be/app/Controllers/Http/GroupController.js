@@ -17,10 +17,9 @@ class GroupController {
         .first();
       const totalMembers = (await group
         .members()
-        .where("joined", true)
         .count("* as total")
         .first()).total;
-      if (totalMembers + users.length > group.maximum_group_members)
+      if (totalMembers >= group.maximum_group_members)
         return response.badRequest({
           msg: "You cannot invite anymore. You have maxed out your slots"
         });
@@ -28,7 +27,8 @@ class GroupController {
       const { failed } = await GroupInvite.inviteUsers(
         auth.user,
         users,
-        group.toJSON()
+        group.toJSON(),
+        totalMembers
       );
       if (failed.length > 0) {
         return response.badRequest({

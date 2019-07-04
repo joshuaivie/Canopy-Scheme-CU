@@ -6,7 +6,7 @@ const GroupInviteJob = use("App/Jobs/GroupInvite");
 const JobQueue = use("App/Helpers/JobQueue");
 
 class GroupInvite {
-  static async inviteUsers(inviter, users, group) {
+  static async inviteUsers(inviter, users, group, currentTotal) {
     let failed = [];
     let unique = new Set();
 
@@ -24,6 +24,10 @@ class GroupInvite {
           );
         if (unique.has(email)) throw new Error("Duplicate user");
         else unique.add(email);
+        if (currentTotal >= group.maximum_group_members)
+          throw new Error(
+            "You cannot invite anymore. You have maxed out your slots"
+          );
 
         const invitee = await User.query()
           .where("matric_no", matric_no)
@@ -59,6 +63,7 @@ class GroupInvite {
           email,
           token: group.token
         };
+        currentTotal += 1;
         const inviteUrl = await Link.createGroupInviteLink(data);
 
         // Dispatch mailing of invite link to invitee email.
